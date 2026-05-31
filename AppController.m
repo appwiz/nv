@@ -50,7 +50,8 @@
 //#import "ETScrollView.h"
 #import "NSFileManager+DirectoryLocations.h"
 #import "nvaDevConfig.h"
-#import <Sparkle/SUUpdater.h>
+// Sparkle.framework removed for arm64 build; auto-update is disabled.
+// #import <Sparkle/SUUpdater.h>
 
 #define NSApplicationPresentationAutoHideMenuBar (1 <<  2)
 #define NSApplicationPresentationHideMenuBar (1 <<  3)
@@ -349,33 +350,9 @@ void outletObjectAwoke(id sender) {
     [notationController checkIfNotationIsTrashed];
     [[SecureTextEntryManager sharedInstance] checkForIncompatibleApps];
 
-    //connect sparkle programmatically to avoid loading its framework at nib awake;
-    //    if (!NSClassFromString(@"SUUpdater")) {
-    //        NSLog(@"su:%@ SEL:%@",sparkleUpdateItem.target,sparkleUpdateItem.action);
-    //    }else{
-    NSString *frameworkPath = [[[NSBundle bundleForClass:[self class]] privateFrameworksPath] stringByAppendingPathComponent:@"Sparkle.framework"];
-    if ([[NSBundle bundleWithPath:frameworkPath] load]) {
-        SUUpdater *updater =[SUUpdater sharedUpdater];
-        if (IsLionOrLater) {
-            [updater setFeedURL:[NSURL URLWithString:kSparkleUpdateFeedForLions]];
-        }else{
-            [updater setFeedURL:[NSURL URLWithString:kSparkleUpdateFeedForSnowLeopard]];
-        }
-        [sparkleUpdateItem setTarget:updater];
-        [sparkleUpdateItem setAction:@selector(checkForUpdates:)];
-        NSMenuItem *siSparkle = [statBarMenu itemWithTag:902];
-        [siSparkle setTarget:updater];
-        [siSparkle setAction:@selector(checkForUpdates:)];
-        if (![[prefsController notationPrefs] firstTimeUsed]) {
-            //don't do anything automatically on the first launch; afterwards, check every 4 days, as specified in Info.plist
-            //				SEL checksSEL = @selector(setAutomaticallyChecksForUpdates:);
-            [updater setAutomaticallyChecksForUpdates:YES];
-            //				[updater methodForSelector:checksSEL](updater, checksSEL, YES);
-        }
-    } else {
-        NSLog(@"Could not load %@!", frameworkPath);
-    }
-    //    }
+    // Sparkle auto-update disabled in the native arm64 build (framework not yet replaced).
+    [sparkleUpdateItem setEnabled:NO];
+    [sparkleUpdateItem setHidden:YES];
     // add elasticthreads' menuitems
     if(IsLeopardOrLater){
         [fsMenuItem setEnabled:YES];

@@ -212,13 +212,14 @@
 }
 
 - (NSData*)MD5Digest {
-	EVP_MD_CTX mdctx;
+	EVP_MD_CTX *mdctx = EVP_MD_CTX_new();
 	unsigned char md_value[EVP_MAX_MD_SIZE];
 	unsigned int md_len;
-	EVP_DigestInit(&mdctx, EVP_md5());
-	EVP_DigestUpdate(&mdctx, [self bytes], [self length]);
-	EVP_DigestFinal(&mdctx, md_value, &md_len);
-	return [NSData dataWithBytes: md_value length: md_len];	
+	EVP_DigestInit(mdctx, EVP_md5());
+	EVP_DigestUpdate(mdctx, [self bytes], [self length]);
+	EVP_DigestFinal(mdctx, md_value, &md_len);
+	EVP_MD_CTX_free(mdctx);
+	return [NSData dataWithBytes: md_value length: md_len];
 }
 
 
@@ -418,105 +419,100 @@
 //these two methods will change the size of the data, but at large sizes that should be well within the malloc'ed block padding, anyway
 - (BOOL)encryptDataWithCipher:(const EVP_CIPHER*)cipher key:(NSData*)key iv:(NSData*)iv {
 	int originalDataLength = [self length];
-	
-	EVP_CIPHER_CTX cipherContext;
-	if (!EVP_EncryptInit(&cipherContext, cipher /*EVP_aes_256_cbc()*/, NULL, NULL)) {
+
+	EVP_CIPHER_CTX *cipherContext = EVP_CIPHER_CTX_new();
+	BOOL ok = NO;
+	if (!EVP_EncryptInit(cipherContext, cipher /*EVP_aes_256_cbc()*/, NULL, NULL)) {
 		NSLog(@"Couldn't initialization encryption?");
-		return NO;
+		goto done;
 	}
-	//check IV and key lengths
-	if ((int)[iv length] != EVP_CIPHER_CTX_iv_length(&cipherContext)) {
+	if ((int)[iv length] != EVP_CIPHER_CTX_iv_length(cipherContext)) {
 		NSLog(@"initialization vector length was wrong size: %lu", (unsigned long)[iv length]);
-		return NO;
+		goto done;
 	}
-	if ((int)[key length] != EVP_CIPHER_CTX_key_length(&cipherContext)) {
+	if ((int)[key length] != EVP_CIPHER_CTX_key_length(cipherContext)) {
 		NSLog(@"encryption key length was wrong size: %lu", (unsigned long)[key length]);
-		return NO;
+		goto done;
 	}
-	
-	//actually init the IV and key
-	if (!EVP_EncryptInit( &cipherContext, NULL, [key bytes], [iv bytes])) {
+
+	if (!EVP_EncryptInit(cipherContext, NULL, [key bytes], [iv bytes])) {
 		NSLog(@"Couldn't init cipher context with IV and key");
-		return NO;
+		goto done;
 	}
-	
-	//[self alignForBlockSize:EVP_CIPHER_CTX_block_size(&cipherContext)];
-	[self increaseLengthBy:EVP_CIPHER_CTX_block_size(&cipherContext)];
+
+	[self increaseLengthBy:EVP_CIPHER_CTX_block_size(cipherContext)];
 	int encLen, finalLen = 0;
-	
+
 	encLen = [self length];
-	if (!EVP_EncryptUpdate(&cipherContext, [self mutableBytes], &encLen,
+	if (!EVP_EncryptUpdate(cipherContext, [self mutableBytes], &encLen,
 						   (unsigned char *)[self bytes], originalDataLength)) {
 		NSLog(@"Couldn't encrypt data--buffer is wrong size?");
-		return NO;
+		goto done;
 	}
-	
+
 	finalLen = encLen;
 	encLen = [self length] - finalLen;
-	if (!EVP_EncryptFinal(&cipherContext, (unsigned char *)[self mutableBytes] + finalLen, &encLen)) {
+	if (!EVP_EncryptFinal(cipherContext, (unsigned char *)[self mutableBytes] + finalLen, &encLen)) {
 		NSLog(@"Couldn't encrypt final buffer--buffer is wrong size?");
-		return NO;
+		goto done;
 	}
 	finalLen += encLen;
-	
+
 	[self setLength:finalLen];
-	
-	EVP_CIPHER_CTX_cleanup(&cipherContext);
-	
-	return YES;
+	ok = YES;
+done:
+	EVP_CIPHER_CTX_free(cipherContext);
+	return ok;
 }
 
 - (BOOL)decryptDataWithCipher:(const EVP_CIPHER*)cipher key:(NSData*)key iv:(NSData*)iv {
 	int originalDataLength = [self length];
-	
-	EVP_CIPHER_CTX cipherContext;
-	if (!EVP_DecryptInit(&cipherContext, cipher /*EVP_aes_256_cbc()*/, NULL, NULL)) {
+
+	EVP_CIPHER_CTX *cipherContext = EVP_CIPHER_CTX_new();
+	BOOL ok = NO;
+	if (!EVP_DecryptInit(cipherContext, cipher /*EVP_aes_256_cbc()*/, NULL, NULL)) {
 		NSLog(@"Couldn't initialize decryption?");
-		return NO;
+		goto done;
 	}
-	//check IV and key lengths
-	if ((int)[iv length] != EVP_CIPHER_CTX_iv_length(&cipherContext)) {
+	if ((int)[iv length] != EVP_CIPHER_CTX_iv_length(cipherContext)) {
 		NSLog(@"initialization vector length was wrong size: %lu", (unsigned long)[iv length]);
-		return NO;
+		goto done;
 	}
-	if ((int)[key length] != EVP_CIPHER_CTX_key_length(&cipherContext)) {
+	if ((int)[key length] != EVP_CIPHER_CTX_key_length(cipherContext)) {
 		NSLog(@"decryption key length was wrong size: %lu", (unsigned long)[key length]);
-		return NO;
+		goto done;
 	}
-	
-	//actually init the IV and key
-	if (!EVP_DecryptInit( &cipherContext, NULL, [key bytes], [iv bytes])) {
+
+	if (!EVP_DecryptInit(cipherContext, NULL, [key bytes], [iv bytes])) {
 		NSLog(@"Couldn't init cipher context with IV and key");
-		return NO;
+		goto done;
 	}
-	
-	//[self alignForBlockSize:EVP_CIPHER_CTX_block_size(&cipherContext)];
-	[self increaseLengthBy:EVP_CIPHER_CTX_block_size(&cipherContext)];
+
+	[self increaseLengthBy:EVP_CIPHER_CTX_block_size(cipherContext)];
 	int decLen, finalLen = 0;
-	
+
 	decLen = [self length];
-	if (!EVP_DecryptUpdate(&cipherContext, [self mutableBytes], &decLen,
+	if (!EVP_DecryptUpdate(cipherContext, [self mutableBytes], &decLen,
 						   (unsigned char *)[self bytes], originalDataLength)) {
 		NSLog(@"Couldn't decrypt data--buffer is wrong size?");
-		return NO;
+		goto done;
 	}
-	
+
 	finalLen = decLen;
 	decLen = [self length] - finalLen;
-	if (!EVP_DecryptFinal(&cipherContext, (unsigned char *)[self mutableBytes] + finalLen, &decLen)) {
+	if (!EVP_DecryptFinal(cipherContext, (unsigned char *)[self mutableBytes] + finalLen, &decLen)) {
 		char buf[256];
 		ERR_error_string_n(ERR_get_error(), buf, sizeof(buf));
 		NSLog(@"Couldn't decrypt final buffer: %s", buf);
-		return NO;
+		goto done;
 	}
 	finalLen += decLen;
-	
+
 	[self setLength:finalLen];
-	
-	EVP_CIPHER_CTX_cleanup(&cipherContext);
-	
-	
-	return YES;
+	ok = YES;
+done:
+	EVP_CIPHER_CTX_free(cipherContext);
+	return ok;
 }
 
 @end
