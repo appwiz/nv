@@ -341,6 +341,14 @@
     AppController *app = object;
     NSString *rawString = [app noteContent];
 
+    // Convert nvALT's [[wiki-style links]] into standard Markdown link syntax
+    // so the downstream Markdown / MultiMarkdown processor emits real <a>
+    // tags. The editor handles these via AttributedPlainText's
+    // -_addDoubleBracketedNVLinkAttributesForRange:; the preview pipeline
+    // needs the same conversion at render time. Same nvalt://find/ scheme
+    // the editor uses.
+    rawString = [[self class] preprocessNVWikiLinks:rawString];
+
     SEL mode = [self markupProcessorSelector:[app currentPreviewMode]];
     NSString *processedString = [NSString performSelector:mode withObject:rawString];
     NSString *previewString = processedString;
@@ -384,6 +392,49 @@
     }
 
     return nil;
+}
+
+// Convert each [[Title]] occurrence in the input into [Title](nvalt://find/Title%20%E2%80%A6)
+// using the same nvalt://find/ URL scheme that the editor's wiki-link
+// decoration uses (see AttributedPlainText -_addDoubleBracketedNVLinkAttributesForRange:).
+// The downstream Markdown processor then emits a normal <a href> in the
+// rendered HTML.
++ (NSString *)preprocessNVWikiLinks:(NSString *)input {
+    if (!input.length) return input;
+    static NSRegularExpression *re = nil;
+    if (!re) {
+        NSError *err = nil;
+        // Title: anything that isn't [, ], or a newline. Non-greedy so
+        // adjacent wiki links don't get merged.
+        re = [[NSRegularExpression alloc] initWithPattern:@"\\[\\[([^\\[\\]\\n]+?)\\]\\]"
+                                                  options:0
+                                                    error:&err];
+    }
+    if (!re) return input;
+
+    NSMutableString *output = [NSMutableString stringWithCapacity:input.length];
+    __block NSUInteger cursor = 0;
+    [re enumerateMatchesInString:input
+                         options:0
+                           range:NSMakeRange(0, input.length)
+                      usingBlock:^(NSTextCheckingResult *match, NSMatchingFlags flags, BOOL *stop) {
+        NSRange whole = match.range;
+        NSRange titleRange = [match rangeAtIndex:1];
+        if (titleRange.location == NSNotFound) return;
+
+        NSString *title = [input substringWithRange:titleRange];
+        NSCharacterSet *allowed = [NSCharacterSet URLPathAllowedCharacterSet];
+        NSString *encoded = [title stringByAddingPercentEncodingWithAllowedCharacters:allowed];
+        if (!encoded) encoded = title;
+
+        [output appendString:[input substringWithRange:NSMakeRange(cursor, whole.location - cursor)]];
+        [output appendFormat:@"[%@](nvalt://find/%@)", title, encoded];
+        cursor = NSMaxRange(whole);
+    }];
+    if (cursor < input.length) {
+        [output appendString:[input substringWithRange:NSMakeRange(cursor, input.length - cursor)]];
+    }
+    return output;
 }
 
 + (void) createCustomFiles

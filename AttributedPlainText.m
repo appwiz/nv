@@ -203,33 +203,38 @@ static BOOL _StringWithRangeIsProbablyObjC(NSString *string, NSRange blockRange)
 }
 
 - (void)addLinkAttributesForRange:(NSRange)changedRange {
-//    return;
 	if (!changedRange.length)
 		return;
-	
-	//lazily loads Adium's BSD-licensed Auto-Hyperlinks:
-	//http://trac.adium.im/wiki/AutoHyperlinksFramework
-	
-	static Class AHHyperlinkScanner = Nil;
-	static Class AHMarkedHyperlink = Nil;
-	if (!AHHyperlinkScanner || !AHMarkedHyperlink) {
-		if (![[NSBundle bundleWithPath:[[[NSBundle mainBundle] privateFrameworksPath] stringByAppendingPathComponent:@"AutoHyperlinks.framework"]] load]) {
-			NSLog(@"Could not load AutoHyperlinks framework");
-			return;
-		}
-		AHHyperlinkScanner = NSClassFromString(@"AHHyperlinkScanner");
-		AHMarkedHyperlink = NSClassFromString(@"AHMarkedHyperlink");
+
+	// URL auto-detection via Foundation's NSDataDetector. Replaces the
+	// AutoHyperlinks framework (no arm64 slice; removed in the Apple
+	// Silicon port). The detector handles http/https/ftp/mailto/file
+	// URLs plus more aggressive forms like "example.com" automatically.
+	static NSDataDetector *detector = nil;
+	if (!detector) {
+		NSError *err = nil;
+		detector = [[NSDataDetector dataDetectorWithTypes:NSTextCheckingTypeLink
+													error:&err] retain];
 	}
-	
-	id scanner = [AHHyperlinkScanner hyperlinkScannerWithString:[[self string] substringWithRange:changedRange]];
-	id markedLink = nil;
-	while ((markedLink = [scanner nextURI])) {
-		NSURL *markedLinkURL = nil;
-		if ((markedLinkURL = [markedLink URL]) && !([markedLinkURL isFileURL] && [[markedLinkURL absoluteString] 
-																				  rangeOfString:@"/.file/" options:NSLiteralSearch].location != NSNotFound)) {
-			[self addAttribute:NSLinkAttributeName value:markedLinkURL 
-						 range:NSMakeRange([markedLink range].location + changedRange.location, [markedLink range].length)];
-		}
+	if (detector) {
+		NSString *substring = [[self string] substringWithRange:changedRange];
+		[detector enumerateMatchesInString:substring
+								   options:0
+									 range:NSMakeRange(0, substring.length)
+								usingBlock:^(NSTextCheckingResult *result, NSMatchingFlags flags, BOOL *stop) {
+			NSURL *url = result.URL;
+			if (!url) return;
+			// Skip the file:///.file/ pseudo-URLs that NSDataDetector
+			// sometimes produces for sandbox-style paths — they're not
+			// useful as clickable links.
+			if (url.isFileURL &&
+				[url.absoluteString rangeOfString:@"/.file/" options:NSLiteralSearch].location != NSNotFound) {
+				return;
+			}
+			NSRange range = NSMakeRange(result.range.location + changedRange.location,
+										result.range.length);
+			[self addAttribute:NSLinkAttributeName value:url range:range];
+		}];
 	}
 
 	//also detect double-bracketed URLs here
