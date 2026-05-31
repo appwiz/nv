@@ -141,3 +141,34 @@ li>p {
 ul ul,ul ol {
 	margin-bottom: 1em
 }
+
+/* Follow the system / WebView appearance. Set color-scheme so form
+   controls, scrollbars, and the default background pick up the dark
+   side automatically. */
+:root { color-scheme: light dark; }
+
+@media (prefers-color-scheme: dark) {
+	body, p, td, div { color: #d8dadf }
+	a { color: #77bdfb }
+	a:hover { color: #a8d4fc }
+	h1.doctitle {
+		background: #1f2125;
+		color: #ebecef;
+		border-bottom-color: #2c2f35
+	}
+	h1, h2, h3, h4 { color: #ebecef }
+	h2 em { color: #a8acb5; text-shadow: 0 1px 0 #000 }
+	.footnote { color: #77bdfb }
+	@media screen {
+		#wrapper {
+			background: #1e1f22;
+			-webkit-box-shadow: inset 0px 0px 4px #000
+		}
+		#contentdiv { color: #d8dadf }
+		#contentdiv::-webkit-scrollbar-thumb { background: #555 }
+	}
+	@media print {
+		#wrapper { background: #fff }
+		#contentdiv { color: #303030 }
+	}
+}

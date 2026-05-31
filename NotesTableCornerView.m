@@ -1,59 +1,34 @@
 //
-//  NVCornerView.m
+//  NotesTableCornerView.m
 //  Notation
 //
-//  Created by elasticthreads on 10/20/10.
+//  The notes table's top-right corner view. Re-resolves its colors from
+//  NVAppearance every draw so it follows the system appearance.
 //
 
 #import "NotesTableCornerView.h"
-
-NSColor *bColor;
-NSColor *fColor;
-NSGradient *cGradient;
+#import "NVAppearance.h"
 
 @implementation NotesTableCornerView
 
-- (id)initWithFrame:(NSRect)frame {
-    self = [super initWithFrame:frame];
-    if (self) {
-		if (!bColor) {
-			bColor = [NSColor lightGrayColor];
-		}
-		if (!fColor) {
-			fColor = [NSColor darkGrayColor];
-		}
-		cGradient = [[[NSGradient alloc] initWithStartingColor:[NSColor colorWithCalibratedWhite:0.93f alpha:0.3f] endingColor:[NSColor colorWithCalibratedWhite:0.12f alpha:0.25f]] retain];
-    }
-    return self;
-}
-
 - (void)drawRect:(NSRect)dirtyRect {
-	@try {		
-		[bColor set];
-		NSRectFill(dirtyRect);
-		[cGradient drawInRect:dirtyRect angle:270];
-		
-		[fColor setStroke];
-		NSBezierPath* thePath = [NSBezierPath bezierPath];
-		[thePath removeAllPoints];
-		[thePath moveToPoint:NSMakePoint(dirtyRect.origin.x,(dirtyRect.origin.y+dirtyRect.size.height))];				
-		[thePath lineToPoint:dirtyRect.origin];	
-		[thePath lineToPoint:NSMakePoint((dirtyRect.origin.x + dirtyRect.size.width),dirtyRect.origin.y)];
-		[thePath setLineWidth:1.4]; // Has no effect.
-		[thePath stroke];
-		
-	}
-	@catch (NSException * e) {
-		NSLog(@"drawrect except is : %@",[e description]);
-	}
+    NSColor *fill = [NVAppearance tableCornerFillColor];
+    NSColor *border = [NVAppearance tableCornerBorderColor];
+
+    [fill set];
+    NSRectFill(dirtyRect);
+
+    [border setStroke];
+    NSBezierPath *path = [NSBezierPath bezierPath];
+    [path moveToPoint:NSMakePoint(NSMinX(dirtyRect), NSMaxY(dirtyRect))];
+    [path lineToPoint:NSMakePoint(NSMinX(dirtyRect), NSMinY(dirtyRect))];
+    [path lineToPoint:NSMakePoint(NSMaxX(dirtyRect), NSMinY(dirtyRect))];
+    [path setLineWidth:1.0];
+    [path stroke];
 }
 
-+ (void)setBackColor:(NSColor *)inColor{
-	bColor = inColor;
-}
-
-+ (void)setBordColor:(NSColor *)inColor{
-	fColor = inColor;
-}
+// Legacy entry points kept as no-ops so any stale callers don't crash.
++ (void)setBackColor:(NSColor *)inColor { (void)inColor; }
++ (void)setBordColor:(NSColor *)inColor { (void)inColor; }
 
 @end

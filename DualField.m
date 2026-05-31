@@ -18,6 +18,7 @@
 #import "LinearDividerShader.h"
 #import "AppController.h"
 #import "BookmarksController.h"
+#import "NVAppearance.h"
 
 #define BORDER_TOP_OFFSET 3.0
 #define BORDER_LEFT_OFFSET 3.0
@@ -197,9 +198,7 @@
 	DualFieldCell *myCell = [self cell];
 	//[myCell setWraps:YES];
     [self setDrawsBackground:NO];
-    if(IsYosemiteOrLater){
-        [self setTextColor:[NSColor blackColor]];
-    }
+    [self setTextColor:[NVAppearance fieldTextColor]];
 	[self setBordered:NO];
 	[self setBezeled:NO];
 	[self setFocusRingType:NSFocusRingTypeExterior];
@@ -435,32 +434,43 @@
 	
 	NSRect tBounds = [self bounds];
 	
-	[[NSColor whiteColor] set];
+	[[NVAppearance fieldBackgroundColor] set];
 	NSRectFill(NSInsetRect(tBounds, 5, 1));
-	
+
 	NSImage *leftCap = [NSImage imageNamed: isActiveWin ? @"DFCapLeftRounded" : @"DFCapLeftRoundedInactive"];
-//	[leftCap setFlipped:YES];
 	NSRect leftImageRect = NSMakeRect(0, 0, [leftCap size].width, [leftCap size].height);
 	[leftCap drawInRect:leftImageRect fromRect:NSZeroRect operation:NSCompositeSourceOver fraction:1.0 respectFlipped:YES hints:nil];
-	
+
 	NSImage *rightCap = [NSImage imageNamed: isActiveWin ? @"DFCapRight" : @"DFCapRightInactive"];
-//	[rightCap setFlipped:YES];
 	NSRect rightImageRect = NSMakeRect(tBounds.size.width - [rightCap size].width, 0, [rightCap size].width, [rightCap size].height);
 	[rightCap drawInRect:rightImageRect fromRect:NSZeroRect operation:NSCompositeSourceOver fraction:1.0 respectFlipped:YES hints:nil];
 
-	[[NSColor colorWithDeviceWhite: isActiveWin ? 0.31f : 0.62f alpha:1.0f] set];
-	[NSBezierPath strokeLineFromPoint:NSMakePoint(tBounds.origin.x + [leftCap size].width, tBounds.origin.y + .5) 
+	// In dark mode invert top/bottom shadows: highlight at bottom, deep edge at top.
+	BOOL dark = [NVAppearance isDark];
+	NSColor *topEdge = dark
+		? [NSColor colorWithDeviceWhite:0.05f alpha:isActiveWin ? 1.0f : 0.6f]
+		: [NSColor colorWithDeviceWhite:isActiveWin ? 0.31f : 0.62f alpha:1.0f];
+	NSColor *topInner = dark
+		? [NSColor colorWithDeviceWhite:0.15f alpha:1.0f]
+		: [NSColor colorWithDeviceWhite:isActiveWin ? 0.882f : 0.886f alpha:1.0f];
+	NSColor *bottomEdge = dark
+		? [NSColor colorWithDeviceWhite:0.35f alpha:1.0f]
+		: [NSColor colorWithDeviceWhite:isActiveWin ? 0.447f : 0.627f alpha:1.0f];
+	NSColor *bottomHighlight = dark
+		? [NSColor colorWithDeviceWhite:0.45f alpha:0.55f]
+		: [NSColor colorWithDeviceWhite:1.0f alpha:0.39f];
+
+	[topEdge set];
+	[NSBezierPath strokeLineFromPoint:NSMakePoint(tBounds.origin.x + [leftCap size].width, tBounds.origin.y + .5)
 							  toPoint:NSMakePoint(tBounds.size.width - [rightCap size].width, tBounds.origin.y + .5)];
-	[[NSColor colorWithDeviceWhite: isActiveWin ? 0.882f : 0.886f alpha:1.0f] set];
-	[NSBezierPath strokeLineFromPoint:NSMakePoint(tBounds.origin.x + [leftCap size].width, tBounds.origin.y + 1.5) 
+	[topInner set];
+	[NSBezierPath strokeLineFromPoint:NSMakePoint(tBounds.origin.x + [leftCap size].width, tBounds.origin.y + 1.5)
 							  toPoint:NSMakePoint(tBounds.size.width - [rightCap size].width, tBounds.origin.y + 1.5)];
-	
-	
-	[[NSColor colorWithDeviceWhite: isActiveWin ? 0.447f : 0.627f alpha:1.0f] set];
-	[NSBezierPath strokeLineFromPoint:NSMakePoint(tBounds.origin.x + [leftCap size].width, tBounds.origin.y + tBounds.size.height - 1.5) 
+	[bottomEdge set];
+	[NSBezierPath strokeLineFromPoint:NSMakePoint(tBounds.origin.x + [leftCap size].width, tBounds.origin.y + tBounds.size.height - 1.5)
 							  toPoint:NSMakePoint(tBounds.size.width - [rightCap size].width, tBounds.origin.y + tBounds.size.height - 1.5)];
-	[[NSColor colorWithDeviceWhite: 1.0 alpha:0.39f] set];
-	[NSBezierPath strokeLineFromPoint:NSMakePoint(tBounds.origin.x + [leftCap size].width, tBounds.origin.y + tBounds.size.height ) 
+	[bottomHighlight set];
+	[NSBezierPath strokeLineFromPoint:NSMakePoint(tBounds.origin.x + [leftCap size].width, tBounds.origin.y + tBounds.size.height )
 							  toPoint:NSMakePoint(tBounds.size.width - [rightCap size].width, tBounds.origin.y + tBounds.size.height )];
 	
 	NSImage *docIcon = [NSImage imageNamed: showsDocumentIcon ? @"Pencil" : @"Search" ];

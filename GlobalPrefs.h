@@ -95,11 +95,6 @@ BOOL ColorsEqualWith8BitChannels(NSColor *c1, NSColor *c2);
 - (NSParagraphStyle*)noteBodyParagraphStyle;
 - (BOOL)_bodyFontIsMonospace;
 
-- (void)setForegroundTextColor:(NSColor*)aColor sender:(id)sender;
-- (NSColor*)foregroundTextColor;
-- (void)setBackgroundTextColor:(NSColor*)aColor sender:(id)sender;
-- (NSColor*)backgroundTextColor;
-
 - (void)setTabIndenting:(BOOL)value sender:(id)sender;
 - (BOOL)tabKeyIndents;
 

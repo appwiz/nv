@@ -22,6 +22,7 @@
 #import "NSBezierPath_NV.h"
 #import "NSString_CustomTruncation.h"
 #import "NoteAttributeColumn.h"
+#import "NVAppearance.h"
 
 @implementation UnifiedCell
 
@@ -117,23 +118,8 @@
 }
 
 + (NSColor*)dateColorForTint {
-	static NSColor *color = nil;
-	static NSControlTint lastTint = -1;
-	
-	NSControlTint tint = [NSColor currentControlTint];
-	
-	if (!color || lastTint != tint) {
-		if (tint == NSBlueControlTint) {
-			color = [NSColor colorWithCalibratedRed:0.31 green:.494 blue:0.765 alpha:1.0];
-		} else if (tint == NSGraphiteControlTint) {
-			color = [NSColor colorWithCalibratedRed:0.498 green:0.525 blue:0.573 alpha:1.0];
-		} else {
-			color = [NSColor grayColor];
-		}
-		lastTint = tint;
-		[color retain];
-	}
-	return color;
+	// Resolves through NVAppearance so the date/tag color follows system appearance.
+	return [NVAppearance tableDateTintColor];
 }
 
 static NSShadow* ShadowForSnowLeopard() {
@@ -182,7 +168,9 @@ NSAttributedString *AttributedStringForSelection(NSAttributedString *str, BOOL w
 	NSMutableDictionary *baseAttrs = [self baseTextAttributes];
 	BOOL isActive = (IsLeopardOrLater && [tv selectionHighlightStyle] == NSTableViewSelectionHighlightStyleSourceList) ? YES : [tv isActiveStyle];
 	
-	NSColor *textColor = ([self isHighlighted] && isActive) ? [NSColor whiteColor] : (![self isHighlighted] ? [[self class] dateColorForTint]/*[NSColor grayColor]*/ : nil);
+	NSColor *textColor = ([self isHighlighted] && isActive)
+		? [NSColor alternateSelectedControlTextColor]
+		: (![self isHighlighted] ? [NVAppearance tableDateTintColor] : nil);
 	if (textColor)
 		[baseAttrs setObject:textColor forKey:NSForegroundColorAttributeName];
 	if (IsSnowLeopardOrLater && [self isHighlighted] && ([tv selectionHighlightStyle] == NSTableViewSelectionHighlightStyleSourceList)) {

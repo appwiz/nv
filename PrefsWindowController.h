@@ -39,7 +39,7 @@
 	IBOutlet NSButton *softTabsButton;
 	IBOutlet NSButton *makeURLsClickable;
 	IBOutlet NSButton *highlightSearchTermsButton;
-	IBOutlet NSColorWell *searchHighlightColorWell, *foregroundColorWell, *backgroundColorWell;
+	IBOutlet NSColorWell *searchHighlightColorWell;
     IBOutlet NSButton *togDockButton;
 	IBOutlet NSTextField *togDockLabel;
 	IBOutlet NSSlider *maxWidthSlider;	

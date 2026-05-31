@@ -155,12 +155,6 @@
     [prefsController setUseETScrollbarsOnLion:[useETScrollbarsOnLionButton state] sender:self];
 }
 
-- (IBAction)changedBackgroundTextColorWell:(id)sender {
-	[prefsController setBackgroundTextColor:[backgroundColorWell color] sender:self];
-}
-- (IBAction)changedForegroundTextColorWell:(id)sender {
-	[prefsController setForegroundTextColor:[foregroundColorWell color] sender:self];
-}
 - (IBAction)changedSearchHighlightColorWell:(id)sender {
 	[prefsController setSearchTermHighlightColor:[searchHighlightColorWell color] sender:self];
 }
@@ -435,8 +429,6 @@
 	[appShortcutField setStringValue:[[prefsController appActivationKeyCombo] description]];
 	[searchHighlightColorWell setColor:[prefsController searchTermHighlightColorRaw:YES]];
 	[highlightSearchTermsButton setState:[prefsController highlightSearchTerms]];
-	[foregroundColorWell setColor:[prefsController foregroundTextColor]];
-	[backgroundColorWell setColor:[prefsController backgroundTextColor]];
     [maxWidthSlider setDoubleValue:[[NSUserDefaults standardUserDefaults] doubleForKey:@"NoteBodyMaxWidth"]];
 	//for elasticthreads' hide dock icon option, check if OS compatible
 	if (IsSnowLeopardOrLater) {

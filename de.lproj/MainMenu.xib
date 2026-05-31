@@ -390,28 +390,6 @@ CA
                                     <action selector="toggleCollapse:" target="213" id="1167"/>
                                 </connections>
                             </menuItem>
-                            <menuItem title="Farb-Schemata" id="1162">
-                                <modifierMask key="keyEquivalentModifierMask"/>
-                                <menu key="submenu" title="Farb-Schemata" id="1163">
-                                    <items>
-                                        <menuItem title="Schwarz-weiß" state="on" alternate="YES" keyEquivalent="A" id="1164">
-                                            <connections>
-                                                <action selector="setBWColorScheme:" target="213" id="1168"/>
-                                            </connections>
-                                        </menuItem>
-                                        <menuItem title="Niedriger Kontrast" alternate="YES" keyEquivalent="S" id="1165">
-                                            <connections>
-                                                <action selector="setLCColorScheme:" target="213" id="1169"/>
-                                            </connections>
-                                        </menuItem>
-                                        <menuItem title="Nutzer-Farbschema" alternate="YES" keyEquivalent="D" id="1166">
-                                            <connections>
-                                                <action selector="setUserColorScheme:" target="213" id="1170"/>
-                                            </connections>
-                                        </menuItem>
-                                    </items>
-                                </menu>
-                            </menuItem>
                             <menuItem isSeparatorItem="YES" id="1115"/>
                             <menuItem title="Spalten" tag="97" id="386">
                                 <menu key="submenu" title="Spalten" id="387">
@@ -978,28 +956,6 @@ CA
                     <connections>
                         <action selector="toggleCollapse:" target="213" id="1172"/>
                     </connections>
-                </menuItem>
-                <menuItem title="Farb-Schemata" id="1141">
-                    <modifierMask key="keyEquivalentModifierMask"/>
-                    <menu key="submenu" title="Farb-Schemata" id="1142">
-                        <items>
-                            <menuItem title="Schwarz-weiß" state="on" alternate="YES" keyEquivalent="A" id="1145">
-                                <connections>
-                                    <action selector="setBWColorScheme:" target="213" id="1173"/>
-                                </connections>
-                            </menuItem>
-                            <menuItem title="Niedriger Kontrast" alternate="YES" keyEquivalent="S" id="1144">
-                                <connections>
-                                    <action selector="setLCColorScheme:" target="213" id="1174"/>
-                                </connections>
-                            </menuItem>
-                            <menuItem title="Nutzer-Farbschema" alternate="YES" keyEquivalent="D" id="1143">
-                                <connections>
-                                    <action selector="setUserColorScheme:" target="213" id="1175"/>
-                                </connections>
-                            </menuItem>
-                        </items>
-                    </menu>
                 </menuItem>
                 <menuItem isSeparatorItem="YES" id="1138"/>
                 <menuItem title="Über nvALT" id="Eh7-wx-CCX">

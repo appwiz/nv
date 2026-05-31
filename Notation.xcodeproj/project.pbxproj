@@ -228,6 +228,7 @@
 		8D11072B0486CEB800E47090 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 089C165CFE840E0CC02AAC07 /* InfoPlist.strings */; };
 		8D11072D0486CEB800E47090 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 29B97316FDCFA39411CA2CEA /* main.m */; settings = {ATTRIBUTES = (); }; };
 		8D11072F0486CEB800E47090 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1058C7A1FEA54F0111CA2CBB /* Cocoa.framework */; };
+		DA17DA17DA17DA17DA170001 /* NVAppearance.m in Sources */ = {isa = PBXBuildFile; fileRef = DA17DA17DA17DA17DA170003 /* NVAppearance.m */; };
 		93099628138BD61000368C45 /* tp2md.rb in Resources */ = {isa = PBXBuildFile; fileRef = 93099627138BD61000368C45 /* tp2md.rb */; };
 		93365DDF1D9AD651005A230B /* AutoHyperlinks.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 93365DDE1D9AD651005A230B /* AutoHyperlinks.framework */; };
 		93365DE01D9AD6AA005A230B /* AutoHyperlinks.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 93365DDE1D9AD651005A230B /* AutoHyperlinks.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
@@ -732,6 +733,8 @@
 		5CBD88F0132A84E000FC5A79 /* ETTransparentButtonCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ETTransparentButtonCell.h; sourceTree = "<group>"; };
 		5CC2DF0913083BCF006772D9 /* StatusItemView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StatusItemView.h; sourceTree = "<group>"; };
 		5CC2DF0A13083BCF006772D9 /* StatusItemView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StatusItemView.m; sourceTree = "<group>"; };
+		DA17DA17DA17DA17DA170002 /* NVAppearance.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NVAppearance.h; sourceTree = "<group>"; };
+		DA17DA17DA17DA17DA170003 /* NVAppearance.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NVAppearance.m; sourceTree = "<group>"; };
 		5CCEEF1B130B599B00E15B77 /* DFView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DFView.h; sourceTree = "<group>"; };
 		5CCEEF1C130B599B00E15B77 /* DFView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DFView.m; sourceTree = "<group>"; };
 		5CD58D771D9DA3C70004E1B8 /* SimperiumConfig.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SimperiumConfig.h; sourceTree = "<group>"; };
@@ -873,6 +876,8 @@
 				2168EC5209E33B0300778D02 /* FrozenNotation.m */,
 				21D60126098FDB46007440DF /* GlobalPrefs.h */,
 				21D60127098FDB46007440DF /* GlobalPrefs.m */,
+				DA17DA17DA17DA17DA170002 /* NVAppearance.h */,
+				DA17DA17DA17DA17DA170003 /* NVAppearance.m */,
 				21B1BC341104D20E0004A7D0 /* InvocationRecorder.h */,
 				21B1BC351104D20E0004A7D0 /* InvocationRecorder.m */,
 				217D4280096545A000E84749 /* LabelObject.h */,
@@ -1740,6 +1745,7 @@
 				5C177AE7141EF95200BC0C0A /* ETClipView.m in Sources */,
 				5C38E2C414223D6900131682 /* ETOverlayScroller.m in Sources */,
 				934C3FB914FDA74F000D14BA /* NSFileManager+DirectoryLocations.m in Sources */,
+				DA17DA17DA17DA17DA170001 /* NVAppearance.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2111,7 +2117,7 @@
 				ENABLE_STRICT_OBJC_MSGSEND = NO;
 				LD_RUNPATH_SEARCH_PATHS = "";
 				LIBRARY_SEARCH_PATHS = "$(PROJECT_DIR)";
-				MACOSX_DEPLOYMENT_TARGET = 10.9;
+				MACOSX_DEPLOYMENT_TARGET = 10.14;
 				OTHER_LDFLAGS = "";
 				PRODUCT_BUNDLE_IDENTIFIER = net.elasticthreads.nv;
 			};
@@ -2195,7 +2201,7 @@
 				INFOPLIST_FILE = Info.plist;
 				LD_GENERATE_MAP_FILE = YES;
 				LIBRARY_SEARCH_PATHS = "$(PROJECT_DIR)";
-				MACOSX_DEPLOYMENT_TARGET = 10.13;
+				MACOSX_DEPLOYMENT_TARGET = 10.14;
 				ONLY_ACTIVE_ARCH = YES;
 				OTHER_CFLAGS = "-pg";
 				PRIVATE_HEADERS_FOLDER_PATH = "$(CONTENTS_FOLDER_PATH)/PrivateHeaders";
@@ -2281,7 +2287,7 @@
 				);
 				INFOPLIST_FILE = Info.plist;
 				LIBRARY_SEARCH_PATHS = "$(PROJECT_DIR)";
-				MACOSX_DEPLOYMENT_TARGET = 10.13;
+				MACOSX_DEPLOYMENT_TARGET = 10.14;
 				PRIVATE_HEADERS_FOLDER_PATH = "$(CONTENTS_FOLDER_PATH)/PrivateHeaders";
 				PRODUCT_NAME = nvALT;
 				SDKROOT = macosx;
@@ -2308,7 +2314,7 @@
 				ENABLE_STRICT_OBJC_MSGSEND = NO;
 				LD_RUNPATH_SEARCH_PATHS = "";
 				LIBRARY_SEARCH_PATHS = "$(PROJECT_DIR)";
-				MACOSX_DEPLOYMENT_TARGET = 10.9;
+				MACOSX_DEPLOYMENT_TARGET = 10.14;
 				OTHER_LDFLAGS = "";
 				PRODUCT_BUNDLE_IDENTIFIER = net.elasticthreads.nv;
 			};

@@ -11,6 +11,7 @@
 
 
 #import "LinearDividerShader.h"
+#import "NVAppearance.h"
 
 
 static void ColorBlendFunction(void *info, const CGFloat *in, CGFloat *out);
@@ -138,11 +139,11 @@ static void ColorBlendFunction(void *info, const CGFloat *in, CGFloat *out);
 
 - (void)drawDividerInRect:(NSRect)aRect withDimpleRect:(NSRect)dimpleRect blendVertically:(BOOL)v {
 	if (!borderCol) {
-		borderCol =[[NSColor grayColor] retain];
+		borderCol = [[NVAppearance dividerForegroundColor] retain];
 	}
 	if (!v||((aRect.origin.x==0.0f)&&(aRect.origin.y==0.0f))) {
 		if (!backCol) {
-			backCol = [[NSColor lightGrayColor] retain];
+			backCol = [[NVAppearance dividerBackgroundColor] retain];
 		}        
 //		[backCol setFill];
 //		NSRectFill(aRect);

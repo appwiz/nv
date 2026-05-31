@@ -332,13 +332,6 @@ CGFloat _perceptualColorDifference(NSColor*a, NSColor*b) {
 			[self _linkColorForForegroundColor:[(AppController *)[NSApp delegate] foregrndColor] backgroundColor:[(AppController *)[NSApp delegate] backgrndColor]],
 			NSForegroundColorAttributeName, nil];
 	
-	/*
-	 return [NSDictionary dictionaryWithObjectsAndKeys:
-	 [NSCursor pointingHandCursor], NSCursorAttributeName,
-	 [NSNumber numberWithInt:NSUnderlineStyleSingle], NSUnderlineStyleAttributeName,
-	 [self _linkColorForForegroundColor:[prefsController foregroundTextColor] backgroundColor:[prefsController backgroundTextColor]],
-	 NSForegroundColorAttributeName, nil];
-	 */
 }
 
 /*

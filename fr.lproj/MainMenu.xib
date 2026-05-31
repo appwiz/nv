@@ -392,28 +392,6 @@ CA
                                     <action selector="toggleCollapse:" target="213" id="1212"/>
                                 </connections>
                             </menuItem>
-                            <menuItem title="Color Schemes" id="1205">
-                                <modifierMask key="keyEquivalentModifierMask"/>
-                                <menu key="submenu" title="Color Schemes" id="1206">
-                                    <items>
-                                        <menuItem title="B/W" state="on" alternate="YES" keyEquivalent="A" id="1207">
-                                            <connections>
-                                                <action selector="setBWColorScheme:" target="213" id="1213"/>
-                                            </connections>
-                                        </menuItem>
-                                        <menuItem title="Low Contrast" alternate="YES" keyEquivalent="S" id="1208">
-                                            <connections>
-                                                <action selector="setLCColorScheme:" target="213" id="1210"/>
-                                            </connections>
-                                        </menuItem>
-                                        <menuItem title="User Scheme" alternate="YES" keyEquivalent="D" id="1209">
-                                            <connections>
-                                                <action selector="setUserColorScheme:" target="213" id="1211"/>
-                                            </connections>
-                                        </menuItem>
-                                    </items>
-                                </menu>
-                            </menuItem>
                             <menuItem isSeparatorItem="YES" id="1116"/>
                             <menuItem title="Colonnes" tag="97" id="386">
                                 <menu key="submenu" title="Colonnes" id="387">
@@ -975,28 +953,6 @@ CA
                     <connections>
                         <action selector="toggleCollapse:" target="213" id="1179"/>
                     </connections>
-                </menuItem>
-                <menuItem title="Color Schemes" id="1142">
-                    <modifierMask key="keyEquivalentModifierMask"/>
-                    <menu key="submenu" title="Color Schemes" id="1143">
-                        <items>
-                            <menuItem title="B/W" state="on" alternate="YES" keyEquivalent="A" id="1146">
-                                <connections>
-                                    <action selector="setBWColorScheme:" target="213" id="1180"/>
-                                </connections>
-                            </menuItem>
-                            <menuItem title="Low Contrast" alternate="YES" keyEquivalent="S" id="1145">
-                                <connections>
-                                    <action selector="setLCColorScheme:" target="213" id="1181"/>
-                                </connections>
-                            </menuItem>
-                            <menuItem title="User Scheme" alternate="YES" keyEquivalent="D" id="1144">
-                                <connections>
-                                    <action selector="setUserColorScheme:" target="213" id="1182"/>
-                                </connections>
-                            </menuItem>
-                        </items>
-                    </menu>
                 </menuItem>
                 <menuItem isSeparatorItem="YES" id="1139"/>
                 <menuItem title="A propos de nvALT" id="bfT-Au-Zcz">

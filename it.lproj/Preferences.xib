@@ -11,7 +11,6 @@
                 <outlet property="appShortcutField" destination="288" id="291"/>
                 <outlet property="autoPairButton" destination="570" id="576"/>
                 <outlet property="autoSuggestLinksButton" destination="283" id="299"/>
-                <outlet property="backgroundColorWell" destination="400" id="423"/>
                 <outlet property="bodyTextFontField" destination="387" id="394"/>
                 <outlet property="checkSpellingButton" destination="276" id="293"/>
                 <outlet property="completeNoteTitlesButton" destination="175" id="265"/>
@@ -21,7 +20,6 @@
                 <outlet property="externalEditorMenuButton" destination="561" id="567"/>
                 <outlet property="folderLocationsMenuButton" destination="252" id="260"/>
                 <outlet property="fontsColorsView" destination="352" id="425"/>
-                <outlet property="foregroundColorWell" destination="396" id="424"/>
                 <outlet property="generalView" destination="155" id="236"/>
                 <outlet property="highlightSearchTermsButton" destination="415" id="419"/>
                 <outlet property="makeURLsClickable" destination="311" id="312"/>
@@ -524,7 +522,6 @@
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                     <color key="color" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
                     <connections>
-                        <action selector="changedForegroundTextColorWell:" target="-2" id="421"/>
                     </connections>
                 </colorWell>
                 <textField verticalHuggingPriority="750" id="397" propertyAccessControl="none">
@@ -541,7 +538,6 @@
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                     <color key="color" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     <connections>
-                        <action selector="changedBackgroundTextColorWell:" target="-2" id="420"/>
                     </connections>
                 </colorWell>
                 <textField verticalHuggingPriority="750" id="401" propertyAccessControl="none">

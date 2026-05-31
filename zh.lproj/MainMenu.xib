@@ -390,31 +390,6 @@ CA
                                     <action selector="toggleCollapse:" target="213" id="1129"/>
                                 </connections>
                             </menuItem>
-                            <menuItem title="Color Schemes" id="1210">
-                                <modifierMask key="keyEquivalentModifierMask"/>
-                                <menu key="submenu" title="Color Schemes" id="1211">
-                                    <items>
-                                        <menuItem title="B/W" state="on" keyEquivalent="1" id="1214">
-                                            <modifierMask key="keyEquivalentModifierMask" option="YES" command="YES"/>
-                                            <connections>
-                                                <action selector="setBWColorScheme:" target="213" id="1223"/>
-                                            </connections>
-                                        </menuItem>
-                                        <menuItem title="Low Contrast" keyEquivalent="2" id="1213">
-                                            <modifierMask key="keyEquivalentModifierMask" option="YES" command="YES"/>
-                                            <connections>
-                                                <action selector="setLCColorScheme:" target="213" id="1226"/>
-                                            </connections>
-                                        </menuItem>
-                                        <menuItem title="User Scheme" keyEquivalent="3" id="1212">
-                                            <modifierMask key="keyEquivalentModifierMask" option="YES" command="YES"/>
-                                            <connections>
-                                                <action selector="setUserColorScheme:" target="213" id="1228"/>
-                                            </connections>
-                                        </menuItem>
-                                    </items>
-                                </menu>
-                            </menuItem>
                             <menuItem isSeparatorItem="YES" id="1116"/>
                             <menuItem title="分栏" tag="97" id="386">
                                 <menu key="submenu" title="分栏" id="387">
@@ -981,31 +956,6 @@ CA
                     <connections>
                         <action selector="toggleCollapse:" target="213" id="1175"/>
                     </connections>
-                </menuItem>
-                <menuItem title="Color Schemes" id="1131">
-                    <modifierMask key="keyEquivalentModifierMask"/>
-                    <menu key="submenu" title="Color Schemes" id="1159">
-                        <items>
-                            <menuItem title="B/W" state="on" alternate="YES" keyEquivalent="1" id="1160">
-                                <modifierMask key="keyEquivalentModifierMask" option="YES" command="YES"/>
-                                <connections>
-                                    <action selector="setBWColorScheme:" target="213" id="1224"/>
-                                </connections>
-                            </menuItem>
-                            <menuItem title="Low Contrast" alternate="YES" keyEquivalent="2" id="1161">
-                                <modifierMask key="keyEquivalentModifierMask" option="YES" command="YES"/>
-                                <connections>
-                                    <action selector="setLCColorScheme:" target="213" id="1225"/>
-                                </connections>
-                            </menuItem>
-                            <menuItem title="User Scheme" alternate="YES" keyEquivalent="3" id="1162">
-                                <modifierMask key="keyEquivalentModifierMask" option="YES" command="YES"/>
-                                <connections>
-                                    <action selector="setUserColorScheme:" target="213" id="1227"/>
-                                </connections>
-                            </menuItem>
-                        </items>
-                    </menu>
                 </menuItem>
                 <menuItem isSeparatorItem="YES" id="1139"/>
                 <menuItem title="关于 nvALT" id="bVx-37-etW">

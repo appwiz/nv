@@ -23,6 +23,7 @@
 
 #import "GlobalPrefs.h"
 #import "BufferUtils.h"
+#import "NVAppearance.h"
 #import "NSData_transformations.h"
 #import "NotationPrefs.h"
 #import "BookmarksController.h"
@@ -58,8 +59,6 @@ static NSString *AutoSuggestLinksKey = @"AutoSuggestLinks";
 static NSString *AutoIndentsNewLinesKey = @"AutoIndentsNewLines";
 static NSString *HighlightSearchTermsKey = @"HighlightSearchTerms";
 static NSString *SearchTermHighlightColorKey = @"SearchTermHighlightColor";
-static NSString *ForegroundTextColorKey = @"ForegroundTextColor";
-static NSString *BackgroundTextColorKey = @"BackgroundTextColor";
 static NSString *UseSoftTabsKey = @"UseSoftTabs";
 static NSString *NumberOfSpacesInTabKey = @"NumberOfSpacesInTab";
 static NSString *MakeURLsClickableKey = @"MakeURLsClickable";
@@ -166,9 +165,6 @@ static void sendCallbacksForGlobalPrefs(GlobalPrefs* self, SEL selector, id orig
 
 			[NSArchiver archivedDataWithRootObject:
 			 [NSFont fontWithName:@"Helvetica" size:12.0f]], NoteBodyFontKey,
-			
-			[NSArchiver archivedDataWithRootObject:[NSColor blackColor]], ForegroundTextColorKey,
-			[NSArchiver archivedDataWithRootObject:[NSColor whiteColor]], BackgroundTextColorKey,
 			
 			[NSArchiver archivedDataWithRootObject:
 			 [NSColor colorWithCalibratedRed:0.945 green:0.702 blue:0.702 alpha:1.0f]], SearchTermHighlightColorKey,
@@ -525,7 +521,7 @@ static void sendCallbacksForGlobalPrefs(GlobalPrefs* self, SEL selector, id orig
 		if (color) {
 			//nslayoutmanager temporary attributes don't seem to like alpha components, so synthesize translucency using the bg color
 			NSColor *fauxAlphaSTHC = [[color colorUsingColorSpaceName:NSCalibratedRGBColorSpace] colorWithAlphaComponent:1.0];
-			return [fauxAlphaSTHC blendedColorWithFraction:(1.0 - [color alphaComponent]) ofColor:[self backgroundTextColor]];
+			return [fauxAlphaSTHC blendedColorWithFraction:(1.0 - [color alphaComponent]) ofColor:[NVAppearance editorBackgroundColor]];
 		}
 	}
 
@@ -724,47 +720,6 @@ BOOL ColorsEqualWith8BitChannels(NSColor *c1, NSColor *c2) {
 	}
 	
 	return noteBodyParagraphStyle;
-}
-
-- (void)setForegroundTextColor:(NSColor*)aColor sender:(id)sender {
-	if (aColor) {
-		[noteBodyAttributes release];
-		noteBodyAttributes = nil;
-		
-		[defaults setObject:[NSArchiver archivedDataWithRootObject:aColor] forKey:ForegroundTextColorKey];
-		
-		SEND_CALLBACKS();
-	}	
-}
-
-- (NSColor*)foregroundTextColor {
-	NSData *theData = [defaults dataForKey:ForegroundTextColorKey];
-	if (theData) return (NSColor *)[NSUnarchiver unarchiveObjectWithData:theData];
-	return nil;
-}
-
-- (void)setBackgroundTextColor:(NSColor*)aColor sender:(id)sender {
-	
-	if (aColor) {
-		//highlight color is based on blended-alpha version of background color
-		//(because nslayoutmanager temporary attributes don't seem to like alpha components)
-		//so it's necessary to invalidate the effective cache of that computed highlight color
-		[searchTermHighlightAttributes release];
-		searchTermHighlightAttributes = nil;
-
-		[defaults setObject:[NSArchiver archivedDataWithRootObject:aColor] forKey:BackgroundTextColorKey];
-	
-		SEND_CALLBACKS();
-	}
-}
-
-- (NSColor*)backgroundTextColor {
-	//don't need to cache the unarchived color, as it's not used in a random-access pattern
-	
-	NSData *theData = [defaults dataForKey:BackgroundTextColorKey];
-	if (theData) return (NSColor *)[NSUnarchiver unarchiveObjectWithData:theData];
-
-	return nil;	
 }
 
 - (BOOL)tableColumnsShowPreview {

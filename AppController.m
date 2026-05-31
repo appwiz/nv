@@ -14,6 +14,7 @@
 #import "AppController.h"
 #import "NoteObject.h"
 #import "GlobalPrefs.h"
+#import "NVAppearance.h"
 #import "AlienNoteImporter.h"
 #import "AppController_Importing.h"
 #import "NotationPrefs.h"
@@ -301,14 +302,7 @@ BOOL splitViewAwoke;
 		[self setEmptyViewState:YES];
 		ModFlagger = 0;
         popped = 0;
-		userScheme = [[NSUserDefaults standardUserDefaults] integerForKey:@"ColorScheme"];
-		if (userScheme==0) {
-			[self setBWColorScheme:self];
-		}else if (userScheme==1) {
-			[self setLCColorScheme:self];
-		}else if (userScheme==2) {
-			[self setUserColorScheme:self];
-		}
+		[self applySystemAppearance];
 		//this is necessary on 10.3; keep just in case
 		[splitView display];
         
@@ -405,8 +399,21 @@ void outletObjectAwoke(id sender) {
 
 - (void)applicationDidFinishLaunching:(NSNotification*)aNote {
 	//on tiger dualfield is often not ready to add tracking tracks until this point:
-	
+
 	[field setTrackingRect];
+
+	// Follow the system appearance. nil appearance == inherit from NSApp,
+	// which itself follows the system unless the user picks per-app appearance
+	// in System Settings.
+	[NSApp setAppearance:nil];
+	[window setAppearance:nil];
+
+	// Observe system appearance changes. NSApplication exposes
+	// -effectiveAppearance as a KVO-able property on 10.14+.
+	[NSApp addObserver:self
+			forKeyPath:@"effectiveAppearance"
+			   options:NSKeyValueObservingOptionNew
+			   context:NULL];
     NSDate *before = [NSDate date];
 	prefsWindowController = [[PrefsWindowController alloc] init];
 	
@@ -489,8 +496,6 @@ void outletObjectAwoke(id sender) {
 	 @selector(setAliasDataForDefaultDirectory:sender:),  //when someone wants to load a new database
 	 @selector(setSortedTableColumnKey:reversed:sender:),  //when sorting prefs changed
 	 @selector(setNoteBodyFont:sender:),  //when to tell notationcontroller to restyle its notes
-	 @selector(setForegroundTextColor:sender:),  //ditto
-	 @selector(setBackgroundTextColor:sender:),  //ditto
 	 @selector(setTableFontSize:sender:),  //when to tell notationcontroller to regenerate the (now potentially too-short) note-body previews
 	 @selector(addTableColumn:sender:),  //ditto
 	 @selector(removeTableColumn:sender:),  //ditto
@@ -1038,21 +1043,6 @@ terminateApp:
 		if (currentNote) {
 			[self contentsUpdatedForNote:currentNote];
 		}
-	} else if ([selectorString isEqualToString:SEL_STR(setForegroundTextColor:sender:)]) {
-		if (userScheme!=2) {
-			[self setUserColorScheme:self];
-		}else {
-			[self setForegrndColor:[prefsController foregroundTextColor]];
-			[self updateColorScheme];
-		}
-	} else if ([selectorString isEqualToString:SEL_STR(setBackgroundTextColor:sender:)]) {
-		if (userScheme!=2) {
-			[self setUserColorScheme:self];
-		}else {
-			[self setBackgrndColor:[prefsController backgroundTextColor]];
-			[self updateColorScheme];
-		}
-		
 	} else if ([selectorString isEqualToString:SEL_STR(setTableFontSize:sender:)] || [selectorString isEqualToString:SEL_STR(setTableColumnsShowPreview:sender:)]) {
 		
 		ResetFontRelatedTableAttributes();
@@ -2152,6 +2142,8 @@ terminateApp:
 }
 
 - (void)applicationWillTerminate:(NSNotification *)aNotification {
+	@try { [NSApp removeObserver:self forKeyPath:@"effectiveAppearance"]; }
+	@catch (NSException *e) {}
 	if (notationController) {
 		//only save the state if the notation instance has actually loaded; i.e., don't save last-selected-note if we quit from a PW dialog
 		BOOL wasAutomatic = NO;
@@ -2800,89 +2792,59 @@ terminateApp:
     }
 }
 
-#pragma mark color scheme methods
-    
-    - (IBAction)setBWColorScheme:(id)sender{
-        userScheme=0;
-        [[NSUserDefaults standardUserDefaults] setInteger:userScheme forKey:@"ColorScheme"];
-        
-        [self setForegrndColor:[[NSColor colorWithCalibratedWhite:0.02f alpha:1.0f]colorUsingColorSpaceName:NSCalibratedRGBColorSpace]];
-        [self setBackgrndColor:[[NSColor colorWithCalibratedWhite:0.98f alpha:1.0f]colorUsingColorSpaceName:NSCalibratedRGBColorSpace]];
-        NSMenu *mainM = [NSApp mainMenu];
-        NSMenu *viewM = [[mainM itemWithTitle:@"View"] submenu];
-        mainM = [[viewM itemWithTitle:@"Color Schemes"] submenu];
-        viewM = [[statBarMenu itemWithTitle:@"Color Schemes"] submenu];
-        [[mainM itemAtIndex:0] setState:1];
-        [[mainM itemAtIndex:1] setState:0];
-        [[mainM itemAtIndex:2] setState:0];
-        
-        [[viewM  itemAtIndex:0] setState:1];
-        [[viewM  itemAtIndex:1] setState:0];
-        [[viewM  itemAtIndex:2] setState:0];
-        [self updateColorScheme];
-    }
-    
-    - (IBAction)setLCColorScheme:(id)sender{
-        userScheme=1;
-        [[NSUserDefaults standardUserDefaults] setInteger:userScheme forKey:@"ColorScheme"];
+#pragma mark system-appearance handling
 
-        [self setForegrndColor:[NSColor colorWithCalibratedRed:0.2430 green:0.2430 blue:0.2430 alpha:1.0]];
-        
-        [self setBackgrndColor:[NSColor colorWithCalibratedRed:0.902 green:0.902 blue:0.902 alpha:1.0]];
-        NSMenu *mainM = [NSApp mainMenu];
-        NSMenu *viewM = [[mainM itemWithTitle:@"View"] submenu];
-        mainM = [[viewM itemWithTitle:@"Color Schemes"] submenu];
-        viewM = [[statBarMenu itemWithTitle:@"Color Schemes"] submenu];
-        [[mainM itemAtIndex:0] setState:0];
-        [[mainM itemAtIndex:1] setState:1];
-        [[mainM itemAtIndex:2] setState:0];
-        
-        [[viewM  itemAtIndex:0] setState:0];
-        [[viewM  itemAtIndex:1] setState:1];
-        [[viewM  itemAtIndex:2] setState:0];
-        [self updateColorScheme];
+// Apply the current system effective appearance to the app's colors.
+// Called once at awakeFromNib and again whenever the system appearance changes
+// (KVO on -[NSApp effectiveAppearance]).
+- (void)applySystemAppearance {
+    [self setForegrndColor:[NVAppearance editorTextColor]];
+    [self setBackgrndColor:[NVAppearance editorBackgroundColor]];
+    [self updateColorScheme];
+}
+
+- (void)observeValueForKeyPath:(NSString *)keyPath
+                      ofObject:(id)object
+                        change:(NSDictionary *)change
+                       context:(void *)context {
+    if (object == NSApp && [keyPath isEqualToString:@"effectiveAppearance"]) {
+        // The KVO callback can arrive on any thread; serialize on main since
+        // updateColorScheme touches AppKit views.
+        if ([NSThread isMainThread]) {
+            [self applySystemAppearance];
+        } else {
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [self applySystemAppearance];
+            });
+        }
+        return;
     }
-    
-    - (IBAction)setUserColorScheme:(id)sender{
-        userScheme=2;
-        [[NSUserDefaults standardUserDefaults] setInteger:userScheme forKey:@"ColorScheme"];
-        [self setForegrndColor:[prefsController foregroundTextColor]];
-        [self setBackgrndColor:[prefsController backgroundTextColor]];
-        NSMenu *mainM = [NSApp mainMenu];
-        NSMenu *viewM = [[mainM itemWithTitle:@"View"] submenu];
-        mainM = [[viewM itemWithTitle:@"Color Schemes"] submenu];
-        viewM = [[statBarMenu itemWithTitle:@"Color Schemes"] submenu];
-        [[mainM itemAtIndex:0] setState:0];
-        [[mainM itemAtIndex:1] setState:0];
-        [[mainM itemAtIndex:2] setState:1];
-        
-        [[viewM  itemAtIndex:0] setState:0];
-        [[viewM  itemAtIndex:1] setState:0];
-        [[viewM  itemAtIndex:2] setState:1];
-        [self updateColorScheme];
+    if ([[self superclass] instancesRespondToSelector:_cmd]) {
+        [super observeValueForKeyPath:keyPath ofObject:object change:change context:context];
     }
-    
-- (void)updateColorScheme{
-    if (!IsLionOrLater) {        
-        [window setBackgroundColor:backgrndColor];
-        [dualFieldView setBackgroundColor:backgrndColor];
-    }
+}
+
+
+- (void)updateColorScheme {
     [mainView setBackgroundColor:backgrndColor];
-    [NotesTableHeaderCell setTxtColor:foregrndColor];
-    
-    [notesTableView setGridColor:foregrndColor];
-    [notesTableView setBackgroundColor:backgrndColor];
+    [NotesTableHeaderCell setTxtColor:[NVAppearance tableHeaderTextColor]];
+
+    [notesTableView setGridColor:[NVAppearance tableGridColor]];
+    [notesTableView setBackgroundColor:[NVAppearance tableBackgroundColor]];
     [notationController setForegroundTextColor:foregrndColor];
-    
+
     [textView setBackgroundColor:backgrndColor];
     [textView updateTextColors];
     [self updateFieldAttributes];
     if (currentNote) {
         [self contentsUpdatedForNote:currentNote];
     }
-    [dividerShader updateColorsWithBackgroundColor:backgrndColor andForegroundColor:foregrndColor];
+    [dividerShader updateColorsWithBackgroundColor:[NVAppearance dividerBackgroundColor]
+                              andForegroundColor:[NVAppearance dividerForegroundColor]];
     [splitView setNeedsDisplay:YES];
-    
+    [notesTableView setNeedsDisplay:YES];
+    [[notesTableView headerView] setNeedsDisplay:YES];
+    [[notesTableView cornerView] setNeedsDisplay:YES];
 }
 
 - (void)updateFieldAttributes{
@@ -2921,63 +2883,21 @@ terminateApp:
         foregrndColor = [inColor retain];
     }
     
-    - (NSColor *)backgrndColor{
-        if (!backgrndColor) {
-            NSColor *theColor;
-            if (!userScheme) {
-                userScheme = [[NSUserDefaults standardUserDefaults] integerForKey:@"ColorScheme"];
-            }
-            if (userScheme==0) {
-                theColor = [NSColor colorWithCalibratedRed:1.0f green:1.0f blue:1.0f alpha:1.0f];
-            }else if (userScheme==1) {
-                theColor = [NSColor colorWithCalibratedRed:0.874f green:0.874f blue:0.874f alpha:1.0f];
-            }else if (userScheme==2) {
-                NSData *theData = [[NSUserDefaults standardUserDefaults] dataForKey:@"BackgroundTextColor"];
-                if (theData){
-                    theColor = (NSColor *)[NSUnarchiver unarchiveObjectWithData:theData];
-                }else {
-                    theColor = [prefsController backgroundTextColor];
-                }
-                
-            }else{
-                theColor =  [NSColor whiteColor];
-            }
-            [self setBackgrndColor:theColor];
-            
-            return theColor;
-        }else {
-            return backgrndColor;
-        }
-        
+- (NSColor *)backgrndColor {
+    if (!backgrndColor) {
+        [self setBackgrndColor:[NVAppearance editorBackgroundColor]];
     }
-    
-    - (NSColor *)foregrndColor{
-        if (!foregrndColor) {
-            NSColor *theColor = [NSColor blackColor];
-            if (!userScheme) {
-                userScheme = [[NSUserDefaults standardUserDefaults] integerForKey:@"ColorScheme"];
-            }            
-            if (userScheme==0) {
-                theColor = [NSColor colorWithCalibratedRed:0.0f green:0.0f blue:0.0f alpha:1.0f];
-            }else if (userScheme==1) {
-                theColor = [NSColor colorWithCalibratedRed:0.142f green:0.142f blue:0.142f alpha:1.0f];
-            }else if (userScheme==2) {
-                
-                NSData *theData = [[NSUserDefaults standardUserDefaults] dataForKey:@"ForegroundTextColor"];
-                if (theData){
-                    theColor = (NSColor *)[NSUnarchiver unarchiveObjectWithData:theData];
-                }else {
-                    theColor = [prefsController foregroundTextColor];
-                }
-            }
-            [self setForegrndColor:theColor];
-            return theColor;
-        }else {
-            return foregrndColor;
-        }
-        
+    return backgrndColor;
+}
+
+- (NSColor *)foregrndColor {
+    if (!foregrndColor) {
+        [self setForegrndColor:[NVAppearance editorTextColor]];
     }
-    
+    return foregrndColor;
+}
+
+
 #pragma mark control/opt key hold down to pop word count/preview window
     
     - (void)updateWordCount:(BOOL)doIt{
