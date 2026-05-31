@@ -1,0 +1,150 @@
+name: Release builds
+
+on:
+  push:
+    branches: [master]
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: release-${{ github.sha }}
+  cancel-in-progress: false
+
+jobs:
+  build:
+    name: Build macOS + iOS
+    runs-on: macos-15
+    timeout-minutes: 30
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Show toolchain
+        # Use the runner's default Xcode (latest stable on macos-15).
+        run: |
+          xcodebuild -version
+          xcrun --show-sdk-version --sdk macosx
+          xcrun --show-sdk-version --sdk iphoneos
+
+      - name: Compute version info
+        id: ver
+        run: |
+          SHORT_SHA="$(echo "$GITHUB_SHA" | cut -c1-7)"
+          TAG="build-${SHORT_SHA}"
+          echo "short_sha=${SHORT_SHA}" >> "$GITHUB_OUTPUT"
+          echo "tag=${TAG}" >> "$GITHUB_OUTPUT"
+
+      # ─── macOS ────────────────────────────────────────────────────────────
+      - name: Build macOS (nvALT.app, arm64, Release)
+        run: |
+          set -o pipefail
+          xcodebuild \
+            -project Notation.xcodeproj \
+            -scheme "Notation Release" \
+            -configuration ForBuilding \
+            -arch arm64 \
+            ONLY_ACTIVE_ARCH=YES \
+            CODE_SIGN_IDENTITY="-" \
+            CODE_SIGNING_REQUIRED=NO \
+            CODE_SIGNING_ALLOWED=NO \
+            DEPLOYMENT_POSTPROCESSING=YES \
+            -derivedDataPath build/macos \
+            build | tail -50
+
+      - name: Package macOS .zip
+        run: |
+          APP="build/macos/Build/Products/ForBuilding/nvALT.app"
+          test -d "$APP" || { echo "macOS app not found at $APP"; exit 1; }
+          mkdir -p dist
+          /usr/bin/ditto -c -k --sequesterRsrc --keepParent \
+            "$APP" "dist/nvALT-macOS-arm64-${{ steps.ver.outputs.short_sha }}.zip"
+          ls -la dist/
+
+      # ─── iOS / iPadOS ────────────────────────────────────────────────────
+      - name: Build iOS (nvALT iOS.app, arm64, unsigned)
+        run: |
+          set -o pipefail
+          xcodebuild \
+            -project Notation.xcodeproj \
+            -scheme "nvALT iOS" \
+            -configuration ForBuilding \
+            -sdk iphoneos \
+            -destination "generic/platform=iOS" \
+            CODE_SIGN_IDENTITY="" \
+            CODE_SIGNING_REQUIRED=NO \
+            CODE_SIGNING_ALLOWED=NO \
+            DEVELOPMENT_TEAM="" \
+            -derivedDataPath build/ios \
+            build | tail -50
+
+      - name: Package unsigned .ipa
+        run: |
+          APP="build/ios/Build/Products/ForBuilding-iphoneos/nvALT iOS.app"
+          test -d "$APP" || { echo "iOS app not found at $APP"; exit 1; }
+          mkdir -p dist/Payload
+          /usr/bin/ditto "$APP" "dist/Payload/nvALT iOS.app"
+          (cd dist && zip -r "nvALT-iOS-unsigned-${{ steps.ver.outputs.short_sha }}.ipa" Payload >/dev/null)
+          rm -rf dist/Payload
+          ls -la dist/
+
+      # ─── Release ─────────────────────────────────────────────────────────
+      - name: Compose release notes
+        id: notes
+        run: |
+          COMMIT_SUBJECT="$(git log -1 --pretty=%s "$GITHUB_SHA")"
+          COMMIT_BODY="$(git log -1 --pretty=%b "$GITHUB_SHA")"
+          {
+            echo "Automated build for commit [\`${{ steps.ver.outputs.short_sha }}\`](https://github.com/${{ github.repository }}/commit/${GITHUB_SHA})."
+            echo
+            echo "## Commit"
+            echo
+            echo "**${COMMIT_SUBJECT}**"
+            echo
+            if [ -n "${COMMIT_BODY}" ]; then
+              echo "${COMMIT_BODY}"
+              echo
+            fi
+            echo "## Artifacts"
+            echo
+            echo "- \`nvALT-macOS-arm64-${{ steps.ver.outputs.short_sha }}.zip\` — macOS app, Apple Silicon, ad-hoc signed. Unzip and run."
+            echo "- \`nvALT-iOS-unsigned-${{ steps.ver.outputs.short_sha }}.ipa\` — iOS / iPadOS app, **unsigned**. Sideload with AltStore, Sideloadly, or re-sign with your own developer profile."
+            echo
+            echo "Built by [\`${{ github.workflow }}\`](https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }})."
+          } > release_notes.md
+          cat release_notes.md
+
+      - name: Create / update GitHub release
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          TAG: ${{ steps.ver.outputs.tag }}
+        run: |
+          set -e
+          if gh release view "$TAG" --repo "$GITHUB_REPOSITORY" >/dev/null 2>&1; then
+            echo "Release $TAG already exists — updating notes and uploading (clobber) artifacts."
+            gh release edit "$TAG" \
+              --repo "$GITHUB_REPOSITORY" \
+              --notes-file release_notes.md \
+              --title "nvALT build ${{ steps.ver.outputs.short_sha }}"
+            gh release upload "$TAG" \
+              --repo "$GITHUB_REPOSITORY" --clobber \
+              dist/*.zip dist/*.ipa
+          else
+            gh release create "$TAG" \
+              --repo "$GITHUB_REPOSITORY" \
+              --target "$GITHUB_SHA" \
+              --title "nvALT build ${{ steps.ver.outputs.short_sha }}" \
+              --notes-file release_notes.md \
+              dist/*.zip dist/*.ipa
+          fi
+
+      - name: Upload artifacts (also as workflow artifacts)
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: nvALT-builds-${{ steps.ver.outputs.short_sha }}
+          path: dist/
+          if-no-files-found: warn
+          retention-days: 14
