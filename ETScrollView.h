@@ -1,24 +1,14 @@
 //
-//  ETScrollView.m
+//  ETScrollView.h
 //  Notation
 //
-//  Created by elasticthreads on 3/14/11.
+//  Thin NSScrollView subclass that exists only so its scrolling behaviour
+//  (autohide, non-elastic horizontal, elastic vertical) can be set in code
+//  rather than configured per-XIB across six localizations. AppKit handles
+//  the scroller chrome and dark-mode adaptation.
 //
 
-#import <Foundation/Foundation.h>
+#import <Cocoa/Cocoa.h>
 
-
-
-@interface ETScrollView : NSScrollView {
-    Class scrollerClass;
-    BOOL needsOverlayTiling;
-}
-
-//- (void)setNeedsOverlayTiling:(BOOL)overlay;
-//- (void)setScrollerClassWithString:(NSString *)scrollerClassName;
-#if MAC_OS_X_VERSION_MAX_ALLOWED >= MAC_OS_X_VERSION_10_7
-- (void)changeUseETScrollbarsOnLion;
-- (void)settingChangedForSelectorString:(NSString*)selectorString;
-#endif
-
+@interface ETScrollView : NSScrollView
 @end

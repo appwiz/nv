@@ -12,7 +12,6 @@
 
 #import "FocusRingScrollView.h"
 #import "GlobalPrefs.h"
-#import "BodyScroller.h"
 #import "LinkingEditor.h"
 
 @implementation FocusRingScrollView
@@ -21,37 +20,10 @@
 - (id)init {
 	if ([super init]) {
 		hasFocus = NO;
-		
-	}
-	return self;
-}
 
-#if DELAYED_LAYOUT
-- (id) initWithCoder: (NSCoder *) decoder
-{
-	BOOL useSetClass = NO;
-	BOOL useDecodeClassName = NO;
-	
-	if ([decoder respondsToSelector: @selector(setClass:forClassName:)] ) {
-		useSetClass = YES;
-		[(NSKeyedUnarchiver *)decoder setClass:[BodyScroller class]  forClassName: @"NSScroller"];
-		
-	} else if ( [decoder respondsToSelector: @selector(decodeClassName:asClassName:)] ) {
-		useDecodeClassName = YES;
-		[(NSUnarchiver *) decoder decodeClassName: @"NSScroller"  asClassName: @"BodyScroller"];
 	}
-	
-	self = [super initWithCoder:decoder];
-	
-	if (useSetClass) {
-		[(NSKeyedUnarchiver *) decoder setClass: [NSScroller class] forClassName: @"NSScroller"];
-	} else if ( useDecodeClassName ) {
-		[(NSUnarchiver *) decoder decodeClassName: @"NSScroller" asClassName: @"NSScroller"];
-	}
-	
 	return self;
 }
-#endif
 
 - (void)awakeFromNib {
 	window = [self window];

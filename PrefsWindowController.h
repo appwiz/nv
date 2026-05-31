@@ -22,7 +22,6 @@
 <NSWindowDelegate, NSToolbarDelegate>
 #endif
 {
-    IBOutlet NSButton *useETScrollbarsOnLionButton;
     IBOutlet NSPopUpButton *folderLocationsMenuButton;
     IBOutlet NSTextField *bodyTextFontField;
     IBOutlet NSMatrix *tabKeyRadioMatrix;
@@ -63,7 +62,6 @@
 }
 - (void)showWindow:(id)sender;
 
-- (IBAction)changedUseETScrollbarsOnLion:(id)sender;
 - (IBAction)changedBackgroundTextColorWell:(id)sender;
 - (IBAction)changedForegroundTextColorWell:(id)sender;
 - (IBAction)changedHighlightSearchTerms:(id)sender;	
