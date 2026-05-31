@@ -30,7 +30,6 @@
 		212DCA470A6AD28700F74E46 /* EncodingsManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 212DCA460A6AD28700F74E46 /* EncodingsManager.m */; };
 		212DCF610A6DEECB00F74E46 /* DeletionManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 212DCF600A6DEECB00F74E46 /* DeletionManager.m */; };
 		213621ED0B92413F008C0830 /* FindPanel.nib in Resources */ = {isa = PBXBuildFile; fileRef = 213621E70B92413F008C0830 /* FindPanel.nib */; };
-		213621F20B92414F008C0830 /* MultiTextFinder.m in Sources */ = {isa = PBXBuildFile; fileRef = 213621F00B92414F008C0830 /* MultiTextFinder.m */; };
 		213623FC0B92AA6E008C0830 /* Sparkle.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 213623E50B92AA4E008C0830 /* Sparkle.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
 		213FAD530B3C6B52004C74BD /* FSExchangeObjectsCompat.c in Sources */ = {isa = PBXBuildFile; fileRef = 213FAD520B3C6B52004C74BD /* FSExchangeObjectsCompat.c */; };
 		2143D2F410E953F500127EA6 /* SnapBackPressed.tif in Resources */ = {isa = PBXBuildFile; fileRef = 2143D2F210E953F400127EA6 /* SnapBackPressed.tif */; };
@@ -338,8 +337,6 @@
 		212DCA460A6AD28700F74E46 /* EncodingsManager.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = EncodingsManager.m; sourceTree = "<group>"; };
 		212DCF5F0A6DEECB00F74E46 /* DeletionManager.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = DeletionManager.h; sourceTree = "<group>"; };
 		212DCF600A6DEECB00F74E46 /* DeletionManager.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = DeletionManager.m; sourceTree = "<group>"; };
-		213621EF0B92414F008C0830 /* MultiTextFinder.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = MultiTextFinder.h; sourceTree = "<group>"; };
-		213621F00B92414F008C0830 /* MultiTextFinder.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = MultiTextFinder.m; sourceTree = "<group>"; };
 		213623E50B92AA4E008C0830 /* Sparkle.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Sparkle.framework; sourceTree = "<group>"; };
 		21395BB30B7FDB85007BCFAA /* Notation.freqorder */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text; path = Notation.freqorder; sourceTree = "<group>"; };
 		21395BC60B7FDD35007BCFAA /* Notation.launchorder */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text; path = Notation.launchorder; sourceTree = "<group>"; };
@@ -724,7 +721,6 @@
 		5CE5B00C1422796900FB554C /* zh */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = zh; path = zh.lproj/PTKeyComboPanel.xib; sourceTree = "<group>"; };
 		5CE5B00E1422796900FB554C /* de */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = de; path = de.lproj/PTKeyComboPanel.xib; sourceTree = "<group>"; };
 		5CE5B0101422796900FB554C /* it */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = it; path = it.lproj/PTKeyComboPanel.xib; sourceTree = "<group>"; };
-		5CE6624913185202002039D0 /* NSTextFinder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NSTextFinder.h; sourceTree = "<group>"; };
 		5CF01B02132975910083D66E /* greyscrollervertbottom.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = greyscrollervertbottom.tiff; sourceTree = "<group>"; };
 		5CF01B04132975910083D66E /* greyscrollervertfill.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = greyscrollervertfill.tiff; sourceTree = "<group>"; };
 		5CF01B06132975910083D66E /* greyscrollerverttop.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = greyscrollerverttop.tiff; sourceTree = "<group>"; };
@@ -858,8 +854,6 @@
 				217D4281096545A000E84749 /* LabelObject.m */,
 				21A6E6FB0974204F008436A9 /* LabelsListController.h */,
 				21A6E6FC0974204F008436A9 /* LabelsListController.m */,
-				213621EF0B92414F008C0830 /* MultiTextFinder.h */,
-				213621F00B92414F008C0830 /* MultiTextFinder.m */,
 				2114C13D0957732800614E74 /* NotationController.h */,
 				2114C13E0957732800614E74 /* NotationController.m */,
 				21B548F9112F307E00E163A1 /* NotationDirectoryManager.h */,
@@ -1251,7 +1245,6 @@
 				21BD2ECF10DAF31500BA3DF6 /* LinearDividerShader.m */,
 				2114C23B095883A600614E74 /* NSData_transformations.h */,
 				2114C23C095883A600614E74 /* NSData_transformations.m */,
-				5CE6624913185202002039D0 /* NSTextFinder.h */,
 				214495040ADC7F4F00E2A2B6 /* SFPasswordAssistantInspectorController.h */,
 				213FAD510B3C6B52004C74BD /* FSExchangeObjectsCompat.h */,
 				213FAD520B3C6B52004C74BD /* FSExchangeObjectsCompat.c */,
@@ -1649,7 +1642,6 @@
 				210A10690B66720F005BE981 /* BookmarksTable.m in Sources */,
 				21E6B09F0B6E6D18001ABEDC /* URLGetter.m in Sources */,
 				21582DC50B73F59B00711663 /* BookmarksController.m in Sources */,
-				213621F20B92414F008C0830 /* MultiTextFinder.m in Sources */,
 				21469C8C0BEBA6A10094835F /* TemporaryFileCache.m in Sources */,
 				2182B39A106B2296008641E4 /* RBSplitSubview.m in Sources */,
 				2182B39B106B2296008641E4 /* RBSplitView.m in Sources */,
