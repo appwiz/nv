@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="11201" systemVersion="16A323" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none">
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="24765" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none">
     <dependencies>
         <deployment version="1060" identifier="macosx"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="11201"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="24765"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
         <customObject id="-2" userLabel="File's Owner" customClass="NotationPrefsViewController">
@@ -40,7 +41,7 @@
             <rect key="frame" x="0.0" y="0.0" width="374" height="375"/>
             <autoresizingMask key="autoresizingMask"/>
             <subviews>
-                <tabView misplaced="YES" id="6">
+                <tabView id="6">
                     <rect key="frame" x="-7" y="-12" width="393" height="385"/>
                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                     <font key="font" metaFont="system"/>
@@ -55,7 +56,7 @@
                                         <autoresizingMask key="autoresizingMask"/>
                                         <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" state="on" borderStyle="bezel" drawsBackground="YES" id="239">
                                             <font key="font" metaFont="system"/>
-                                            <color key="textColor" name="textColor" catalog="System" colorSpace="catalog"/>
+                                            <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
                                             <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                                         </textFieldCell>
                                     </textField>
@@ -82,7 +83,7 @@
                                         <autoresizingMask key="autoresizingMask"/>
                                         <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" state="on" borderStyle="bezel" drawsBackground="YES" id="240">
                                             <font key="font" metaFont="system"/>
-                                            <color key="textColor" name="textColor" catalog="System" colorSpace="catalog"/>
+                                            <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
                                             <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                                         </textFieldCell>
                                     </textField>
@@ -129,7 +130,7 @@
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                         <popUpButtonCell key="cell" type="push" title="5 minutes" bezelStyle="rounded" alignment="left" lineBreakMode="truncatingTail" state="on" borderStyle="borderAndBezel" tag="5" inset="2" selectedItem="192" id="244">
                                             <behavior key="behavior" lightByBackground="YES" lightByGray="YES"/>
-                                            <font key="font" metaFont="menu"/>
+                                            <font key="font" metaFont="message"/>
                                             <menu key="menu" title="OtherViews" id="190">
                                                 <items>
                                                     <menuItem title="minute" tag="1" id="191"/>
@@ -171,8 +172,9 @@
                                     <textField verticalHuggingPriority="750" id="276">
                                         <rect key="frame" x="34" y="58" width="156" height="64"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                        <textFieldCell key="cell" controlSize="small" sendsActionOnEndEditing="YES" title="Warning: Note contents will be encrypted with HTTPS during transmission, but stored in clear text. Notes &gt;400k in size may have issues with sync." id="277">
+                                        <textFieldCell key="cell" controlSize="small" sendsActionOnEndEditing="YES" id="277">
                                             <font key="font" metaFont="smallSystem"/>
+                                            <string key="title">Warning: Note contents will be encrypted with HTTPS during transmission, but stored in clear text. Notes &gt;400k in size may have issues with sync.</string>
                                             <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
                                             <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                                         </textFieldCell>
@@ -189,19 +191,18 @@
                                         <rect key="frame" x="80" y="111" width="90" height="92"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <clipView key="contentView" id="3Ce-oH-f7i">
-                                            <rect key="frame" x="1" y="0.0" width="74" height="91"/>
+                                            <rect key="frame" x="1" y="1" width="88" height="90"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <tableView verticalHuggingPriority="750" allowsExpansionToolTips="YES" columnAutoresizingStyle="lastColumnOnly" columnReordering="NO" columnResizing="NO" multipleSelection="NO" autosaveColumns="NO" rowHeight="14" headerView="253" id="10" customClass="FileKindListView">
-                                                    <rect key="frame" x="0.0" y="0.0" width="77" height="74"/>
-                                                    <autoresizingMask key="autoresizingMask"/>
+                                                    <rect key="frame" x="0.0" y="0.0" width="106" height="73"/>
+                                                    <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                     <size key="intercellSpacing" width="3" height="2"/>
                                                     <color key="backgroundColor" name="controlBackgroundColor" catalog="System" colorSpace="catalog"/>
                                                     <color key="gridColor" name="gridColor" catalog="System" colorSpace="catalog"/>
                                                     <tableColumns>
                                                         <tableColumn width="73.755369999999999" minWidth="60.147950000000002" maxWidth="77" id="11">
                                                             <tableHeaderCell key="headerCell" lineBreakMode="truncatingTail" borderStyle="border" alignment="left" title="Extension">
-                                                                <font key="font" metaFont="smallSystem"/>
                                                                 <color key="textColor" name="headerTextColor" catalog="System" colorSpace="catalog"/>
                                                                 <color key="backgroundColor" white="0.33333299" alpha="1" colorSpace="calibratedWhite"/>
                                                             </tableHeaderCell>
@@ -218,16 +219,16 @@
                                                 </tableView>
                                             </subviews>
                                         </clipView>
-                                        <scroller key="horizontalScroller" hidden="YES" verticalHuggingPriority="750" controlSize="small" horizontal="YES" id="252">
+                                        <scroller key="horizontalScroller" hidden="YES" wantsLayer="YES" verticalHuggingPriority="750" controlSize="small" horizontal="YES" id="252">
                                             <rect key="frame" x="-100" y="-100" width="128" height="15"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                         </scroller>
-                                        <scroller key="verticalScroller" verticalHuggingPriority="750" controlSize="small" horizontal="NO" id="251">
-                                            <rect key="frame" x="75" y="17" width="14" height="74"/>
+                                        <scroller key="verticalScroller" wantsLayer="YES" verticalHuggingPriority="750" doubleValue="1" controlSize="small" horizontal="NO" id="251">
+                                            <rect key="frame" x="74" y="18" width="15" height="73"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                         </scroller>
                                         <tableHeaderView key="headerView" id="253">
-                                            <rect key="frame" x="0.0" y="0.0" width="77" height="17"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="106" height="17"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                         </tableHeaderView>
                                     </scrollView>
@@ -235,19 +236,18 @@
                                         <rect key="frame" x="199" y="111" width="90" height="92"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <clipView key="contentView" id="WAp-BH-iQe">
-                                            <rect key="frame" x="1" y="0.0" width="74" height="91"/>
+                                            <rect key="frame" x="1" y="1" width="88" height="90"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <tableView verticalHuggingPriority="750" allowsExpansionToolTips="YES" columnAutoresizingStyle="lastColumnOnly" columnReordering="NO" columnResizing="NO" multipleSelection="NO" autosaveColumns="NO" rowHeight="14" headerView="256" id="13" customClass="FileKindListView">
-                                                    <rect key="frame" x="0.0" y="0.0" width="77" height="74"/>
-                                                    <autoresizingMask key="autoresizingMask"/>
+                                                    <rect key="frame" x="0.0" y="0.0" width="106" height="73"/>
+                                                    <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                     <size key="intercellSpacing" width="3" height="2"/>
                                                     <color key="backgroundColor" name="controlBackgroundColor" catalog="System" colorSpace="catalog"/>
                                                     <color key="gridColor" name="gridColor" catalog="System" colorSpace="catalog"/>
                                                     <tableColumns>
                                                         <tableColumn width="73.62012" minWidth="55.62012" maxWidth="74" id="14">
                                                             <tableHeaderCell key="headerCell" lineBreakMode="truncatingTail" borderStyle="border" alignment="left" title="File Type">
-                                                                <font key="font" metaFont="smallSystem"/>
                                                                 <color key="textColor" name="headerTextColor" catalog="System" colorSpace="catalog"/>
                                                                 <color key="backgroundColor" white="0.33333299" alpha="1" colorSpace="calibratedWhite"/>
                                                             </tableHeaderCell>
@@ -264,21 +264,21 @@
                                                 </tableView>
                                             </subviews>
                                         </clipView>
-                                        <scroller key="horizontalScroller" hidden="YES" verticalHuggingPriority="750" controlSize="small" horizontal="YES" id="255">
+                                        <scroller key="horizontalScroller" hidden="YES" wantsLayer="YES" verticalHuggingPriority="750" controlSize="small" horizontal="YES" id="255">
                                             <rect key="frame" x="-100" y="-100" width="128" height="15"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                         </scroller>
-                                        <scroller key="verticalScroller" verticalHuggingPriority="750" controlSize="small" horizontal="NO" id="254">
-                                            <rect key="frame" x="75" y="17" width="14" height="74"/>
+                                        <scroller key="verticalScroller" wantsLayer="YES" verticalHuggingPriority="750" doubleValue="1" controlSize="small" horizontal="NO" id="254">
+                                            <rect key="frame" x="74" y="18" width="15" height="73"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                         </scroller>
                                         <tableHeaderView key="headerView" id="256">
-                                            <rect key="frame" x="0.0" y="0.0" width="77" height="17"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="106" height="17"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                         </tableHeaderView>
                                     </scrollView>
                                     <textField verticalHuggingPriority="750" id="18">
-                                        <rect key="frame" x="42" y="206" width="265" height="22"/>
+                                        <rect key="frame" x="20" y="240" width="265" height="22"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <textFieldCell key="cell" sendsActionOnEndEditing="YES" alignment="left" title="Recognize individual files with attributes:" id="218">
                                             <font key="font" metaFont="system"/>
@@ -287,7 +287,7 @@
                                         </textFieldCell>
                                     </textField>
                                     <textField verticalHuggingPriority="750" id="15">
-                                        <rect key="frame" x="42" y="236" width="305" height="33"/>
+                                        <rect key="frame" x="20" y="8" width="340" height="33"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <textFieldCell key="cell" sendsActionOnEndEditing="YES" title="* Using separate files allows Spotlight integration, but wastes disk space." id="216">
                                             <font key="font" metaFont="smallSystem"/>
@@ -353,7 +353,7 @@
                                         </connections>
                                     </button>
                                     <textField verticalHuggingPriority="750" id="92">
-                                        <rect key="frame" x="42" y="317" width="208" height="17"/>
+                                        <rect key="frame" x="10" y="305" width="200" height="17"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <textFieldCell key="cell" sendsActionOnEndEditing="YES" alignment="right" title="Store and read notes on disk as:" id="222">
                                             <font key="font" metaFont="system"/>
@@ -362,7 +362,7 @@
                                         </textFieldCell>
                                     </textField>
                                     <button id="93">
-                                        <rect key="frame" x="43" y="51" width="312" height="18"/>
+                                        <rect key="frame" x="20" y="270" width="340" height="18"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <buttonCell key="cell" type="check" title="Confirm note files removed in the Finder" bezelStyle="regularSquare" imagePosition="left" alignment="left" enabled="NO" inset="2" id="223">
                                             <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
@@ -372,12 +372,12 @@
                                             <action selector="changedFileDeletionWarningSettings:" target="-2" id="95"/>
                                         </connections>
                                     </button>
-                                    <popUpButton verticalHuggingPriority="750" tag="4" id="98">
-                                        <rect key="frame" x="42" y="285" width="282" height="26"/>
+                                    <popUpButton tag="4" verticalHuggingPriority="750" id="98">
+                                        <rect key="frame" x="215" y="300" width="148" height="26"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <popUpButtonCell key="cell" type="push" title="Single Database (Allow Encryption)" bezelStyle="rounded" alignment="left" lineBreakMode="truncatingTail" state="on" borderStyle="borderAndBezel" inset="2" arrowPosition="arrowAtCenter" preferredEdge="maxY" selectedItem="100" id="224">
                                             <behavior key="behavior" lightByBackground="YES" lightByGray="YES"/>
-                                            <font key="font" metaFont="menu"/>
+                                            <font key="font" metaFont="message"/>
                                             <menu key="menu" title="OtherViews" id="99">
                                                 <items>
                                                     <menuItem title="Single Database (Allow Encryption)" state="on" id="100"/>

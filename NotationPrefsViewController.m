@@ -82,14 +82,22 @@ enum {VERIFY_NOT_ATTEMPTED, VERIFY_FAILED, VERIFY_IN_PROGRESS, VERIFY_SUCCESS};
 	[super dealloc];
 }
 
+- (NSTabView *)nv_findTabViewInView:(NSView *)view {
+    if ([view isKindOfClass:[NSTabView class]]) return (NSTabView *)view;
+    for (NSView *sub in [view subviews]) {
+        NSTabView *found = [self nv_findTabViewInView:sub];
+        if (found) return found;
+    }
+    return nil;
+}
+
 - (void)awakeFromNib {
     didAwakeFromNib = YES;
     [allowedExtensionsTable setDataSource:self];
     [allowedTypesTable setDataSource:self];
     [allowedExtensionsTable setDelegate:self];
     [allowedTypesTable setDelegate:self];
-	
-	
+
 	//this additional management for sync prefs, plus the need for per-service settings and externally triggering updates really demands its own class
 	NSNotificationCenter *center = [NSNotificationCenter defaultCenter];
 	if (syncAccountField) [center addObserver:self selector:@selector(syncCredentialsDidChange:) name:NSControlTextDidChangeNotification object:syncAccountField];
@@ -98,6 +106,17 @@ enum {VERIFY_NOT_ATTEMPTED, VERIFY_FAILED, VERIFY_IN_PROGRESS, VERIFY_SUCCESS};
 		[center addObserver:self selector:@selector(syncEditingDidEnd:) name:NSControlTextDidEndEditingNotification object:syncPasswordField];
 	}
 	[center addObserver:self selector:@selector(initializeControls) name:NotationPrefsDidChangeNotification object:nil];
+
+    //drop the Synchronization sub-tab — Simplenote sync UI is being retired from the Notes pane.
+    NSTabView *innerTabView = [self nv_findTabViewInView:[self view]];
+    if (innerTabView) {
+        for (NSTabViewItem *item in [[[innerTabView tabViewItems] copy] autorelease]) {
+            NSString *label = [item label];
+            if ([label rangeOfString:@"sync" options:NSCaseInsensitiveSearch].location != NSNotFound) {
+                [innerTabView removeTabViewItem:item];
+            }
+        }
+    }
 
     [self initializeControls];
 }

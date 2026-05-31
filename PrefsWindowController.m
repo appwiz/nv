@@ -11,8 +11,6 @@
 
 #import "AppController.h"
 #import "PrefsWindowController.h"
-#import "PTKeyComboPanel.h"
-#import "PTKeyCombo.h"
 #import "NotationPrefsViewController.h"
 #import "ExternalEditorListController.h"
 #import "NSData_transformations.h"
@@ -78,24 +76,6 @@
 	NSLog(@"I need an update: %@", [menu description]);
 }
 
-- (IBAction)setAppShortcut:(id)sender {
-	[[PTKeyComboPanel sharedPanel] showSheetForHotkey:[prefsController appActivationHotKey] forWindow:window modalDelegate:self];
-}
-
-- (void)keyComboPanelEnded:(PTKeyComboPanel*)panel {
-	PTKeyCombo *oldKeyCombo = [[prefsController appActivationKeyCombo] retain];
-	[prefsController setAppActivationKeyCombo:[panel keyCombo] sender:self];
-	
-	[appShortcutField setStringValue:[[prefsController appActivationKeyCombo] description]];
-		
-	if (![prefsController registerAppActivationKeystrokeWithTarget:[NSApp delegate] selector:@selector(toggleNVActivation:)]) {
-		[prefsController setAppActivationKeyCombo:oldKeyCombo sender:self];
-		NSLog(@"reverting to old (hopefully working key combo");
-	}
-	
-	[oldKeyCombo release];
-}
-
 - (IBAction)changeBodyFont:(id)sender {
 	[[NSFontManager sharedFontManager] setSelectedFont:[prefsController noteBodyFont] isMultiple:NO];
     [[NSFontManager sharedFontManager] orderFrontFontPanel:self];
@@ -139,7 +119,7 @@
     }
     [centerStyle setMaximumLineHeight:lh];
 	NSDictionary *attributes = [NSDictionary dictionaryWithObjectsAndKeys:font ? font : [NSFont systemFontOfSize:12.0],
-		NSFontAttributeName, [NSColor blackColor], NSForegroundColorAttributeName, centerStyle, NSParagraphStyleAttributeName, nil];
+		NSFontAttributeName, [NSColor labelColor], NSForegroundColorAttributeName, centerStyle, NSParagraphStyleAttributeName, nil];
 
 	NSString *fontNameAndSize = font ? [NSString stringWithFormat:@"%@ %g", [font fontName], [font pointSize]] : @"Unknown";
 	NSAttributedString *attributedString = [[NSAttributedString alloc] initWithString:fontNameAndSize attributes:attributes];
@@ -205,29 +185,11 @@
   }
 }
 
-- (IBAction)changedTableText:(id)sender {
-	if (sender == tableTextMenuButton) {
-		if ([tableTextSizeField selectedTag] != 3) [tableTextSizeField setFloatValue:[prefsController tableFontSize]];
-		[self performSelector:@selector(changedTableText:) withObject:nil afterDelay:0.0];
-	} else {
-		[window makeFirstResponder:window];
-		float newFontSize = 0.0;
-		switch ([tableTextMenuButton selectedTag]) {
-			case 1:
-				newFontSize = [NSFont smallSystemFontSize];
-				break;
-			case 2:
-				newFontSize = /*[NSFont systemFontSize]*/ SYSTEM_LIST_FONT_SIZE;
-				break;
-			case 3:
-				newFontSize = [tableTextSizeField floatValue];
-		}
-		[tableTextSizeField setHidden:([tableTextMenuButton selectedTag] != 3)];
-		if (![tableTextSizeField isHidden])
-			[tableTextSizeField selectText:sender];
-		
-		[prefsController setTableFontSize:newFontSize sender:self];
-	}	
+- (IBAction)changedListFontSize:(id)sender {
+	float newSize = ([useLargeFontButton state] == NSControlStateValueOn)
+		? SYSTEM_LIST_FONT_SIZE
+		: [NSFont smallSystemFontSize];
+	[prefsController setTableFontSize:newSize sender:self];
 }
 
 - (IBAction)changedTitleCompletion:(id)sender {
@@ -306,11 +268,6 @@
 
 	if ([folderLocationsMenuButton numberOfItems] > 0)
 		[folderLocationsMenuButton selectItemAtIndex:0];
-}
-
-- (IBAction)changedRTL:(id)sender {
-	[prefsController setRTL:[rtlButton state] sender:self];
-	[[NSApp delegate] updateRTL];
 }
 
 - (BOOL)getNewNotesRefFromOpenPanel:(FSRef*)notesDirectoryRef returnedPath:(NSString**)path {
@@ -392,21 +349,19 @@
 - (void)awakeFromNib {
 	
 	[window setDelegate:self];
-	
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(changedTableText:)
-												 name:NSControlTextDidEndEditingNotification object:tableTextSizeField];
-    
+
     [tabKeyRadioMatrix setState:[prefsController tabKeyIndents] atRow:0 column:0];
     [tabKeyRadioMatrix setState:![prefsController tabKeyIndents] atRow:1 column:0];
-    
+
     float fontSize = [prefsController tableFontSize];
-    int fontButtonIndex = 3;
-    if (fontSize == [NSFont smallSystemFontSize]) fontButtonIndex = 0;
-    else if (fontSize == /*[NSFont systemFontSize]*/ SYSTEM_LIST_FONT_SIZE) fontButtonIndex = 1;
-    [tableTextMenuButton selectItemAtIndex:fontButtonIndex];
-    [tableTextSizeField setFloatValue:fontSize];
-    [tableTextSizeField setHidden:(fontButtonIndex != 3)];
-    
+    BOOL useLarge = (fontSize >= SYSTEM_LIST_FONT_SIZE);
+    [useLargeFontButton setState:(useLarge ? NSControlStateValueOn : NSControlStateValueOff)];
+    if (!useLarge && fontSize != [NSFont smallSystemFontSize]) {
+        [prefsController setTableFontSize:[NSFont smallSystemFontSize] sender:self];
+    } else if (useLarge && fontSize != SYSTEM_LIST_FONT_SIZE) {
+        [prefsController setTableFontSize:SYSTEM_LIST_FONT_SIZE sender:self];
+    }
+
     [externalEditorMenuButton setMenu:[[ExternalEditorListController sharedInstance] addEditorPrefsMenu]];
     [self _selectDefaultExternalEditor];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(changedExternalEditorsMenu:) 
@@ -420,9 +375,7 @@
     [autoSuggestLinksButton setState:[prefsController linksAutoSuggested]];
 	[softTabsButton setState:[prefsController softTabs]];
 	[makeURLsClickable setState:[prefsController URLsAreClickable]];
-    [rtlButton setState:[prefsController rtl]];
     [self previewNoteBodyFont];
-	[appShortcutField setStringValue:[[prefsController appActivationKeyCombo] description]];
 	[searchHighlightColorWell setColor:[prefsController searchTermHighlightColorRaw:YES]];
 	[highlightSearchTermsButton setState:[prefsController highlightSearchTerms]];
     [maxWidthSlider setDoubleValue:[[NSUserDefaults standardUserDefaults] doubleForKey:@"NoteBodyMaxWidth"]];
@@ -443,11 +396,8 @@
 		[togDockButton setHidden:YES];
 //		[togDockLabel setHidden:YES];
 	}
-    //for Brett's Markdownify/Readability import
 	[useMarkdownImportButton setState:[prefsController useMarkdownImport]];
-	[useReadabilityButton setState:[prefsController useReadability]];
-	[useReadabilityButton setEnabled:[useMarkdownImportButton state]];
-	
+
     [altRowsButton setState:[prefsController alternatingRows]];
     [showGridButton setState:[prefsController showGrid]];
     [autoPairButton setState:[prefsController useAutoPairing]];
@@ -461,13 +411,18 @@
     toolbar = [[NSToolbar alloc] initWithIdentifier:@"preferencePanes"];
     [toolbar setDelegate:self];
     [toolbar setAllowsUserCustomization:NO];
-    [toolbar setAutosavesConfiguration:NO]; 
+    [toolbar setAutosavesConfiguration:NO];
     [window setToolbar:toolbar];
     [toolbar release];  //setToolbar retains the toolbar we pass, so release the one we used.
-	
+
 	[window setShowsToolbarButton:NO];
+	if (@available(macOS 11.0, *)) {
+		[window setToolbarStyle:NSWindowToolbarStyleExpanded];
+	}
+	[window setTitle:NSLocalizedString(@"Settings", nil)];
+	[window setContentMinSize:NSMakeSize(500, 200)];
     [self switchViews:nil];  //select last selected pane by default
-    
+
 }
 
 
@@ -500,9 +455,11 @@
     }
 	
     NSView *prefsView = nil;
-	
-    [window setTitle:[[NSBundle mainBundle] localizedStringForKey:sender value:@"" table:nil]];
-	
+
+	if (@available(macOS 11.0, *)) {
+		[window setSubtitle:[[NSBundle mainBundle] localizedStringForKey:sender value:@"" table:nil]];
+	}
+
     if ([sender isEqualToString:@"General"]){
          prefsView = generalView;
     } else if([sender isEqualToString:@"Notes"]) {
@@ -521,27 +478,27 @@
 	NSAssert(prefsView != nil, @"switching to a nil prefs view!");
     
 	[[NSFontPanel sharedFontPanel] close];
-	
-	//fix this math to convert between window and view coordinates for resolution independence
-	
-	float userSpaceScaleFactor = [window userSpaceScaleFactor];
-	
-    //to stop flicker, we make a temp blank view.
-	
-	NSRect windowContentFrame = ScaleRectWithFactor([[window contentView] frame], userSpaceScaleFactor);
+
+    //swap to a blank temp view first to avoid flicker while we resize the window.
     NSView *tempView = [[NSView alloc] initWithFrame:[[window contentView] frame]];
     [window setContentView:tempView];
     [tempView release];
-    
-    NSRect newFrame = [window frame];
-	NSRect viewFrameForWindow = ScaleRectWithFactor([prefsView frame], userSpaceScaleFactor);
-    newFrame.size.height = viewFrameForWindow.size.height + ([window frame].size.height - windowContentFrame.size.height);
-    newFrame.size.width = viewFrameForWindow.size.width;
-    newFrame.origin.y += (windowContentFrame.size.height - viewFrameForWindow.size.height);
-    	
-    [window setShowsResizeIndicator:YES];
+
+    NSSize viewSize = [prefsView frame].size;
+    CGFloat minContentWidth = [window contentMinSize].width;
+    CGFloat contentWidth  = MAX(viewSize.width, minContentWidth);
+    CGFloat contentHeight = viewSize.height;
+
+    NSRect newFrame = [window frameRectForContentRect:NSMakeRect(0, 0, contentWidth, contentHeight)];
+    NSRect oldFrame = [window frame];
+    newFrame.origin.x = oldFrame.origin.x;
+    newFrame.origin.y = NSMaxY(oldFrame) - newFrame.size.height;
+
+    [window setShowsResizeIndicator:NO];
     [window setFrame:newFrame display:YES animate:YES];
 
+    //resize prefsView to fully fill the (possibly wider) content area before installing it.
+    [prefsView setFrame:NSMakeRect(0, 0, contentWidth, contentHeight)];
     [window setContentView:prefsView];
 }
 
@@ -604,11 +561,6 @@ NSRect ScaleRectWithFactor(NSRect rect, float factor) {
 
 - (IBAction)changedUseMarkdownImport:(id)sender {
 	[prefsController setUseMarkdownImport:[useMarkdownImportButton state] sender:self];
-	[useReadabilityButton setEnabled:[useMarkdownImportButton state]];
-}
-
-- (IBAction)changedUseReadability:(id)sender {
-	[prefsController setUseReadability:[useReadabilityButton state] sender:self];
 }
 
 - (IBAction)changedAltRows:(id)sender {
