@@ -22,6 +22,7 @@
 
 
 #import "GlobalPrefs.h"
+#import "BufferUtils.h"
 #import "NSData_transformations.h"
 #import "NotationPrefs.h"
 #import "BookmarksController.h"
@@ -109,7 +110,7 @@ NSString *HotKeyAppToFrontName = @"bring Notational Velocity to the foreground";
 static void sendCallbacksForGlobalPrefs(GlobalPrefs* self, SEL selector, id originalSender) {
     // FIXME
 	if (originalSender != self) {
-		self->runCallbacksIMP(self, @selector(notifyCallbacksForSelector:excludingSender:), 
+		((void (*)(id, SEL, SEL, id))self->runCallbacksIMP)(self, @selector(notifyCallbacksForSelector:excludingSender:),
 							 selector, originalSender);
 	}
 }
