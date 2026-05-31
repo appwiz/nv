@@ -390,16 +390,20 @@ terminate:
 }
 
 + (OSStatus)getDefaultNotesDirectoryRef:(FSRef*)notesDir {
-    FSRef appSupportFoundRef;
-    
-    OSErr err = FSFindFolder(kUserDomain, kApplicationSupportFolderType, kCreateFolder, &appSupportFoundRef);
+    FSRef parentFoundRef;
+
+    // Default first-launch location is ~/Documents/Notational Data
+    // (changed from ~/Library/Application Support to a more visible
+    // location now that the Preferences UI no longer exposes the
+    // "Notes folder" picker).
+    OSErr err = FSFindFolder(kUserDomain, kDocumentsFolderType, kCreateFolder, &parentFoundRef);
     if (err != noErr) {
-	NSLog(@"Unable to locate or create an Application Support directory: %d", err);
+	NSLog(@"Unable to locate or create a Documents directory: %d", err);
 	return err;
     } else {
-	//now try to get Notational Database directory
-	if ((err = CreateDirectoryIfNotPresent(&appSupportFoundRef, (CFStringRef)@"Notational Data", notesDir)) != noErr) {
-	    
+	//now try to get Notational Data directory
+	if ((err = CreateDirectoryIfNotPresent(&parentFoundRef, (CFStringRef)@"Notational Data", notesDir)) != noErr) {
+
 	    return err;
 	}
     }
