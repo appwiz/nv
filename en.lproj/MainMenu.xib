@@ -44,14 +44,6 @@
                             <menuItem isSeparatorItem="YES" id="196">
                                 <modifierMask key="keyEquivalentModifierMask" command="YES"/>
                             </menuItem>
-                            <menuItem title="Preferences…" keyEquivalent="," id="129">
-                                <connections>
-                                    <action selector="showPreferencesWindow:" target="213" id="381"/>
-                                </connections>
-                            </menuItem>
-                            <menuItem isSeparatorItem="YES" id="991">
-                                <modifierMask key="keyEquivalentModifierMask" command="YES"/>
-                            </menuItem>
                             <menuItem title="Check for Updates…" tag="88" id="990"/>
                             <menuItem isSeparatorItem="YES" id="143">
                                 <modifierMask key="keyEquivalentModifierMask" command="YES"/>
@@ -973,11 +965,6 @@ CA
                     <modifierMask key="keyEquivalentModifierMask"/>
                     <connections>
                         <action selector="orderFrontStandardAboutPanel:" target="-2" id="1546"/>
-                    </connections>
-                </menuItem>
-                <menuItem title="Preferences…" keyEquivalent="," id="1180">
-                    <connections>
-                        <action selector="showPreferencesWindow:" target="213" id="1181"/>
                     </connections>
                 </menuItem>
                 <menuItem title="Check for Updates…" tag="902" id="1206"/>

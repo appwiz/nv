@@ -21,7 +21,10 @@
 #import "NSString_NV.h"
 #import "SimplenoteSession.h"
 #import "NSCollection_utils.h"
-#import "NotationPrefsViewController.h"
+// NotationPrefsViewController removed in commit 20c. The
+// noteFilesCleanupSheetDidEnd:returnCode:contextInfo: callback below
+// is dead code in that world (nothing constructs a sheet that would
+// fire it). Casts to (id) keep it compiling without the import.
 #import "NSData_transformations.h"
 #import "NotationFileManager.h"
 #import "SecureTextEntryManager.h"
@@ -626,7 +629,7 @@ NSMutableDictionary *ServiceAccountDictInit(NotationPrefs *prefs, NSString* serv
 	NSAssert([(id)contextInfo respondsToSelector:@selector(notesStorageFormatInProgress)],
 			 @"can't get notesStorageFormatInProgress method for changing");
 
-	NSInteger newNoteStorageFormat = [(NotationPrefsViewController*)contextInfo notesStorageFormatInProgress];
+	NSInteger newNoteStorageFormat = [(id)contextInfo notesStorageFormatInProgress];
 	
 	if (returnCode != NSAlertAlternateReturn)
 		//didn't cancel
@@ -639,14 +642,14 @@ NSMutableDictionary *ServiceAccountDictInit(NotationPrefs *prefs, NSString* serv
 	//should we switch the currentFormatIDs of those notes to single-db? I guess.
 	
 	if ([(id)contextInfo respondsToSelector:@selector(notesStorageFormatDidChange)])
-		[(NotationPrefsViewController*)contextInfo notesStorageFormatDidChange];
+		[(id)contextInfo notesStorageFormatDidChange];
 	
 	if (returnCode != NSAlertAlternateReturn) {
 		//run queued method
 		NSAssert([(id)contextInfo respondsToSelector:@selector(runQueuedStorageFormatChangeInvocation)],
 				 @"can't get runQueuedStorageFormatChangeInvocation method for changing");
 
-		[(NotationPrefsViewController*)contextInfo runQueuedStorageFormatChangeInvocation];
+		[(id)contextInfo runQueuedStorageFormatChangeInvocation];
 	}
 }
 

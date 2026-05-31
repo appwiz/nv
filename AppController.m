@@ -18,7 +18,6 @@
 #import "AlienNoteImporter.h"
 #import "AppController_Importing.h"
 #import "NotationPrefs.h"
-#import "PrefsWindowController.h"
 #import "StatusBarView.h"
 #import "PassphrasePicker.h"
 #import "PassphraseChanger.h"
@@ -432,8 +431,7 @@ void outletObjectAwoke(id sender) {
 			   options:NSKeyValueObservingOptionNew
 			   context:NULL];
     NSDate *before = [NSDate date];
-	prefsWindowController = [[PrefsWindowController alloc] init];
-	
+
 	OSStatus err = noErr;
 	NotationController *newNotation = nil;
 	NSData *aliasData = [prefsController aliasDataForDefaultDirectory];
@@ -475,7 +473,7 @@ void outletObjectAwoke(id sender) {
 			//show nsopenpanel, defaulting to current default notes dir
 			FSRef notesDirectoryRef;
 		showOpenPanel:
-			if (![prefsWindowController getNewNotesRefFromOpenPanel:&notesDirectoryRef returnedPath:&location]) {
+			if (![self getNewNotesRefFromOpenPanel:&notesDirectoryRef returnedPath:&location]) {
 				//they cancelled the open panel, or it was unable to get the path/FSRef of the file
 //                [newNotation release];
 				goto terminateApp;
@@ -2210,11 +2208,6 @@ terminateApp:
 	[super dealloc];
 }
 
-- (IBAction)showPreferencesWindow:(id)sender {
-	[prefsWindowController showWindow:sender];
-}
-
-
 - (IBAction)makeActiveAndShowWindow:(id)sender{
     [self makeActiveAndShowWindowByFocusingControlField:NO andForcingActivation:YES];
 }
@@ -3473,6 +3466,64 @@ terminateApp:
     [np removeKeychainData];
     [np setStoresPasswordInKeychain:NO];
     [self refreshStatusBarEncryptionState];
+}
+
+#pragma mark - First-launch / Open-folder picker
+
+// Ported from PrefsWindowController (removed in commit 20c) so the
+// first-launch "choose a notes folder" fallback still works.
+- (BOOL)getNewNotesRefFromOpenPanel:(FSRef *)notesDirectoryRef
+                       returnedPath:(NSString **)path {
+    if (!notesDirectoryRef) {
+        NSLog(@"notesDirectoryRef is NULL!");
+        return NO;
+    }
+
+    NSString *startingDirectory = nil;
+    FSRef currentNotesDirectoryRef;
+    if ([[prefsController aliasDataForDefaultDirectory]
+            fsRefAsAlias:&currentNotesDirectoryRef]) {
+        NSString *resolvedPath = [[NSFileManager defaultManager]
+            pathWithFSRef:&currentNotesDirectoryRef];
+        if (resolvedPath) startingDirectory = resolvedPath;
+    }
+
+    NSOpenPanel *openPanel = [NSOpenPanel openPanel];
+    [openPanel setCanCreateDirectories:YES];
+    [openPanel setCanChooseFiles:NO];
+    [openPanel setCanChooseDirectories:YES];
+    [openPanel setResolvesAliases:YES];
+    [openPanel setAllowsMultipleSelection:NO];
+    [openPanel setTreatsFilePackagesAsDirectories:NO];
+    [openPanel setTitle:NSLocalizedString(@"Select a folder",
+                                          @"title of open panel for selecting a notes folder")];
+    [openPanel setPrompt:NSLocalizedString(@"Select",
+                                          @"title of open panel button to select a folder")];
+    [openPanel setMessage:NSLocalizedString(
+        @"Select the folder that Notational Velocity should use for reading and storing notes.",
+        nil)];
+    if (startingDirectory)
+        [openPanel setDirectoryURL:[NSURL fileURLWithPath:startingDirectory]];
+    [openPanel setAllowedFileTypes:nil];
+
+    if ([openPanel runModal] != NSFileHandlingPanelOKButton)
+        return NO;
+
+    CFStringRef filename = (CFStringRef)[[openPanel URL] path];
+    if (!filename) return NO;
+
+    if (path)
+        *path = [[[[openPanel URL] path] copy] autorelease];
+
+    CFURLRef url = CFURLCreateWithFileSystemPath(kCFAllocatorDefault,
+                                                 filename,
+                                                 kCFURLPOSIXPathStyle,
+                                                 true);
+    [(id)url autorelease];
+    if (!url || !CFURLGetFSRef(url, notesDirectoryRef))
+        return NO;
+
+    return YES;
 }
 
     @end

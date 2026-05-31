@@ -23,7 +23,6 @@
 @class EmptyView;
 @class NotesTableView;
 @class GlobalPrefs;
-@class PrefsWindowController;
 @class DualField;
 @class NVSplitView;
 @class NVTitlebarSyncAccessory;
@@ -96,7 +95,6 @@
 	NSMutableArray *pathsToOpenOnLaunch;
 	
     NSUndoManager *windowUndoManager;
-    PrefsWindowController *prefsWindowController;
     GlobalPrefs *prefsController;
     NotationController *notationController;
 
@@ -177,7 +175,7 @@ void outletObjectAwoke(id sender);
 - (NSString*)typedString;
 
 - (IBAction)showHelpDocument:(id)sender;
-- (IBAction)showPreferencesWindow:(id)sender;
+- (BOOL)getNewNotesRefFromOpenPanel:(FSRef *)notesDirectoryRef returnedPath:(NSString **)path;
 
 - (IBAction)pickBodyFont:(id)sender;
 - (IBAction)toggleNoteEncryption:(id)sender;
