@@ -21,24 +21,13 @@
 
 #define kStatusBarHeight 28.0
 
-@class StatusBarView;
-
-@protocol StatusBarViewFontDelegate <NSObject>
-- (void)statusBarView:(StatusBarView *)bar didReceiveFontChange:(NSFont *)newFont;
-@end
-
 @interface StatusBarView : NSView {
     NSButton *bodyFontButton;
-    NSImageView *lockImageView;
     NSTextField *noteCountField;
     NSButton *gearButton;
-    id<StatusBarViewFontDelegate> fontDelegate; // non-retained
 }
 
-@property(assign) id<StatusBarViewFontDelegate> fontDelegate;
-
 - (void)setBodyFont:(NSFont *)font;
-- (void)setEncrypted:(BOOL)encrypted;
 - (void)setNoteCount:(NSUInteger)count;
 
 - (void)setBodyFontTarget:(id)target action:(SEL)action;

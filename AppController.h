@@ -49,9 +49,9 @@
 #define TextilePreview 13373
 #endif
 
-@interface AppController : NSObject
+@interface AppController : NSResponder
 #if MAC_OS_X_VERSION_MAX_ALLOWED >= MAC_OS_X_VERSION_10_6
-<NSToolbarDelegate, NSTableViewDelegate, NSWindowDelegate, NSTextFieldDelegate, NSTextViewDelegate, StatusBarViewFontDelegate>
+<NSToolbarDelegate, NSTableViewDelegate, NSWindowDelegate, NSTextFieldDelegate, NSTextViewDelegate>
 #endif
 {
 	IBOutlet NSMenuItem *fsMenuItem;
@@ -101,7 +101,6 @@
     StatusBarView *statusBarView;
     PassphrasePicker *encryptionPicker;
     PassphraseChanger *encryptionChanger;
-    NSResponder *savedFirstResponderBeforeFontPanel;
 	
 //	SpaceSwitchingContext spaceSwitchCtx;
 	ViewLocationContext listUpdateViewCtx;
@@ -178,6 +177,7 @@ void outletObjectAwoke(id sender);
 - (BOOL)getNewNotesRefFromOpenPanel:(FSRef *)notesDirectoryRef returnedPath:(NSString **)path;
 
 - (IBAction)pickBodyFont:(id)sender;
+- (void)changeFont:(id)sender;
 - (IBAction)toggleNoteEncryption:(id)sender;
 - (IBAction)changeNotePassphrase:(id)sender;
 - (IBAction)forgetPassphraseInKeychain:(id)sender;

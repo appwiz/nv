@@ -3303,7 +3303,6 @@ terminateApp:
     NSRect sbFrame = NSMakeRect(0, 0, contentBounds.size.width, barH);
     statusBarView = [[StatusBarView alloc] initWithFrame:sbFrame];
     [statusBarView setAutoresizingMask:NSViewWidthSizable | NSViewMaxYMargin];
-    [statusBarView setFontDelegate:self];
     [statusBarView setBodyFontTarget:self action:@selector(pickBodyFont:)];
     [statusBarView setGearMenu:[self buildEncryptionGearMenu]];
     [content addSubview:statusBarView];
@@ -3320,8 +3319,6 @@ terminateApp:
 
 - (void)refreshStatusBarEncryptionState {
     if (!statusBarView) return;
-    NotationPrefs *np = [prefsController notationPrefs];
-    [statusBarView setEncrypted:[np doesEncryption]];
     // Rebuild the gear menu so item titles/enablement match current state.
     [statusBarView setGearMenu:[self buildEncryptionGearMenu]];
 }
@@ -3339,27 +3336,35 @@ terminateApp:
     NSFont *current = [prefsController noteBodyFont];
     if (current) [fm setSelectedFont:current isMultiple:NO];
 
-    // Park first-responder on the status bar so the Font panel's
-    // -changeFont: routes to its -changeFont: implementation, which
-    // calls back into our font-delegate method below.
-    savedFirstResponderBeforeFontPanel = [[window firstResponder] retain];
-    [window makeFirstResponder:statusBarView];
-
+    // AppController is the main window's delegate. Because it
+    // inherits from NSResponder, -changeFont: below will reach us
+    // via the responder chain when the user picks a font in the
+    // shared NSFontPanel.
     [fm orderFrontFontPanel:self];
 }
 
-- (void)statusBarView:(StatusBarView *)bar didReceiveFontChange:(NSFont *)newFont {
-    if (!newFont) return;
+- (void)changeFont:(id)sender {
     NSFontManager *fm = [NSFontManager sharedFontManager];
+    NSFont *current = [fm selectedFont];
+    if (!current) current = [prefsController noteBodyFont];
+    NSFont *newFont = [fm convertFont:current];
+    if (!newFont) return;
+
     NSFontTraitMask traits = [fm traitsOfFont:newFont];
     if ((traits & NSItalicFontMask) == NSItalicFontMask ||
         (traits & NSBoldFontMask) == NSBoldFontMask) {
+        // Bold/italic variants as the default would silently
+        // restyle existing notes — beep and ignore.
         NSBeep();
         return;
     }
     [prefsController setNoteBodyFont:newFont sender:self];
     // The settingChangedForSelectorString: callback path will
     // refresh the status bar's font label.
+}
+
+- (NSUInteger)validModesForFontPanel:(NSFontPanel *)fontPanel {
+    return NSFontPanelSizeModeMask | NSFontPanelCollectionModeMask;
 }
 
 #pragma mark Encryption gear menu
