@@ -20,8 +20,6 @@
 #import "NSCollection_utils.h"
 #import "GlobalPrefs.h"
 #import "NSString_NV.h"
-// AutoHyperlinks.framework removed for arm64 build; URL auto-detection is disabled.
-// #import <AutoHyperlinks/AutoHyperlinks.h>
 
 
 NSString *NVHiddenDoneTagAttributeName = @"NVDoneTag";
@@ -206,10 +204,8 @@ static BOOL _StringWithRangeIsProbablyObjC(NSString *string, NSRange blockRange)
 	if (!changedRange.length)
 		return;
 
-	// URL auto-detection via Foundation's NSDataDetector. Replaces the
-	// AutoHyperlinks framework (no arm64 slice; removed in the Apple
-	// Silicon port). The detector handles http/https/ftp/mailto/file
-	// URLs plus more aggressive forms like "example.com" automatically.
+	// URL auto-detection via NSDataDetector. Handles http/https/ftp/mailto/file
+	// URLs plus aggressive forms like "example.com" automatically.
 	static NSDataDetector *detector = nil;
 	if (!detector) {
 		NSError *err = nil;
