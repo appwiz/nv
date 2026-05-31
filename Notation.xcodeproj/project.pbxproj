@@ -253,6 +253,15 @@
 		B69E26F616F0B523001C6E4B /* Pencil@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = B69E26EE16F0B523001C6E4B /* Pencil@2x.png */; };
 		B69E26F716F0B523001C6E4B /* Search@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = B69E26EF16F0B523001C6E4B /* Search@2x.png */; };
 		D3EECA00106F66C70023D7F8 /* NVPasswordGenerator.m in Sources */ = {isa = PBXBuildFile; fileRef = D3EEC9FE106F66C70023D7F8 /* NVPasswordGenerator.m */; };
+
+		BBBBBB00BBBBBB00BBBBBB01 /* AppDelegate_iOS.m in Sources */ = {isa = PBXBuildFile; fileRef = AAAAAA00AAAAAA00AAAAAA03 /* AppDelegate_iOS.m */; };
+		BBBBBB00BBBBBB00BBBBBB02 /* SceneDelegate_iOS.m in Sources */ = {isa = PBXBuildFile; fileRef = AAAAAA00AAAAAA00AAAAAA05 /* SceneDelegate_iOS.m */; };
+		BBBBBB00BBBBBB00BBBBBB03 /* NVNote.m in Sources */ = {isa = PBXBuildFile; fileRef = AAAAAA00AAAAAA00AAAAAA07 /* NVNote.m */; };
+		BBBBBB00BBBBBB00BBBBBB04 /* NVNotesManager.m in Sources */ = {isa = PBXBuildFile; fileRef = AAAAAA00AAAAAA00AAAAAA09 /* NVNotesManager.m */; };
+		BBBBBB00BBBBBB00BBBBBB05 /* NoteListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AAAAAA00AAAAAA00AAAAAA0B /* NoteListViewController.m */; };
+		BBBBBB00BBBBBB00BBBBBB06 /* NoteEditorViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AAAAAA00AAAAAA00AAAAAA0D /* NoteEditorViewController.m */; };
+		BBBBBB00BBBBBB00BBBBBB07 /* NVSplitViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AAAAAA00AAAAAA00AAAAAA0F /* NVSplitViewController.m */; };
+		BBBBBB00BBBBBB00BBBBBB08 /* main_iOS.m in Sources */ = {isa = PBXBuildFile; fileRef = AAAAAA00AAAAAA00AAAAAA11 /* main_iOS.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -763,6 +772,24 @@
 		B69E26EF16F0B523001C6E4B /* Search@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Search@2x.png"; path = "Images/Search@2x.png"; sourceTree = "<group>"; };
 		D3EEC9FE106F66C70023D7F8 /* NVPasswordGenerator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NVPasswordGenerator.m; sourceTree = "<group>"; };
 		D3EEC9FF106F66C70023D7F8 /* NVPasswordGenerator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NVPasswordGenerator.h; sourceTree = "<group>"; };
+
+		AAAAAA00AAAAAA00AAAAAA02 /* AppDelegate_iOS.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate_iOS.h; sourceTree = "<group>"; };
+		AAAAAA00AAAAAA00AAAAAA03 /* AppDelegate_iOS.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate_iOS.m; sourceTree = "<group>"; };
+		AAAAAA00AAAAAA00AAAAAA04 /* SceneDelegate_iOS.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SceneDelegate_iOS.h; sourceTree = "<group>"; };
+		AAAAAA00AAAAAA00AAAAAA05 /* SceneDelegate_iOS.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SceneDelegate_iOS.m; sourceTree = "<group>"; };
+		AAAAAA00AAAAAA00AAAAAA06 /* NVNote.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NVNote.h; sourceTree = "<group>"; };
+		AAAAAA00AAAAAA00AAAAAA07 /* NVNote.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = NVNote.m; sourceTree = "<group>"; };
+		AAAAAA00AAAAAA00AAAAAA08 /* NVNotesManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NVNotesManager.h; sourceTree = "<group>"; };
+		AAAAAA00AAAAAA00AAAAAA09 /* NVNotesManager.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = NVNotesManager.m; sourceTree = "<group>"; };
+		AAAAAA00AAAAAA00AAAAAA0A /* NoteListViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NoteListViewController.h; sourceTree = "<group>"; };
+		AAAAAA00AAAAAA00AAAAAA0B /* NoteListViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = NoteListViewController.m; sourceTree = "<group>"; };
+		AAAAAA00AAAAAA00AAAAAA0C /* NoteEditorViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NoteEditorViewController.h; sourceTree = "<group>"; };
+		AAAAAA00AAAAAA00AAAAAA0D /* NoteEditorViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = NoteEditorViewController.m; sourceTree = "<group>"; };
+		AAAAAA00AAAAAA00AAAAAA0E /* NVSplitViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NVSplitViewController.h; sourceTree = "<group>"; };
+		AAAAAA00AAAAAA00AAAAAA0F /* NVSplitViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = NVSplitViewController.m; sourceTree = "<group>"; };
+		AAAAAA00AAAAAA00AAAAAA10 /* Info-iOS.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "Info-iOS.plist"; sourceTree = "<group>"; };
+		AAAAAA00AAAAAA00AAAAAA11 /* main_iOS.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main_iOS.m; sourceTree = "<group>"; };
+		AAAAAA00AAAAAA00AAAAAA99 /* nvALT iOS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "nvALT iOS.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -782,6 +809,14 @@
 				5C367EE91DA2C06F0043C8EC /* libcrypto.a in Frameworks */,
 				5C367F3D1DA2C2B20043C8EC /* libssl.a in Frameworks */,
 				2191926709C52AA600586B15 /* libz.dylib in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+
+		CCCCCC00CCCCCC00CCCCCC03 /* Frameworks (iOS) */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -916,6 +951,7 @@
 			isa = PBXGroup;
 			children = (
 				8D1107320486CEB800E47090 /* nvALT.app */,
+				AAAAAA00AAAAAA00AAAAAA99 /* nvALT iOS.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -1157,6 +1193,7 @@
 		29B97314FDCFA39411CA2CEA /* Notation */ = {
 			isa = PBXGroup;
 			children = (
+				AAAAAA00AAAAAA00AAAAAA01 /* iOS */,
 				5C6802051DAD6CCA00713DF0 /* disabled/old classes */,
 				080E96DDFE201D6D7F000001 /* Classes */,
 				29B97315FDCFA39411CA2CEA /* Other Sources */,
@@ -1314,6 +1351,30 @@
 			path = ODBEditor;
 			sourceTree = "<group>";
 		};
+
+		AAAAAA00AAAAAA00AAAAAA01 /* iOS */ = {
+			isa = PBXGroup;
+			children = (
+				AAAAAA00AAAAAA00AAAAAA02 /* AppDelegate_iOS.h */,
+				AAAAAA00AAAAAA00AAAAAA03 /* AppDelegate_iOS.m */,
+				AAAAAA00AAAAAA00AAAAAA04 /* SceneDelegate_iOS.h */,
+				AAAAAA00AAAAAA00AAAAAA05 /* SceneDelegate_iOS.m */,
+				AAAAAA00AAAAAA00AAAAAA06 /* NVNote.h */,
+				AAAAAA00AAAAAA00AAAAAA07 /* NVNote.m */,
+				AAAAAA00AAAAAA00AAAAAA08 /* NVNotesManager.h */,
+				AAAAAA00AAAAAA00AAAAAA09 /* NVNotesManager.m */,
+				AAAAAA00AAAAAA00AAAAAA0A /* NoteListViewController.h */,
+				AAAAAA00AAAAAA00AAAAAA0B /* NoteListViewController.m */,
+				AAAAAA00AAAAAA00AAAAAA0C /* NoteEditorViewController.h */,
+				AAAAAA00AAAAAA00AAAAAA0D /* NoteEditorViewController.m */,
+				AAAAAA00AAAAAA00AAAAAA0E /* NVSplitViewController.h */,
+				AAAAAA00AAAAAA00AAAAAA0F /* NVSplitViewController.m */,
+				AAAAAA00AAAAAA00AAAAAA10 /* Info-iOS.plist */,
+				AAAAAA00AAAAAA00AAAAAA11 /* main_iOS.m */,
+			);
+			path = iOS;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -1335,6 +1396,25 @@
 			productInstallPath = "$(HOME)/Applications";
 			productName = Notation;
 			productReference = 8D1107320486CEB800E47090 /* nvALT.app */;
+			productType = "com.apple.product-type.application";
+		};
+
+		DDDDDD00DDDDDD00DDDDDD01 /* nvALT iOS */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = EEEEEE00EEEEEE00EEEEEE01 /* Build configuration list for PBXNativeTarget "nvALT iOS" */;
+			buildPhases = (
+				CCCCCC00CCCCCC00CCCCCC02 /* Resources (iOS) */,
+				CCCCCC00CCCCCC00CCCCCC01 /* Sources (iOS) */,
+				CCCCCC00CCCCCC00CCCCCC03 /* Frameworks (iOS) */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "nvALT iOS";
+			productInstallPath = "$(HOME)/Applications";
+			productName = "nvALT iOS";
+			productReference = AAAAAA00AAAAAA00AAAAAA99 /* nvALT iOS.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -1375,6 +1455,7 @@
 			projectRoot = "";
 			targets = (
 				8D1107260486CEB800E47090 /* Notation */,
+				DDDDDD00DDDDDD00DDDDDD01 /* nvALT iOS */,
 			);
 		};
 /* End PBXProject section */
@@ -1517,6 +1598,14 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+
+		CCCCCC00CCCCCC00CCCCCC02 /* Resources (iOS) */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
@@ -1614,6 +1703,22 @@
 				DA17DA17DA17DA17DA170021 /* NVSplitView.m in Sources */,
 				DA17DA17DA17DA17DA170031 /* NVTitlebarSyncAccessory.m in Sources */,
 				DA17DA17DA17DA17DA170041 /* NVPrintRouter.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+
+		CCCCCC00CCCCCC00CCCCCC01 /* Sources (iOS) */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				BBBBBB00BBBBBB00BBBBBB08 /* main_iOS.m in Sources */,
+				BBBBBB00BBBBBB00BBBBBB01 /* AppDelegate_iOS.m in Sources */,
+				BBBBBB00BBBBBB00BBBBBB02 /* SceneDelegate_iOS.m in Sources */,
+				BBBBBB00BBBBBB00BBBBBB03 /* NVNote.m in Sources */,
+				BBBBBB00BBBBBB00BBBBBB04 /* NVNotesManager.m in Sources */,
+				BBBBBB00BBBBBB00BBBBBB05 /* NoteListViewController.m in Sources */,
+				BBBBBB00BBBBBB00BBBBBB06 /* NoteEditorViewController.m in Sources */,
+				BBBBBB00BBBBBB00BBBBBB07 /* NVSplitViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2162,6 +2267,58 @@
 			};
 			name = ForBuilding;
 		};
+
+		FFFFFF00FFFFFF00FFFFFF01 /* Development */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = 47TRS7H4BH;
+				GCC_PRECOMPILE_PREFIX_HEADER = NO;
+				GCC_PREFIX_HEADER = "";
+				HEADER_SEARCH_PATHS = (
+					"$(PROJECT_DIR)/iOS",
+				);
+				INFOPLIST_FILE = "iOS/Info-iOS.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = "net.elasticthreads.nv.ios";
+				PRODUCT_NAME = "nvALT iOS";
+				SDKROOT = iphoneos;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+			};
+			name = Development;
+		};
+		FFFFFF00FFFFFF00FFFFFF02 /* ForBuilding */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_STYLE = Automatic;
+				DEAD_CODE_STRIPPING = YES;
+				DEPLOYMENT_POSTPROCESSING = YES;
+				DEVELOPMENT_TEAM = 47TRS7H4BH;
+				GCC_PRECOMPILE_PREFIX_HEADER = NO;
+				GCC_PREFIX_HEADER = "";
+				HEADER_SEARCH_PATHS = (
+					"$(PROJECT_DIR)/iOS",
+				);
+				INFOPLIST_FILE = "iOS/Info-iOS.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = "net.elasticthreads.nv.ios";
+				PRODUCT_NAME = "nvALT iOS";
+				SDKROOT = iphoneos;
+				STRIP_INSTALLED_PRODUCT = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+			};
+			name = ForBuilding;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -2179,6 +2336,16 @@
 			buildConfigurations = (
 				5C9CB58B134A7F0400073277 /* ForBuilding */,
 				212B842809780B5000F3597F /* Development */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Development;
+		};
+
+		EEEEEE00EEEEEE00EEEEEE01 /* Build configuration list for PBXNativeTarget "nvALT iOS" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				FFFFFF00FFFFFF00FFFFFF02 /* ForBuilding */,
+				FFFFFF00FFFFFF00FFFFFF01 /* Development */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Development;
