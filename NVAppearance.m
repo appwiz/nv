@@ -78,14 +78,6 @@
         : [NSColor colorWithSRGBRed:0.937f green:0.937f blue:0.929f alpha:1.0f];
 }
 
-+ (NSColor *)tableCornerFillColor {
-    return [self tableHeaderBackgroundColor];
-}
-
-+ (NSColor *)tableCornerBorderColor {
-    return [self tableGridColor];
-}
-
 + (NSColor *)tableDateTintColor {
     return [self isDark]
         ? [NSColor colorWithSRGBRed:0.612f green:0.620f blue:0.643f alpha:1.0f]

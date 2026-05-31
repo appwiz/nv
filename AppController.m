@@ -2841,7 +2841,6 @@ terminateApp:
     [splitView setNeedsDisplay:YES];
     [notesTableView setNeedsDisplay:YES];
     [[notesTableView headerView] setNeedsDisplay:YES];
-    [[notesTableView cornerView] setNeedsDisplay:YES];
 }
 
 - (void)updateFieldAttributes{

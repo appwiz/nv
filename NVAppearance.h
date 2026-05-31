@@ -38,8 +38,6 @@ NS_ASSUME_NONNULL_BEGIN
 + (NSColor *)tableGridColor;
 + (NSColor *)tableHeaderTextColor;
 + (NSColor *)tableHeaderBackgroundColor;
-+ (NSColor *)tableCornerFillColor;
-+ (NSColor *)tableCornerBorderColor;
 + (NSColor *)tableDateTintColor;
 
 // Split-view divider
