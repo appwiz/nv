@@ -15,20 +15,19 @@
 #import <Cocoa/Cocoa.h>
 
 @class NotationPrefs;
-@class KeyDerivationDelaySlider;
 
 @interface KeyDerivationManager : NSObject
 {
     IBOutlet NSTextField *hashDurationField;
-    IBOutlet KeyDerivationDelaySlider *slider;
+    IBOutlet NSSlider *slider;
     IBOutlet NSView* view;
 	IBOutlet NSProgressIndicator *iterationEstimatorProgress;
-	
+
 	int lastHashIterationCount;
 	double lastHashDuration;
-	
+
 	NSData *crapData, *crapSalt;
-	
+
 	NotationPrefs *notationPrefs;
 }
 
@@ -38,6 +37,5 @@
 - (int)hashIterationCount;
 - (double)delayForHashIterations:(int)count;
 - (int)estimatedIterationsForDuration:(double)duration;
-- (void)mouseUpForKeyDerivationDelaySlider:(KeyDerivationDelaySlider*)aSlider;
 - (void)updateToolTip;
 @end

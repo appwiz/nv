@@ -43,7 +43,6 @@
 		21544FBE0B06331800C0D1D5 /* KeyDerivationManager.nib in Resources */ = {isa = PBXBuildFile; fileRef = 21544FB80B06331800C0D1D5 /* KeyDerivationManager.nib */; };
 		21544FC10B06332600C0D1D5 /* KeyDerivationManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 21544FC00B06332600C0D1D5 /* KeyDerivationManager.m */; };
 		215452080B06541800C0D1D5 /* PassphraseChanger.m in Sources */ = {isa = PBXBuildFile; fileRef = 215450F80B06509600C0D1D5 /* PassphraseChanger.m */; };
-		215453F00B067A5100C0D1D5 /* KeyDerivationDelaySlider.m in Sources */ = {isa = PBXBuildFile; fileRef = 215453EF0B067A5100C0D1D5 /* KeyDerivationDelaySlider.m */; };
 		2155DEA6097B5F0300163A10 /* BufferUtils.c in Sources */ = {isa = PBXBuildFile; fileRef = 2155DEA5097B5F0300163A10 /* BufferUtils.c */; };
 		2155DF44097C992800163A10 /* AttributedPlainText.m in Sources */ = {isa = PBXBuildFile; fileRef = 2155DF43097C992800163A10 /* AttributedPlainText.m */; };
 		21582DC50B73F59B00711663 /* BookmarksController.m in Sources */ = {isa = PBXBuildFile; fileRef = 21582DC40B73F59A00711663 /* BookmarksController.m */; };
@@ -365,8 +364,6 @@
 		21544FBF0B06332600C0D1D5 /* KeyDerivationManager.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = KeyDerivationManager.h; sourceTree = "<group>"; };
 		21544FC00B06332600C0D1D5 /* KeyDerivationManager.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = KeyDerivationManager.m; sourceTree = "<group>"; };
 		215450F80B06509600C0D1D5 /* PassphraseChanger.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = PassphraseChanger.m; sourceTree = "<group>"; };
-		215453EE0B067A5100C0D1D5 /* KeyDerivationDelaySlider.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KeyDerivationDelaySlider.h; sourceTree = "<group>"; };
-		215453EF0B067A5100C0D1D5 /* KeyDerivationDelaySlider.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KeyDerivationDelaySlider.m; sourceTree = "<group>"; };
 		2155DEA4097B5F0300163A10 /* BufferUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BufferUtils.h; sourceTree = "<group>"; };
 		2155DEA5097B5F0300163A10 /* BufferUtils.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = BufferUtils.c; sourceTree = "<group>"; };
 		2155DF42097C992800163A10 /* AttributedPlainText.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AttributedPlainText.h; sourceTree = "<group>"; };
@@ -1065,8 +1062,6 @@
 				215DE83709ECC4FE009A710B /* HeaderViewWIthMenu.m */,
 				210A10660B66720F005BE981 /* BookmarksTable.h */,
 				210A10670B66720F005BE981 /* BookmarksTable.m */,
-				215453EE0B067A5100C0D1D5 /* KeyDerivationDelaySlider.h */,
-				215453EF0B067A5100C0D1D5 /* KeyDerivationDelaySlider.m */,
 				21C737930B50C73E0048C08A /* MultiplePageView.h */,
 				21C737940B50C73E0048C08A /* MultiplePageView.m */,
 				212C6950110E1940004DD82C /* TitlebarButton.h */,
@@ -1641,7 +1636,6 @@
 				219739FB0AFE42A10046683E /* PassphraseRetriever.m in Sources */,
 				21544FC10B06332600C0D1D5 /* KeyDerivationManager.m in Sources */,
 				215452080B06541800C0D1D5 /* PassphraseChanger.m in Sources */,
-				215453F00B067A5100C0D1D5 /* KeyDerivationDelaySlider.m in Sources */,
 				212089B10B0C24F500A15A69 /* AlienNoteImporter.m in Sources */,
 				212089D80B0C2CA500A15A69 /* StickiesDocument.m in Sources */,
 				219FD3160B2CC655004E132B /* LinkingEditor_Indentation.m in Sources */,
