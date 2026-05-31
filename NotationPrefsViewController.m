@@ -24,6 +24,7 @@
 #import "NSCollection_utils.h"
 #import "SyncResponseFetcher.h"
 #import "SimplenoteSession.h"
+#import "NVJSON.h"
 #import "PassphrasePicker.h"
 #import "PassphraseChanger.h"
 #import "NSFileManager_NV.h"
@@ -460,7 +461,7 @@ enum {VERIFY_NOT_ATTEMPTED, VERIFY_FAILED, VERIFY_IN_PROGRESS, VERIFY_SUCCESS};
 		NSDictionary *login = [NSDictionary dictionaryWithObjectsAndKeys:
 							   [syncAccountField stringValue], @"username", [syncPasswordField stringValue], @"password", nil];
 
-		loginVerifier = [[SyncResponseFetcher alloc] initWithURL:loginURL POSTData:[[login jsonStringValue] dataUsingEncoding:NSUTF8StringEncoding] headers:headers contentType:@"application/json" delegate:self];
+		loginVerifier = [[SyncResponseFetcher alloc] initWithURL:loginURL POSTData:[login nv_jsonData] headers:headers contentType:@"application/json" delegate:self];
 
 		[loginVerifier start];
 		[self setVerificationStatus:VERIFY_IN_PROGRESS withString:@""];

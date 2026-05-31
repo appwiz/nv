@@ -25,7 +25,7 @@
 #import "GlobalPrefs.h"
 #import "NotationPrefs.h"
 #import "NSString_NV.h"
-#import "NSDictionary+BSJSONAdditions.h"
+#import "NVJSON.h"
 #import "AttributedPlainText.h"
 #import "InvocationRecorder.h"
 #import "SynchronizedNoteProtocol.h"
@@ -304,7 +304,7 @@ static void SNReachabilityCallback(SCNetworkReachabilityRef	target, SCNetworkCon
 		NSDictionary *headers = [NSDictionary dictionaryWithObject:kSimperiumAPIKey forKey:@"X-Simperium-API-Key"];
 		NSDictionary *login = [NSDictionary dictionaryWithObjectsAndKeys:
 							   emailAddress, @"username", password, @"password", nil];
-		loginFetcher = [[SyncResponseFetcher alloc] initWithURL:loginURL POSTData:[[login jsonStringValue] dataUsingEncoding:NSUTF8StringEncoding] headers:headers contentType:@"application/json" delegate:self];
+		loginFetcher = [[SyncResponseFetcher alloc] initWithURL:loginURL POSTData:[login nv_jsonData] headers:headers contentType:@"application/json" delegate:self];
 	}
 	return loginFetcher;
 }
@@ -1091,7 +1091,7 @@ static void SNReachabilityCallback(SCNetworkReachabilityRef	target, SCNetworkCon
 
 	if (fetcher == loginFetcher) {
 		@try {
-			responseDictionary = [NSDictionary dictionaryWithJSONString:bodyString];
+			responseDictionary = NVDictionaryFromJSONString(bodyString);
 		} @catch (NSException *e) {
 			NSLog(@"Exception while parsing Simplenote user: %@", [e reason]);
 		}
@@ -1104,7 +1104,7 @@ static void SNReachabilityCallback(SCNetworkReachabilityRef	target, SCNetworkCon
 	} else if (fetcher == changesFetcher) {
 		bodyString = [NSString stringWithFormat:@"{\"changes\":%@}", bodyString];
 		@try {
-			responseDictionary = [NSDictionary dictionaryWithJSONString:bodyString];
+			responseDictionary = NVDictionaryFromJSONString(bodyString);
 			if (responseDictionary) {
 				rawEntries = [responseDictionary objectForKey:@"changes"];
 			}
@@ -1161,7 +1161,7 @@ static void SNReachabilityCallback(SCNetworkReachabilityRef	target, SCNetworkCon
     } else if (fetcher == listFetcher) {
 		lastIndexAuthFailed = NO;
 		@try {
-			responseDictionary = [NSDictionary dictionaryWithJSONString:bodyString];
+			responseDictionary = NVDictionaryFromJSONString(bodyString);
 			if (responseDictionary) {
 				rawEntries = [responseDictionary objectForKey:@"index"];
 			}

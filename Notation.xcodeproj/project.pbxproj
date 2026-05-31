@@ -100,11 +100,6 @@
 		21F078FC10EC280E004FE56F /* NotationSyncServiceManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 21F078FB10EC280E004FE56F /* NotationSyncServiceManager.m */; };
 		21F0794310EC5EA2004FE56F /* SimplenoteSession.m in Sources */ = {isa = PBXBuildFile; fileRef = 21F0794210EC5EA2004FE56F /* SimplenoteSession.m */; };
 		21F0797E10EC93B0004FE56F /* SyncResponseFetcher.m in Sources */ = {isa = PBXBuildFile; fileRef = 21F0797D10EC93B0004FE56F /* SyncResponseFetcher.m */; };
-		21F07C7B10EDED93004FE56F /* BSJSONEncoder.m in Sources */ = {isa = PBXBuildFile; fileRef = 21F07C7210EDED93004FE56F /* BSJSONEncoder.m */; };
-		21F07C7C10EDED93004FE56F /* NSArray+BSJSONAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 21F07C7410EDED93004FE56F /* NSArray+BSJSONAdditions.m */; };
-		21F07C7D10EDED93004FE56F /* NSDictionary+BSJSONAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 21F07C7610EDED93004FE56F /* NSDictionary+BSJSONAdditions.m */; };
-		21F07C7E10EDED93004FE56F /* NSScanner+BSJSONAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 21F07C7810EDED93004FE56F /* NSScanner+BSJSONAdditions.m */; };
-		21F07C7F10EDED93004FE56F /* NSString+BSJSONAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 21F07C7A10EDED93004FE56F /* NSString+BSJSONAdditions.m */; };
 		21F1CD6D0B3A38DB001FB5F6 /* PTHotKeyCenter.m in Sources */ = {isa = PBXBuildFile; fileRef = 21F1CD660B3A38DB001FB5F6 /* PTHotKeyCenter.m */; };
 		21F1CD6F0B3A38DB001FB5F6 /* PTKeyBroadcaster.m in Sources */ = {isa = PBXBuildFile; fileRef = 21F1CD690B3A38DB001FB5F6 /* PTKeyBroadcaster.m */; };
 		21F1CD700B3A38DB001FB5F6 /* PTKeyCodes.plist in Resources */ = {isa = PBXBuildFile; fileRef = 21F1CD6A0B3A38DB001FB5F6 /* PTKeyCodes.plist */; };
@@ -220,6 +215,7 @@
 		8D11072D0486CEB800E47090 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 29B97316FDCFA39411CA2CEA /* main.m */; settings = {ATTRIBUTES = (); }; };
 		8D11072F0486CEB800E47090 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1058C7A1FEA54F0111CA2CBB /* Cocoa.framework */; };
 		DA17DA17DA17DA17DA170001 /* NVAppearance.m in Sources */ = {isa = PBXBuildFile; fileRef = DA17DA17DA17DA17DA170003 /* NVAppearance.m */; };
+		DA17DA17DA17DA17DA170011 /* NVJSON.m in Sources */ = {isa = PBXBuildFile; fileRef = DA17DA17DA17DA17DA170013 /* NVJSON.m */; };
 		93099628138BD61000368C45 /* tp2md.rb in Resources */ = {isa = PBXBuildFile; fileRef = 93099627138BD61000368C45 /* tp2md.rb */; };
 		93365DDF1D9AD651005A230B /* AutoHyperlinks.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 93365DDE1D9AD651005A230B /* AutoHyperlinks.framework */; };
 		93365DE01D9AD6AA005A230B /* AutoHyperlinks.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 93365DDE1D9AD651005A230B /* AutoHyperlinks.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
@@ -483,16 +479,6 @@
 		21F0794210EC5EA2004FE56F /* SimplenoteSession.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SimplenoteSession.m; sourceTree = "<group>"; };
 		21F0797C10EC93B0004FE56F /* SyncResponseFetcher.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SyncResponseFetcher.h; sourceTree = "<group>"; };
 		21F0797D10EC93B0004FE56F /* SyncResponseFetcher.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SyncResponseFetcher.m; sourceTree = "<group>"; };
-		21F07C7110EDED93004FE56F /* BSJSONEncoder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BSJSONEncoder.h; path = JSON/BSJSONEncoder.h; sourceTree = "<group>"; };
-		21F07C7210EDED93004FE56F /* BSJSONEncoder.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = BSJSONEncoder.m; path = JSON/BSJSONEncoder.m; sourceTree = "<group>"; };
-		21F07C7310EDED93004FE56F /* NSArray+BSJSONAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSArray+BSJSONAdditions.h"; path = "JSON/NSArray+BSJSONAdditions.h"; sourceTree = "<group>"; };
-		21F07C7410EDED93004FE56F /* NSArray+BSJSONAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "NSArray+BSJSONAdditions.m"; path = "JSON/NSArray+BSJSONAdditions.m"; sourceTree = "<group>"; };
-		21F07C7510EDED93004FE56F /* NSDictionary+BSJSONAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSDictionary+BSJSONAdditions.h"; path = "JSON/NSDictionary+BSJSONAdditions.h"; sourceTree = "<group>"; };
-		21F07C7610EDED93004FE56F /* NSDictionary+BSJSONAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "NSDictionary+BSJSONAdditions.m"; path = "JSON/NSDictionary+BSJSONAdditions.m"; sourceTree = "<group>"; };
-		21F07C7710EDED93004FE56F /* NSScanner+BSJSONAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSScanner+BSJSONAdditions.h"; path = "JSON/NSScanner+BSJSONAdditions.h"; sourceTree = "<group>"; };
-		21F07C7810EDED93004FE56F /* NSScanner+BSJSONAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "NSScanner+BSJSONAdditions.m"; path = "JSON/NSScanner+BSJSONAdditions.m"; sourceTree = "<group>"; };
-		21F07C7910EDED93004FE56F /* NSString+BSJSONAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSString+BSJSONAdditions.h"; path = "JSON/NSString+BSJSONAdditions.h"; sourceTree = "<group>"; };
-		21F07C7A10EDED93004FE56F /* NSString+BSJSONAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "NSString+BSJSONAdditions.m"; path = "JSON/NSString+BSJSONAdditions.m"; sourceTree = "<group>"; };
 		21F1CD650B3A38DB001FB5F6 /* PTHotKeyCenter.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = PTHotKeyCenter.h; path = PTHotKeys/PTHotKeyCenter.h; sourceTree = "<group>"; };
 		21F1CD660B3A38DB001FB5F6 /* PTHotKeyCenter.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = PTHotKeyCenter.m; path = PTHotKeys/PTHotKeyCenter.m; sourceTree = "<group>"; };
 		21F1CD680B3A38DB001FB5F6 /* PTKeyBroadcaster.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = PTKeyBroadcaster.h; path = PTHotKeys/PTKeyBroadcaster.h; sourceTree = "<group>"; };
@@ -708,6 +694,8 @@
 		5CBA7A971305E38C004ADEBB /* TagEditingManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TagEditingManager.m; sourceTree = "<group>"; };
 		DA17DA17DA17DA17DA170002 /* NVAppearance.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NVAppearance.h; sourceTree = "<group>"; };
 		DA17DA17DA17DA17DA170003 /* NVAppearance.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NVAppearance.m; sourceTree = "<group>"; };
+		DA17DA17DA17DA17DA170012 /* NVJSON.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NVJSON.h; sourceTree = "<group>"; };
+		DA17DA17DA17DA17DA170013 /* NVJSON.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NVJSON.m; sourceTree = "<group>"; };
 		5CCEEF1B130B599B00E15B77 /* DFView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DFView.h; sourceTree = "<group>"; };
 		5CCEEF1C130B599B00E15B77 /* DFView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DFView.m; sourceTree = "<group>"; };
 		5CD58D771D9DA3C70004E1B8 /* SimperiumConfig.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SimperiumConfig.h; sourceTree = "<group>"; };
@@ -848,6 +836,8 @@
 				21D60127098FDB46007440DF /* GlobalPrefs.m */,
 				DA17DA17DA17DA17DA170002 /* NVAppearance.h */,
 				DA17DA17DA17DA17DA170003 /* NVAppearance.m */,
+				DA17DA17DA17DA17DA170012 /* NVJSON.h */,
+				DA17DA17DA17DA17DA170013 /* NVJSON.m */,
 				21B1BC341104D20E0004A7D0 /* InvocationRecorder.h */,
 				21B1BC351104D20E0004A7D0 /* InvocationRecorder.m */,
 				217D4280096545A000E84749 /* LabelObject.h */,
@@ -1179,23 +1169,6 @@
 			name = "Sync Services";
 			sourceTree = "<group>";
 		};
-		21F07C7010EDED87004FE56F /* BSJSON */ = {
-			isa = PBXGroup;
-			children = (
-				21F07C7110EDED93004FE56F /* BSJSONEncoder.h */,
-				21F07C7210EDED93004FE56F /* BSJSONEncoder.m */,
-				21F07C7310EDED93004FE56F /* NSArray+BSJSONAdditions.h */,
-				21F07C7410EDED93004FE56F /* NSArray+BSJSONAdditions.m */,
-				21F07C7510EDED93004FE56F /* NSDictionary+BSJSONAdditions.h */,
-				21F07C7610EDED93004FE56F /* NSDictionary+BSJSONAdditions.m */,
-				21F07C7710EDED93004FE56F /* NSScanner+BSJSONAdditions.h */,
-				21F07C7810EDED93004FE56F /* NSScanner+BSJSONAdditions.m */,
-				21F07C7910EDED93004FE56F /* NSString+BSJSONAdditions.h */,
-				21F07C7A10EDED93004FE56F /* NSString+BSJSONAdditions.m */,
-			);
-			name = BSJSON;
-			sourceTree = "<group>";
-		};
 		21F1CD490B3A38CB001FB5F6 /* HotKeys */ = {
 			isa = PBXGroup;
 			children = (
@@ -1235,7 +1208,6 @@
 				93B90E7D138601C100BEC5FB /* ODBEditor */,
 				5C96F5A8131C379200A2E4AC /* Markup */,
 				5CA10FFA131C2A7600DE1F91 /* readability */,
-				21F07C7010EDED87004FE56F /* BSJSON */,
 				2182B38E106B2286008641E4 /* RBSplitView */,
 				21F1CD490B3A38CB001FB5F6 /* HotKeys */,
 				211345A10B35D8340081B064 /* Crypto */,
@@ -1650,11 +1622,6 @@
 				21F078FC10EC280E004FE56F /* NotationSyncServiceManager.m in Sources */,
 				21F0794310EC5EA2004FE56F /* SimplenoteSession.m in Sources */,
 				21F0797E10EC93B0004FE56F /* SyncResponseFetcher.m in Sources */,
-				21F07C7B10EDED93004FE56F /* BSJSONEncoder.m in Sources */,
-				21F07C7C10EDED93004FE56F /* NSArray+BSJSONAdditions.m in Sources */,
-				21F07C7D10EDED93004FE56F /* NSDictionary+BSJSONAdditions.m in Sources */,
-				21F07C7E10EDED93004FE56F /* NSScanner+BSJSONAdditions.m in Sources */,
-				21F07C7F10EDED93004FE56F /* NSString+BSJSONAdditions.m in Sources */,
 				21B1BC361104D20E0004A7D0 /* InvocationRecorder.m in Sources */,
 				21AD2550110A8BA600B7A985 /* SimplenoteEntryCollector.m in Sources */,
 				21AD2850110BE99B00B7A985 /* SyncSessionController.m in Sources */,
@@ -1686,6 +1653,7 @@
 				5C177AE7141EF95200BC0C0A /* ETClipView.m in Sources */,
 				934C3FB914FDA74F000D14BA /* NSFileManager+DirectoryLocations.m in Sources */,
 				DA17DA17DA17DA17DA170001 /* NVAppearance.m in Sources */,
+				DA17DA17DA17DA17DA170011 /* NVJSON.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
