@@ -25,33 +25,32 @@
 *.log
 *.sql
 *.sqlite
-*.pbxproj
+
+# Xcode user state #
+####################
 *.xcworkspace
 *.xcuserdatad
 *.xcuserstate
+*.xcscheme
+Notation.xcodeproj/xcuserdata/*
+Notation.xcodeproj/project.xcworkspace/*
+UserInterfaceState.xcuserstate
 
 # OS generated files #
 ######################
+.DS_Store
 .DS_Store?
 thumbs.db
-Icon?
 Thumbs.db
-Notation.xcodeproj/xcuserdata/*
-Notation.xcodeproj/project.xcworkspace/*
+Icon?
+
+# Build output #
+################
+build/*
+
+# Local config / personal #
+###########################
 Loren.*
 ttscoff.*
-UserInterfaceState.xcuserstate
-.DS_Store
-build/*
-*.pbxproj
-*.xcscheme
-<<<<<<< HEAD
-=======
-
->>>>>>> another gitignore
 SimperiumConfig.h
-
-*.pbxproj
 nvalt.taskpaper
-
-*.pbxproj
