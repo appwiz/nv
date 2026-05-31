@@ -155,12 +155,42 @@
 	return YES;
 }
 		
+// Returns an appearance-aware clear ("x") icon. Uses SF Symbols on macOS 11+
+// and falls back to the bundled Clear.tif on older systems. The template
+// flag isn't enough on its own here — drawCenteredInRect: uses raw
+// drawInRect: which doesn't tint template images automatically — so we
+// bake the desired NSColor into a fresh NSImage via the standard
+// source-in compositing trick. NSColor secondaryLabelColor / labelColor
+// are dynamic, so they pick the right grey for the current appearance.
+static NSImage *NVClearButtonImage(BOOL pressed) {
+	NSImage *symbol = nil;
+	if (@available(macOS 11.0, *)) {
+		symbol = [NSImage imageWithSystemSymbolName:@"xmark.circle.fill"
+							 accessibilityDescription:@"Clear"];
+	}
+	if (!symbol) {
+		symbol = [NSImage imageNamed:pressed ? @"ClearPressed" : @"Clear"];
+	}
+	if (!symbol) return nil;
+
+	NSSize sz = symbol.size;
+	NSImage *tinted = [[[NSImage alloc] initWithSize:sz] autorelease];
+	[tinted lockFocus];
+	NSRect r = NSMakeRect(0, 0, sz.width, sz.height);
+	[symbol drawInRect:r];
+	NSColor *tint = pressed ? [NSColor labelColor] : [NSColor secondaryLabelColor];
+	[tint set];
+	NSRectFillUsingOperation(r, NSCompositingOperationSourceIn);
+	[tinted unlockFocus];
+	return tinted;
+}
+
 - (void)drawWithFrame:(NSRect)cellFrame inView:(NSView *)controlView {
-	
+
 	[super drawWithFrame:cellFrame inView:controlView];
-	
+
 	if (BUTTON_HIDDEN != clearButtonState) {
-		NSImage *clearImg = [NSImage imageNamed:(clearButtonState == BUTTON_NORMAL ? @"Clear" : @"ClearPressed") ];
+		NSImage *clearImg = NVClearButtonImage(clearButtonState == BUTTON_PRESSED);
 		[clearImg drawCenteredInRect:[self clearButtonRectForBounds:cellFrame]];
 	}
 	if (BUTTON_HIDDEN != snapbackButtonState) {
@@ -424,80 +454,26 @@
 }
 
 - (void)drawRect:(NSRect)rect {
-//	[super drawRect:rect];
-	
-	NSWindow *window = [self window];
-	BOOL isActiveWin = [window isMainWindow];
-	
-	[NSGraphicsContext saveGraphicsState];
-	[[NSGraphicsContext currentContext] setShouldAntialias:NO];
-	
 	NSRect tBounds = [self bounds];
-	
-	[[NVAppearance fieldBackgroundColor] set];
-	NSRectFill(NSInsetRect(tBounds, 5, 1));
 
-	NSImage *leftCap = [NSImage imageNamed: isActiveWin ? @"DFCapLeftRounded" : @"DFCapLeftRoundedInactive"];
-	NSRect leftImageRect = NSMakeRect(0, 0, [leftCap size].width, [leftCap size].height);
-	[leftCap drawInRect:leftImageRect fromRect:NSZeroRect operation:NSCompositeSourceOver fraction:1.0 respectFlipped:YES hints:nil];
+	// Light rounded border, visible in both light and dark mode.
+	// separatorColor is a dynamic NSColor — it picks the correct
+	// appearance-tinted grey at draw time.
+	NSRect borderRect = NSInsetRect(tBounds, 0.5, 0.5);
+	NSBezierPath *border = [NSBezierPath bezierPathWithRoundedRect:borderRect
+														 xRadius:4.0
+														 yRadius:4.0];
+	[border setLineWidth:1.0];
+	[[NSColor separatorColor] set];
+	[border stroke];
 
-	NSImage *rightCap = [NSImage imageNamed: isActiveWin ? @"DFCapRight" : @"DFCapRightInactive"];
-	NSRect rightImageRect = NSMakeRect(tBounds.size.width - [rightCap size].width, 0, [rightCap size].width, [rightCap size].height);
-	[rightCap drawInRect:rightImageRect fromRect:NSZeroRect operation:NSCompositeSourceOver fraction:1.0 respectFlipped:YES hints:nil];
-
-	// In dark mode invert top/bottom shadows: highlight at bottom, deep edge at top.
-	BOOL dark = [NVAppearance isDark];
-	NSColor *topEdge = dark
-		? [NSColor colorWithDeviceWhite:0.05f alpha:isActiveWin ? 1.0f : 0.6f]
-		: [NSColor colorWithDeviceWhite:isActiveWin ? 0.31f : 0.62f alpha:1.0f];
-	NSColor *topInner = dark
-		? [NSColor colorWithDeviceWhite:0.15f alpha:1.0f]
-		: [NSColor colorWithDeviceWhite:isActiveWin ? 0.882f : 0.886f alpha:1.0f];
-	NSColor *bottomEdge = dark
-		? [NSColor colorWithDeviceWhite:0.35f alpha:1.0f]
-		: [NSColor colorWithDeviceWhite:isActiveWin ? 0.447f : 0.627f alpha:1.0f];
-	NSColor *bottomHighlight = dark
-		? [NSColor colorWithDeviceWhite:0.45f alpha:0.55f]
-		: [NSColor colorWithDeviceWhite:1.0f alpha:0.39f];
-
-	[topEdge set];
-	[NSBezierPath strokeLineFromPoint:NSMakePoint(tBounds.origin.x + [leftCap size].width, tBounds.origin.y + .5)
-							  toPoint:NSMakePoint(tBounds.size.width - [rightCap size].width, tBounds.origin.y + .5)];
-	[topInner set];
-	[NSBezierPath strokeLineFromPoint:NSMakePoint(tBounds.origin.x + [leftCap size].width, tBounds.origin.y + 1.5)
-							  toPoint:NSMakePoint(tBounds.size.width - [rightCap size].width, tBounds.origin.y + 1.5)];
-	[bottomEdge set];
-	[NSBezierPath strokeLineFromPoint:NSMakePoint(tBounds.origin.x + [leftCap size].width, tBounds.origin.y + tBounds.size.height - 1.5)
-							  toPoint:NSMakePoint(tBounds.size.width - [rightCap size].width, tBounds.origin.y + tBounds.size.height - 1.5)];
-	[bottomHighlight set];
-	[NSBezierPath strokeLineFromPoint:NSMakePoint(tBounds.origin.x + [leftCap size].width, tBounds.origin.y + tBounds.size.height )
-							  toPoint:NSMakePoint(tBounds.size.width - [rightCap size].width, tBounds.origin.y + tBounds.size.height )];
-	
+	// Document icon on the left. The cell paints the clear button, snapback
+	// chip, and text on top.
 	NSImage *docIcon = [NSImage imageNamed: showsDocumentIcon ? @"Pencil" : @"Search" ];
-//	[docIcon setFlipped:YES];
 	NSRect docImageRect = NSMakeRect(BORDER_LEFT_OFFSET, BORDER_TOP_OFFSET, [docIcon size].width, [docIcon size].height);
 	[docIcon drawInRect:docImageRect fromRect:NSZeroRect operation:NSCompositeSourceOver fraction:1.0 respectFlipped:YES hints:nil];
-	
-	[NSGraphicsContext restoreGraphicsState];
-	
-	//drawWithFrame: would make sense to override, but this works, too
+
 	[[self cell] drawWithFrame:NSMakeRect(0, 0, NSWidth(tBounds), NSHeight(tBounds)) inView:self];
-	
-	if (IsLeopardOrLater&&!IsYosemiteOrLater) {
-		//ALERT: TEMPORARY WORK-AROUND FOR TIGER FOCUS RING BUILDUP: DO NOT DRAW FOCUS RING ON TIGER
-		if ([self currentEditor] && isActiveWin) {
-			//draw focus ring
-			[NSGraphicsContext saveGraphicsState];
-			NSSetFocusRingStyle(NSFocusRingOnly);
-			NSRect focusRect = NSInsetRect(tBounds, 0.0f, 0.5f);
-			focusRect.origin.y -= 0.5f;
-			//drawing could be sped up by a measurable amount if this were cached in a (partially transparent) image
-			[[NSBezierPath bezierPathWithRoundRectInRect:focusRect radius:1.0f] fill];
-			[NSGraphicsContext restoreGraphicsState];
-		}
-	}	
-	
-	
 }
 
 //elasticwork

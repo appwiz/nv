@@ -2464,7 +2464,13 @@ terminateApp:
 	[dualFieldItem setMaxSize:NSMakeSize(FLT_MAX, [dualSV frame].size.height)];
 	[dualFieldItem setMinSize:NSMakeSize(50.0f, [dualSV frame].size.height)];
     [dualFieldItem setLabel:NSLocalizedString(@"Search or Create", @"placeholder text in search/create field")];
-	
+	[dualFieldItem setVisibilityPriority:NSToolbarItemVisibilityPriorityHigh];
+	// macOS 11+ wraps custom view toolbar items in a rounded "pill" bezel.
+	// Opt out so the field sits flush in the toolbar area.
+	if (@available(macOS 10.15, *)) {
+		[dualFieldItem setBordered:NO];
+	}
+
 	toolbar = [[NSToolbar alloc] initWithIdentifier:@"NVToolbar"];
 	[toolbar setAllowsUserCustomization:NO];
 	[toolbar setAutosavesConfiguration:NO];
@@ -2473,6 +2479,9 @@ terminateApp:
     [toolbar setSizeMode:NSToolbarSizeModeSmall];
 	[toolbar setDelegate:self];
 	[window setToolbar:toolbar];
+	// Hide the "nvALT" title so the search bar can occupy the unified
+	// title/toolbar area starting from the leading edge.
+	[window setTitleVisibility:NSWindowTitleHidden];
 	
 	[window setShowsToolbarButton:NO];
 	titleBarAccessory = [[NVTitlebarSyncAccessory alloc] init];
@@ -2774,6 +2783,10 @@ terminateApp:
 
     [textView setBackgroundColor:backgrndColor];
     [textView updateTextColors];
+    // DualField caches its textColor at -awakeFromNib; re-apply on every
+    // appearance flip so light/dark switches stay legible.
+    [field setTextColor:[NVAppearance fieldTextColor]];
+    [field setNeedsDisplay:YES];
     [self updateFieldAttributes];
     if (currentNote) {
         [self contentsUpdatedForNote:currentNote];
