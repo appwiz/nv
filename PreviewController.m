@@ -260,12 +260,13 @@
 
     NSWindow *wnd = [self window];
     if ([wnd isVisible]) {
-        if (attachedWindow) {
-            [[shareButton window] removeChildWindow:attachedWindow];
-            [attachedWindow orderOut:self];
-            [attachedWindow release];
-            attachedWindow = nil;
+        if (urlPopover) {
+            [urlPopover close];
             [shareURL release];
+            shareURL = nil;
+        }
+        if (confirmPopover) {
+            [confirmPopover close];
         }
         //      // TODO: should the "stuck" note remain stuck when preview is closed?
         //      if (self.isPreviewSticky)
@@ -626,92 +627,77 @@
     }
 }
 
+// Returns an NSPopover wrapping the given content view. The popover behaves
+// transiently (click-outside / escape dismisses), and its content sizing is
+// taken from the content view's current frame so existing XIB layouts work
+// unchanged.
+- (NSPopover *)makePopoverForView:(NSView *)contentView
+                            owner:(NSViewController **)outVC
+{
+    NSViewController *vc = [[NSViewController alloc] init];
+    [vc setView:contentView];
+    *outVC = vc;
+
+    NSPopover *popover = [[NSPopover alloc] init];
+    popover.contentViewController = vc;
+    popover.behavior = NSPopoverBehaviorTransient;
+    popover.contentSize = contentView.frame.size;
+    popover.delegate = self;
+    return popover;
+}
+
+- (void)showPopover:(NSPopover *)popover
+{
+    [popover showRelativeToRect:[shareButton bounds]
+                         ofView:shareButton
+                  preferredEdge:NSRectEdgeMinY];
+}
+
 - (IBAction)shareAsk:(id)sender
 {
-    if (!confirmWindow && !attachedWindow) {
-        int side = 3;
-        NSPoint buttonPoint = NSMakePoint(NSMidX([shareButton frame]),
-                                          NSMidY([shareButton frame]));
-        confirmWindow = [[MAAttachedWindow alloc] initWithView:shareConfirmation
-                                               attachedToPoint:buttonPoint
-                                                      inWindow:[shareButton window]
-                                                        onSide:side
-                                                    atDistance:15.0f];
-        [confirmWindow setBorderColor:[NSColor colorWithCalibratedHue:0.278 saturation:0.000 brightness:0.871 alpha:0.950]];
-        [confirmWindow setBackgroundColor:[NSColor colorWithCalibratedRed:0.134 green:0.134 blue:0.134 alpha:0.950]];
-        [confirmWindow setViewMargin:3.0f];
-        [confirmWindow setBorderWidth:1.0f];
-        [confirmWindow setCornerRadius:10.0f];
-        [confirmWindow setHasArrow:YES];
-        [confirmWindow setDrawsRoundCornerBesideArrow:YES];
-        [confirmWindow setArrowBaseWidth:10.0f];
-        [confirmWindow setArrowHeight:6.0f];
-
-        [[shareButton window] addChildWindow:confirmWindow ordered:NSWindowAbove];
-
-    } else {
-        if (confirmWindow)
-            [self cancelShare:self];
-        else if (attachedWindow)
-            [self hideShareURL:self];
+    if (!confirmPopover && !urlPopover) {
+        confirmPopover = [self makePopoverForView:shareConfirmation
+                                            owner:&confirmPopoverVC];
+        [self showPopover:confirmPopover];
+    } else if (confirmPopover) {
+        [self cancelShare:self];
+    } else if (urlPopover) {
+        [self hideShareURL:self];
     }
 }
 
 - (void)showShareURL:(NSString *)url isError:(BOOL)isError
 {
-    if (confirmWindow) {
-        [[shareButton window] removeChildWindow:confirmWindow];
-        [confirmWindow orderOut:self];
-        [confirmWindow release];
-        confirmWindow = nil;
+    if (confirmPopover) {
+        [confirmPopover close];
     }
-    // Attach/detach window
-    if (!attachedWindow) {
-        int side = 3;
-        NSPoint buttonPoint = NSMakePoint(NSMidX([shareButton frame]),
-                                          NSMidY([shareButton frame]));
-        attachedWindow = [[MAAttachedWindow alloc] initWithView:shareNotification
-                                                attachedToPoint:buttonPoint
-                                                       inWindow:[shareButton window]
-                                                         onSide:side
-                                                     atDistance:15.0f];
-        [attachedWindow setBorderColor:[NSColor colorWithCalibratedHue:0.278 saturation:0.000 brightness:0.871 alpha:0.950]];
-        [attachedWindow setBackgroundColor:[NSColor colorWithCalibratedRed:0.134 green:0.134 blue:0.134 alpha:0.950]];
-        [attachedWindow setViewMargin:3.0f];
-        [attachedWindow setBorderWidth:1.0f];
-        [attachedWindow setCornerRadius:10.0f];
-        [attachedWindow setHasArrow:YES];
-        [attachedWindow setDrawsRoundCornerBesideArrow:YES];
-        [attachedWindow setArrowBaseWidth:10.0f];
-        [attachedWindow setArrowHeight:6.0f];
 
-        [[shareButton window] addChildWindow:attachedWindow ordered:NSWindowAbove];
-        
+    if (!urlPopover) {
+        urlPopover = [self makePopoverForView:shareNotification
+                                        owner:&urlPopoverVC];
     }
-    
+
     if (isError) {
         [urlTextField setStringValue:url];
         [viewOnWebButton setHidden:YES];
     } else {
         NSPasteboard *pb = [NSPasteboard generalPasteboard];
-        NSArray *types = [NSArray arrayWithObjects:NSStringPboardType, nil];
-        [pb declareTypes:types owner:self];
+        [pb declareTypes:@[NSStringPboardType] owner:self];
         [pb setString:shareURL forType:NSStringPboardType];
         [urlTextField setHidden:NO];
         [urlTextField setStringValue:[@"Copied " stringByAppendingString:[shareURL stringByAppendingString:@" to clipboard"]]];
-        //[viewOnWebButton setTitle:url];
     }
-    
-    
+
+    if (!urlPopover.shown) {
+        [self showPopover:urlPopover];
+    }
 }
 
--(void)closeShareURLView
+- (void)closeShareURLView
 {
-    [[shareButton window] removeChildWindow:attachedWindow];
-    [attachedWindow orderOut:self];
-    [attachedWindow release];
-    attachedWindow = nil;
+    [urlPopover close];
     [shareURL release];
+    shareURL = nil;
 }
 
 - (IBAction)hideShareURL:(id)sender
@@ -721,20 +707,29 @@
 
 - (IBAction)cancelShare:(id)sender
 {
-    [[shareButton window] removeChildWindow:confirmWindow];
-    [confirmWindow orderOut:self];
-    [confirmWindow release];
-    confirmWindow = nil;
+    [confirmPopover close];
 }
 
 - (IBAction)openShareURL:(id)sender
 {
     [[NSWorkspace sharedWorkspace] openURL:[NSURL URLWithString:shareURL]];
-    [[shareButton window] removeChildWindow:attachedWindow];
-    [attachedWindow orderOut:self];
-    [attachedWindow release];
-    attachedWindow = nil;
+    [urlPopover close];
     [shareURL release];
+    shareURL = nil;
+}
+
+#pragma mark NSPopoverDelegate
+
+- (void)popoverDidClose:(NSNotification *)notification
+{
+    NSPopover *which = notification.object;
+    if (which == confirmPopover) {
+        [confirmPopover release]; confirmPopover = nil;
+        [confirmPopoverVC release]; confirmPopoverVC = nil;
+    } else if (which == urlPopover) {
+        [urlPopover release]; urlPopover = nil;
+        [urlPopoverVC release]; urlPopoverVC = nil;
+    }
 }
 
 - (void)dealloc {
