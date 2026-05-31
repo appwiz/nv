@@ -53,8 +53,6 @@
 		217CEBA309E9885500DF0E09 /* NotationFileManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 217CEBA209E9885500DF0E09 /* NotationFileManager.m */; };
 		217D4282096545A000E84749 /* LabelObject.m in Sources */ = {isa = PBXBuildFile; fileRef = 217D4281096545A000E84749 /* LabelObject.m */; };
 		2181171309F311110020A252 /* DeletedNoteObject.m in Sources */ = {isa = PBXBuildFile; fileRef = 2181171209F311110020A252 /* DeletedNoteObject.m */; };
-		2182B39A106B2296008641E4 /* RBSplitSubview.m in Sources */ = {isa = PBXBuildFile; fileRef = 2182B396106B2296008641E4 /* RBSplitSubview.m */; };
-		2182B39B106B2296008641E4 /* RBSplitView.m in Sources */ = {isa = PBXBuildFile; fileRef = 2182B398106B2296008641E4 /* RBSplitView.m */; };
 		218D43330AA2ABC600F36CCA /* NotesTableView.m in Sources */ = {isa = PBXBuildFile; fileRef = 2191930209CFBEBD00586B15 /* NotesTableView.m */; };
 		21918FD009C49B2500586B15 /* EmptyView.m in Sources */ = {isa = PBXBuildFile; fileRef = 21918FCE09C49B2400586B15 /* EmptyView.m */; };
 		219190F109C4A60700586B15 /* DualField.m in Sources */ = {isa = PBXBuildFile; fileRef = 219190F009C4A60700586B15 /* DualField.m */; };
@@ -216,6 +214,7 @@
 		8D11072F0486CEB800E47090 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1058C7A1FEA54F0111CA2CBB /* Cocoa.framework */; };
 		DA17DA17DA17DA17DA170001 /* NVAppearance.m in Sources */ = {isa = PBXBuildFile; fileRef = DA17DA17DA17DA17DA170003 /* NVAppearance.m */; };
 		DA17DA17DA17DA17DA170011 /* NVJSON.m in Sources */ = {isa = PBXBuildFile; fileRef = DA17DA17DA17DA17DA170013 /* NVJSON.m */; };
+		DA17DA17DA17DA17DA170021 /* NVSplitView.m in Sources */ = {isa = PBXBuildFile; fileRef = DA17DA17DA17DA17DA170023 /* NVSplitView.m */; };
 		93099628138BD61000368C45 /* tp2md.rb in Resources */ = {isa = PBXBuildFile; fileRef = 93099627138BD61000368C45 /* tp2md.rb */; };
 		93365DDF1D9AD651005A230B /* AutoHyperlinks.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 93365DDE1D9AD651005A230B /* AutoHyperlinks.framework */; };
 		93365DE01D9AD6AA005A230B /* AutoHyperlinks.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 93365DDE1D9AD651005A230B /* AutoHyperlinks.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
@@ -383,11 +382,6 @@
 		2181171209F311110020A252 /* DeletedNoteObject.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DeletedNoteObject.m; sourceTree = "<group>"; };
 		2181193909FA9CF90020A252 /* SynchronizedNoteProtocol.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SynchronizedNoteProtocol.h; sourceTree = "<group>"; };
 		21813561105AF27400A0AE18 /* Acknowledgments.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Acknowledgments.txt; sourceTree = "<group>"; };
-		2182B395106B2296008641E4 /* RBSplitSubview.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RBSplitSubview.h; path = RBSplitView/RBSplitSubview.h; sourceTree = "<group>"; };
-		2182B396106B2296008641E4 /* RBSplitSubview.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = RBSplitSubview.m; path = RBSplitView/RBSplitSubview.m; sourceTree = "<group>"; };
-		2182B397106B2296008641E4 /* RBSplitView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RBSplitView.h; path = RBSplitView/RBSplitView.h; sourceTree = "<group>"; };
-		2182B398106B2296008641E4 /* RBSplitView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = RBSplitView.m; path = RBSplitView/RBSplitView.m; sourceTree = "<group>"; };
-		2182B399106B2296008641E4 /* RBSplitViewPrivateDefines.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RBSplitViewPrivateDefines.h; path = RBSplitView/RBSplitViewPrivateDefines.h; sourceTree = "<group>"; };
 		21918FCE09C49B2400586B15 /* EmptyView.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = EmptyView.m; sourceTree = SOURCE_ROOT; };
 		21918FCF09C49B2500586B15 /* EmptyView.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = EmptyView.h; sourceTree = SOURCE_ROOT; };
 		219190EF09C4A60600586B15 /* DualField.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = DualField.h; sourceTree = "<group>"; };
@@ -696,6 +690,8 @@
 		DA17DA17DA17DA17DA170003 /* NVAppearance.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NVAppearance.m; sourceTree = "<group>"; };
 		DA17DA17DA17DA17DA170012 /* NVJSON.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NVJSON.h; sourceTree = "<group>"; };
 		DA17DA17DA17DA17DA170013 /* NVJSON.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NVJSON.m; sourceTree = "<group>"; };
+		DA17DA17DA17DA17DA170022 /* NVSplitView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NVSplitView.h; sourceTree = "<group>"; };
+		DA17DA17DA17DA17DA170023 /* NVSplitView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NVSplitView.m; sourceTree = "<group>"; };
 		5CCEEF1B130B599B00E15B77 /* DFView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DFView.h; sourceTree = "<group>"; };
 		5CCEEF1C130B599B00E15B77 /* DFView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DFView.m; sourceTree = "<group>"; };
 		5CD58D771D9DA3C70004E1B8 /* SimperiumConfig.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SimperiumConfig.h; sourceTree = "<group>"; };
@@ -838,6 +834,8 @@
 				DA17DA17DA17DA17DA170003 /* NVAppearance.m */,
 				DA17DA17DA17DA17DA170012 /* NVJSON.h */,
 				DA17DA17DA17DA17DA170013 /* NVJSON.m */,
+				DA17DA17DA17DA17DA170022 /* NVSplitView.h */,
+				DA17DA17DA17DA17DA170023 /* NVSplitView.m */,
 				21B1BC341104D20E0004A7D0 /* InvocationRecorder.h */,
 				21B1BC351104D20E0004A7D0 /* InvocationRecorder.m */,
 				217D4280096545A000E84749 /* LabelObject.h */,
@@ -1009,18 +1007,6 @@
 				93A158BB133C304D00E1E7DA /* Markdownify.nvhelp */,
 			);
 			name = "Help Notes";
-			sourceTree = "<group>";
-		};
-		2182B38E106B2286008641E4 /* RBSplitView */ = {
-			isa = PBXGroup;
-			children = (
-				2182B395106B2296008641E4 /* RBSplitSubview.h */,
-				2182B396106B2296008641E4 /* RBSplitSubview.m */,
-				2182B397106B2296008641E4 /* RBSplitView.h */,
-				2182B398106B2296008641E4 /* RBSplitView.m */,
-				2182B399106B2296008641E4 /* RBSplitViewPrivateDefines.h */,
-			);
-			name = RBSplitView;
 			sourceTree = "<group>";
 		};
 		2191930609CFBED200586B15 /* View Classes */ = {
@@ -1208,7 +1194,6 @@
 				93B90E7D138601C100BEC5FB /* ODBEditor */,
 				5C96F5A8131C379200A2E4AC /* Markup */,
 				5CA10FFA131C2A7600DE1F91 /* readability */,
-				2182B38E106B2286008641E4 /* RBSplitView */,
 				21F1CD490B3A38CB001FB5F6 /* HotKeys */,
 				211345A10B35D8340081B064 /* Crypto */,
 				32CA4F630368D1EE00C91783 /* Notation_Prefix.pch */,
@@ -1615,8 +1600,6 @@
 				21E6B09F0B6E6D18001ABEDC /* URLGetter.m in Sources */,
 				21582DC50B73F59B00711663 /* BookmarksController.m in Sources */,
 				21469C8C0BEBA6A10094835F /* TemporaryFileCache.m in Sources */,
-				2182B39A106B2296008641E4 /* RBSplitSubview.m in Sources */,
-				2182B39B106B2296008641E4 /* RBSplitView.m in Sources */,
 				D3EECA00106F66C70023D7F8 /* NVPasswordGenerator.m in Sources */,
 				21BD2ED110DAF31500BA3DF6 /* LinearDividerShader.m in Sources */,
 				21F078FC10EC280E004FE56F /* NotationSyncServiceManager.m in Sources */,
@@ -1654,6 +1637,7 @@
 				934C3FB914FDA74F000D14BA /* NSFileManager+DirectoryLocations.m in Sources */,
 				DA17DA17DA17DA17DA170001 /* NVAppearance.m in Sources */,
 				DA17DA17DA17DA17DA170011 /* NVJSON.m in Sources */,
+				DA17DA17DA17DA17DA170021 /* NVSplitView.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

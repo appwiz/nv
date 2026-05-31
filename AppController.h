@@ -24,10 +24,8 @@
 @class GlobalPrefs;
 @class PrefsWindowController;
 @class DualField;
-@class RBSplitView;
-@class RBSplitSubview;
+@class NVSplitView;
 @class TitlebarButton;
-@class LinearDividerShader;
 @class TagEditingManager;
 @class DFView;
 @class PreviewController;
@@ -73,9 +71,9 @@
 	NSTimer *modifierTimer;
 	IBOutlet WordCountToken *wordCounter;
     IBOutlet DualField *field;
-	RBSplitSubview *splitSubview;
-	RBSplitSubview *notesSubview;
-	RBSplitView *splitView;
+	NSView *editorPane;
+	NSView *notesPane;
+	NVSplitView *splitView;
     IBOutlet ETScrollView *notesScrollView;
     IBOutlet ETNoteScrollView *textScrollView;
     IBOutlet NotesTableView *notesTableView;
@@ -90,9 +88,6 @@
 	TitlebarButton *titleBarButton;
 	
 	BOOL waitedForUncommittedChanges;
-	
-    //	NSImage *verticalDividerImg;
-	LinearDividerShader *dividerShader;
 	
 	NSString *URLToInterpretOnLaunch;
 	NSMutableArray *pathsToOpenOnLaunch;
