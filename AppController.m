@@ -19,6 +19,9 @@
 #import "AppController_Importing.h"
 #import "NotationPrefs.h"
 #import "PrefsWindowController.h"
+#import "StatusBarView.h"
+#import "PassphrasePicker.h"
+#import "PassphraseChanger.h"
 #import "NoteAttributeColumn.h"
 #import "NotationSyncServiceManager.h"
 #import "NotationDirectoryManager.h"
@@ -323,6 +326,7 @@ static void NVExpandNotesPane(NSSplitView *sv) {
         //        if (![NSApp isActive]) {  probably a mistake to have put this in the begin with
         //            [NSApp activateIgnoringOtherApps:YES];
         //        }
+		[self installStatusBar];
 		awakenedViews = YES;
 	}
 }
@@ -592,7 +596,10 @@ terminateApp:
 		}
 		
 		[field selectText:nil];
-		
+
+		[self refreshStatusBarEncryptionState];
+		[self refreshStatusBarNoteCount];
+
 		[oldNotation autorelease];
     }
 }
@@ -1046,11 +1053,12 @@ terminateApp:
 		if (changedColumns) [notesTableView setViewingLocation:ctx];
 		
 	} else if ([selectorString isEqualToString:SEL_STR(setNoteBodyFont:sender:)]) {
-		
+
 		[notationController restyleAllNotes];
 		if (currentNote) {
 			[self contentsUpdatedForNote:currentNote];
 		}
+		[self refreshStatusBarBodyFont];
 	} else if ([selectorString isEqualToString:SEL_STR(setTableFontSize:sender:)] || [selectorString isEqualToString:SEL_STR(setTableColumnsShowPreview:sender:)]) {
 		
 		ResetFontRelatedTableAttributes();
@@ -2020,11 +2028,12 @@ terminateApp:
 }
 
 - (void)notationListDidChange:(NotationController*)someNotation {
-	
+
 	if (someNotation == notationController) {
 		//deal with one notation at a time
-        
+
 		[notesTableView reloadData];
+		[self refreshStatusBarNoteCount];
 		//[notesTableView noteNumberOfRowsChanged];
 		
 		if (!isFilteringFromTyping) {
@@ -3275,5 +3284,195 @@ terminateApp:
         [referenceLinks release];
         return returnArray;
     }
-    
+
+#pragma mark - Status bar (replaces Settings window)
+
+- (void)installStatusBar {
+    if (statusBarView) return;
+
+    NSView *content = [window contentView];
+    if (!content) return;
+
+    NSRect contentBounds = [content bounds];
+    CGFloat barH = kStatusBarHeight;
+
+    // Shift every existing subview up by the bar's height and shrink it
+    // to make room. Their autoresizing masks already handle subsequent
+    // window resizes correctly.
+    NSArray *existingSubviews = [[[content subviews] copy] autorelease];
+    for (NSView *sub in existingSubviews) {
+        NSRect f = [sub frame];
+        f.origin.y += barH;
+        f.size.height -= barH;
+        [sub setFrame:f];
+    }
+
+    NSRect sbFrame = NSMakeRect(0, 0, contentBounds.size.width, barH);
+    statusBarView = [[StatusBarView alloc] initWithFrame:sbFrame];
+    [statusBarView setAutoresizingMask:NSViewWidthSizable | NSViewMaxYMargin];
+    [statusBarView setFontDelegate:self];
+    [statusBarView setBodyFontTarget:self action:@selector(pickBodyFont:)];
+    [statusBarView setGearMenu:[self buildEncryptionGearMenu]];
+    [content addSubview:statusBarView];
+
+    [self refreshStatusBarBodyFont];
+    [self refreshStatusBarEncryptionState];
+    [self refreshStatusBarNoteCount];
+}
+
+- (void)refreshStatusBarBodyFont {
+    if (!statusBarView) return;
+    [statusBarView setBodyFont:[prefsController noteBodyFont]];
+}
+
+- (void)refreshStatusBarEncryptionState {
+    if (!statusBarView) return;
+    NotationPrefs *np = [prefsController notationPrefs];
+    [statusBarView setEncrypted:[np doesEncryption]];
+    // Rebuild the gear menu so item titles/enablement match current state.
+    [statusBarView setGearMenu:[self buildEncryptionGearMenu]];
+}
+
+- (void)refreshStatusBarNoteCount {
+    if (!statusBarView) return;
+    NSUInteger count = notationController ? [notationController totalNoteCount] : 0;
+    [statusBarView setNoteCount:count];
+}
+
+#pragma mark Body font picker
+
+- (IBAction)pickBodyFont:(id)sender {
+    NSFontManager *fm = [NSFontManager sharedFontManager];
+    NSFont *current = [prefsController noteBodyFont];
+    if (current) [fm setSelectedFont:current isMultiple:NO];
+
+    // Park first-responder on the status bar so the Font panel's
+    // -changeFont: routes to its -changeFont: implementation, which
+    // calls back into our font-delegate method below.
+    savedFirstResponderBeforeFontPanel = [[window firstResponder] retain];
+    [window makeFirstResponder:statusBarView];
+
+    [fm orderFrontFontPanel:self];
+}
+
+- (void)statusBarView:(StatusBarView *)bar didReceiveFontChange:(NSFont *)newFont {
+    if (!newFont) return;
+    NSFontManager *fm = [NSFontManager sharedFontManager];
+    NSFontTraitMask traits = [fm traitsOfFont:newFont];
+    if ((traits & NSItalicFontMask) == NSItalicFontMask ||
+        (traits & NSBoldFontMask) == NSBoldFontMask) {
+        NSBeep();
+        return;
+    }
+    [prefsController setNoteBodyFont:newFont sender:self];
+    // The settingChangedForSelectorString: callback path will
+    // refresh the status bar's font label.
+}
+
+#pragma mark Encryption gear menu
+
+- (NSMenu *)buildEncryptionGearMenu {
+    NotationPrefs *np = [prefsController notationPrefs];
+    BOOL doesEncryption = np ? [np doesEncryption] : NO;
+    BOOL storesInKeychain = np ? [np storesPasswordInKeychain] : NO;
+    BOOL canEncrypt = np && ([np notesStorageFormat] == SingleDatabaseFormat);
+
+    NSMenu *menu = [[[NSMenu alloc] initWithTitle:@""] autorelease];
+
+    NSString *toggleTitle = doesEncryption
+        ? NSLocalizedString(@"Turn Off Note Encryption…", nil)
+        : NSLocalizedString(@"Turn On Note Encryption…", nil);
+    NSMenuItem *toggleItem = [menu addItemWithTitle:toggleTitle
+                                              action:@selector(toggleNoteEncryption:)
+                                       keyEquivalent:@""];
+    [toggleItem setTarget:self];
+    if (!doesEncryption && !canEncrypt) {
+        [toggleItem setEnabled:NO];
+        [toggleItem setToolTip:NSLocalizedString(
+            @"Encryption requires the Single Database storage format.", nil)];
+    }
+
+    NSMenuItem *changeItem = [menu addItemWithTitle:NSLocalizedString(@"Change Passphrase…", nil)
+                                              action:@selector(changeNotePassphrase:)
+                                       keyEquivalent:@""];
+    [changeItem setTarget:self];
+    [changeItem setEnabled:doesEncryption];
+
+    NSMenuItem *forgetItem = [menu addItemWithTitle:NSLocalizedString(@"Forget Passphrase from Keychain", nil)
+                                              action:@selector(forgetPassphraseInKeychain:)
+                                       keyEquivalent:@""];
+    [forgetItem setTarget:self];
+    [forgetItem setEnabled:doesEncryption && storesInKeychain];
+
+    return menu;
+}
+
+- (IBAction)toggleNoteEncryption:(id)sender {
+    NotationPrefs *np = [prefsController notationPrefs];
+    if (!np) return;
+
+    if ([np doesEncryption]) {
+        NSAlert *alert = [NSAlert alertWithMessageText:NSLocalizedString(@"Disable note encryption now?", nil)
+                                         defaultButton:NSLocalizedString(@"Disable Encryption", nil)
+                                       alternateButton:NSLocalizedString(@"Cancel", nil)
+                                           otherButton:nil
+                             informativeTextWithFormat:NSLocalizedString(
+                                @"Warning: Your notes will be written to disk in clear text.", nil)];
+        [alert beginSheetModalForWindow:window
+                          modalDelegate:self
+                         didEndSelector:@selector(disableEncryptionSheetDidEnd:returnCode:contextInfo:)
+                            contextInfo:NULL];
+    } else {
+        if ([np notesStorageFormat] != SingleDatabaseFormat) {
+            NSAlert *alert = [NSAlert alertWithMessageText:NSLocalizedString(
+                @"Encryption requires a single-database format.", nil)
+                                             defaultButton:NSLocalizedString(@"OK", nil)
+                                           alternateButton:nil otherButton:nil
+                                 informativeTextWithFormat:NSLocalizedString(
+                @"Your notes are currently stored as separate files. Encryption is not available in this build for that storage format.", nil)];
+            [alert beginSheetModalForWindow:window
+                              modalDelegate:nil didEndSelector:NULL contextInfo:NULL];
+            return;
+        }
+        if (!encryptionPicker) {
+            encryptionPicker = [[PassphrasePicker alloc] initWithNotationPrefs:np];
+        }
+        [encryptionPicker showAroundWindow:window resultDelegate:self];
+    }
+}
+
+- (void)disableEncryptionSheetDidEnd:(NSAlert *)alert returnCode:(NSInteger)returnCode contextInfo:(void *)ctx {
+    if (returnCode == NSAlertDefaultReturn) {
+        NotationPrefs *np = [prefsController notationPrefs];
+        [np setDoesEncryption:NO];
+        [self refreshStatusBarEncryptionState];
+    }
+}
+
+- (void)passphrasePicker:(id)picker choseAPassphrase:(BOOL)success {
+    NotationPrefs *np = [prefsController notationPrefs];
+    [np setDoesEncryption:success];
+    [self refreshStatusBarEncryptionState];
+}
+
+- (IBAction)changeNotePassphrase:(id)sender {
+    NotationPrefs *np = [prefsController notationPrefs];
+    if (![np doesEncryption]) {
+        NSBeep();
+        return;
+    }
+    if (!encryptionChanger) {
+        encryptionChanger = [[PassphraseChanger alloc] initWithNotationPrefs:np];
+    }
+    [encryptionChanger showAroundWindow:window];
+}
+
+- (IBAction)forgetPassphraseInKeychain:(id)sender {
+    NotationPrefs *np = [prefsController notationPrefs];
+    if (!np) return;
+    [np removeKeychainData];
+    [np setStoresPasswordInKeychain:NO];
+    [self refreshStatusBarEncryptionState];
+}
+
     @end

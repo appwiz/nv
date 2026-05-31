@@ -16,6 +16,7 @@
 
 #import "NotationController.h"
 #import "NotesTableView.h"
+#import "StatusBarView.h"
 //#import "Spaces.h"
 
 @class LinkingEditor;
@@ -30,6 +31,8 @@
 @class DFView;
 @class PreviewController;
 @class WordCountToken;
+@class PassphrasePicker;
+@class PassphraseChanger;
 //@class AugmentedScrollView;
 @class ETContentView;
 @class ETScrollView;
@@ -47,9 +50,9 @@
 #define TextilePreview 13373
 #endif
 
-@interface AppController : NSObject 
+@interface AppController : NSObject
 #if MAC_OS_X_VERSION_MAX_ALLOWED >= MAC_OS_X_VERSION_10_6
-<NSToolbarDelegate, NSTableViewDelegate, NSWindowDelegate, NSTextFieldDelegate, NSTextViewDelegate>
+<NSToolbarDelegate, NSTableViewDelegate, NSWindowDelegate, NSTextFieldDelegate, NSTextViewDelegate, StatusBarViewFontDelegate>
 #endif
 {
 	IBOutlet NSMenuItem *fsMenuItem;
@@ -96,6 +99,11 @@
     PrefsWindowController *prefsWindowController;
     GlobalPrefs *prefsController;
     NotationController *notationController;
+
+    StatusBarView *statusBarView;
+    PassphrasePicker *encryptionPicker;
+    PassphraseChanger *encryptionChanger;
+    NSResponder *savedFirstResponderBeforeFontPanel;
 	
 //	SpaceSwitchingContext spaceSwitchCtx;
 	ViewLocationContext listUpdateViewCtx;
@@ -170,6 +178,16 @@ void outletObjectAwoke(id sender);
 
 - (IBAction)showHelpDocument:(id)sender;
 - (IBAction)showPreferencesWindow:(id)sender;
+
+- (IBAction)pickBodyFont:(id)sender;
+- (IBAction)toggleNoteEncryption:(id)sender;
+- (IBAction)changeNotePassphrase:(id)sender;
+- (IBAction)forgetPassphraseInKeychain:(id)sender;
+- (void)installStatusBar;
+- (void)refreshStatusBarBodyFont;
+- (void)refreshStatusBarEncryptionState;
+- (void)refreshStatusBarNoteCount;
+- (NSMenu *)buildEncryptionGearMenu;
 - (IBAction)toggleNVActivation:(id)sender;
 - (IBAction)bringFocusToControlField:(id)sender;
 - (NSWindow*)window;

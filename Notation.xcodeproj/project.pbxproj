@@ -58,6 +58,7 @@
 		2191926709C52AA600586B15 /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 2191926609C52AA600586B15 /* libz.dylib */; };
 		219192D409CFBC8800586B15 /* NoteAttributeColumn.m in Sources */ = {isa = PBXBuildFile; fileRef = 219192D309CFBC8700586B15 /* NoteAttributeColumn.m */; };
 		2191982209D607C600586B15 /* PrefsWindowController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2191982109D607C600586B15 /* PrefsWindowController.m */; };
+		2026053000000000000001A2 /* StatusBarView.m in Sources */ = {isa = PBXBuildFile; fileRef = 2026053000000000000001A1 /* StatusBarView.m */; };
 		219588D20961D7F200972B8C /* LinkingEditor.m in Sources */ = {isa = PBXBuildFile; fileRef = 219588D10961D7F200972B8C /* LinkingEditor.m */; };
 		219739FB0AFE42A10046683E /* PassphraseRetriever.m in Sources */ = {isa = PBXBuildFile; fileRef = 219739FA0AFE42A10046683E /* PassphraseRetriever.m */; };
 		21973FF10B0060C80046683E /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 21973FBC0B0060C80046683E /* Security.framework */; };
@@ -395,6 +396,8 @@
 		219196BE09D4F20000586B15 /* Remove.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; name = Remove.tiff; path = Images/Remove.tiff; sourceTree = "<group>"; };
 		2191982009D607C600586B15 /* PrefsWindowController.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = PrefsWindowController.h; sourceTree = "<group>"; };
 		2191982109D607C600586B15 /* PrefsWindowController.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = PrefsWindowController.m; sourceTree = "<group>"; };
+		2026053000000000000001A0 /* StatusBarView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StatusBarView.h; sourceTree = "<group>"; };
+		2026053000000000000001A1 /* StatusBarView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StatusBarView.m; sourceTree = "<group>"; };
 		219588D00961D7F200972B8C /* LinkingEditor.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = LinkingEditor.h; sourceTree = "<group>"; };
 		219588D10961D7F200972B8C /* LinkingEditor.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LinkingEditor.m; sourceTree = "<group>"; };
 		219739F90AFE42A10046683E /* PassphraseRetriever.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = PassphraseRetriever.h; sourceTree = "<group>"; };
@@ -875,6 +878,8 @@
 				D3EEC9FE106F66C70023D7F8 /* NVPasswordGenerator.m */,
 				2191982009D607C600586B15 /* PrefsWindowController.h */,
 				2191982109D607C600586B15 /* PrefsWindowController.m */,
+				2026053000000000000001A0 /* StatusBarView.h */,
+				2026053000000000000001A1 /* StatusBarView.m */,
 				5CA10F18131C297000DE1F91 /* PreviewController.h */,
 				5CA10F19131C297000DE1F91 /* PreviewController.m */,
 				57F27FB71197407400C63ACF /* SearchCommand.h */,
@@ -1569,6 +1574,7 @@
 				219190F109C4A60700586B15 /* DualField.m in Sources */,
 				219192D409CFBC8800586B15 /* NoteAttributeColumn.m in Sources */,
 				2191982209D607C600586B15 /* PrefsWindowController.m in Sources */,
+				2026053000000000000001A2 /* StatusBarView.m in Sources */,
 				21A2F95E09DF3FDC001AF0B5 /* NotationPrefs.m in Sources */,
 				21A2FA1709DF6174001AF0B5 /* NotationPrefsViewController.m in Sources */,
 				2168EC5309E33B0300778D02 /* FrozenNotation.m in Sources */,
