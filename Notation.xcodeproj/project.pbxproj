@@ -128,15 +128,6 @@
 		5C943771132A0C9E00B08B80 /* greyscrollerverttop3.tif in Resources */ = {isa = PBXBuildFile; fileRef = 5C94376E132A0C9D00B08B80 /* greyscrollerverttop3.tif */; };
 		5C96F4FF131C2F9500A2E4AC /* TabClose_Front_Pressed.tif in Resources */ = {isa = PBXBuildFile; fileRef = 5C96F4FC131C2F9500A2E4AC /* TabClose_Front_Pressed.tif */; };
 		5C96F501131C2F9500A2E4AC /* TabClose_Front.tif in Resources */ = {isa = PBXBuildFile; fileRef = 5C96F4FE131C2F9500A2E4AC /* TabClose_Front.tif */; };
-		5C96F566131C35AB00A2E4AC /* __init__.py in CopyFiles */ = {isa = PBXBuildFile; fileRef = 5CA10FFB131C2A7600DE1F91 /* __init__.py */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
-		5C96F567131C35AB00A2E4AC /* BeautifulSoup.py in CopyFiles */ = {isa = PBXBuildFile; fileRef = 5CA10FFC131C2A7600DE1F91 /* BeautifulSoup.py */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
-		5C96F568131C35AB00A2E4AC /* BeautifulSoup.pyc in CopyFiles */ = {isa = PBXBuildFile; fileRef = 5CA10FFD131C2A7600DE1F91 /* BeautifulSoup.pyc */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
-		5C96F569131C35AB00A2E4AC /* html2text.py in CopyFiles */ = {isa = PBXBuildFile; fileRef = 5CA10FFE131C2A7600DE1F91 /* html2text.py */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
-		5C96F56A131C35AB00A2E4AC /* page_parser.py in CopyFiles */ = {isa = PBXBuildFile; fileRef = 5CA10FFF131C2A7600DE1F91 /* page_parser.py */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
-		5C96F56B131C35AB00A2E4AC /* page_parser.pyc in CopyFiles */ = {isa = PBXBuildFile; fileRef = 5CA11000131C2A7600DE1F91 /* page_parser.pyc */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
-		5C96F56C131C35AB00A2E4AC /* readability.py in CopyFiles */ = {isa = PBXBuildFile; fileRef = 5CA11001131C2A7600DE1F91 /* readability.py */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
-		5C96F56D131C35AB00A2E4AC /* url_helpers.py in CopyFiles */ = {isa = PBXBuildFile; fileRef = 5CA11002131C2A7600DE1F91 /* url_helpers.py */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
-		5C96F56E131C35AB00A2E4AC /* url_helpers.pyc in CopyFiles */ = {isa = PBXBuildFile; fileRef = 5CA11003131C2A7600DE1F91 /* url_helpers.pyc */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
 		5C96F5AF131C37DF00A2E4AC /* NSString_MultiMarkdown.m in Sources */ = {isa = PBXBuildFile; fileRef = 5C96F5AA131C37DF00A2E4AC /* NSString_MultiMarkdown.m */; };
 		5C96F5B0131C37DF00A2E4AC /* NSString_Markdown.m in Sources */ = {isa = PBXBuildFile; fileRef = 5C96F5AC131C37DF00A2E4AC /* NSString_Markdown.m */; };
 		5C96F61C131C380C00A2E4AC /* Markdown_1.0.1 in Resources */ = {isa = PBXBuildFile; fileRef = 5C96F617131C380C00A2E4AC /* Markdown_1.0.1 */; };
@@ -274,15 +265,6 @@
 			dstSubfolderSpec = 7;
 			files = (
 				93365DE11D9AD97B005A230B /* multimarkdown in CopyFiles */,
-				5C96F566131C35AB00A2E4AC /* __init__.py in CopyFiles */,
-				5C96F567131C35AB00A2E4AC /* BeautifulSoup.py in CopyFiles */,
-				5C96F568131C35AB00A2E4AC /* BeautifulSoup.pyc in CopyFiles */,
-				5C96F569131C35AB00A2E4AC /* html2text.py in CopyFiles */,
-				5C96F56A131C35AB00A2E4AC /* page_parser.py in CopyFiles */,
-				5C96F56B131C35AB00A2E4AC /* page_parser.pyc in CopyFiles */,
-				5C96F56C131C35AB00A2E4AC /* readability.py in CopyFiles */,
-				5C96F56D131C35AB00A2E4AC /* url_helpers.py in CopyFiles */,
-				5C96F56E131C35AB00A2E4AC /* url_helpers.pyc in CopyFiles */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -636,15 +618,6 @@
 		5CA10F19131C297000DE1F91 /* PreviewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PreviewController.m; sourceTree = "<group>"; };
 		5CA10F30131C29E900DE1F91 /* AppController_Preview.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AppController_Preview.h; sourceTree = SOURCE_ROOT; };
 		5CA10F31131C29E900DE1F91 /* AppController_Preview.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AppController_Preview.m; sourceTree = SOURCE_ROOT; };
-		5CA10FFB131C2A7600DE1F91 /* __init__.py */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.python; path = __init__.py; sourceTree = "<group>"; };
-		5CA10FFC131C2A7600DE1F91 /* BeautifulSoup.py */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.python; path = BeautifulSoup.py; sourceTree = "<group>"; };
-		5CA10FFD131C2A7600DE1F91 /* BeautifulSoup.pyc */ = {isa = PBXFileReference; lastKnownFileType = file; path = BeautifulSoup.pyc; sourceTree = "<group>"; };
-		5CA10FFE131C2A7600DE1F91 /* html2text.py */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.python; path = html2text.py; sourceTree = "<group>"; };
-		5CA10FFF131C2A7600DE1F91 /* page_parser.py */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.python; path = page_parser.py; sourceTree = "<group>"; };
-		5CA11000131C2A7600DE1F91 /* page_parser.pyc */ = {isa = PBXFileReference; lastKnownFileType = file; path = page_parser.pyc; sourceTree = "<group>"; };
-		5CA11001131C2A7600DE1F91 /* readability.py */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.python; path = readability.py; sourceTree = "<group>"; };
-		5CA11002131C2A7600DE1F91 /* url_helpers.py */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.python; path = url_helpers.py; sourceTree = "<group>"; };
-		5CA11003131C2A7600DE1F91 /* url_helpers.pyc */ = {isa = PBXFileReference; lastKnownFileType = file; path = url_helpers.pyc; sourceTree = "<group>"; };
 		5CAB2F771DC76578000AFED9 /* it */ = {isa = PBXFileReference; lastKnownFileType = text; name = it; path = it.lproj/Contact.nvhelp; sourceTree = "<group>"; };
 		5CAB2F781DC765B5000AFED9 /* de */ = {isa = PBXFileReference; lastKnownFileType = text; name = de; path = de.lproj/Contact.nvhelp; sourceTree = "<group>"; };
 		5CAB2F7A1DC76619000AFED9 /* de */ = {isa = PBXFileReference; lastKnownFileType = text; name = de; path = "de.lproj/Excruciatingly Useful Shortcuts.nvhelp"; sourceTree = "<group>"; };
@@ -1196,7 +1169,6 @@
 			children = (
 				93B90E7D138601C100BEC5FB /* ODBEditor */,
 				5C96F5A8131C379200A2E4AC /* Markup */,
-				5CA10FFA131C2A7600DE1F91 /* readability */,
 				21F1CD490B3A38CB001FB5F6 /* HotKeys */,
 				211345A10B35D8340081B064 /* Crypto */,
 				32CA4F630368D1EE00C91783 /* Notation_Prefix.pch */,
@@ -1302,22 +1274,6 @@
 			);
 			name = "UIElement Subclasses";
 			sourceTree = SOURCE_ROOT;
-		};
-		5CA10FFA131C2A7600DE1F91 /* readability */ = {
-			isa = PBXGroup;
-			children = (
-				5CA10FFB131C2A7600DE1F91 /* __init__.py */,
-				5CA10FFC131C2A7600DE1F91 /* BeautifulSoup.py */,
-				5CA10FFD131C2A7600DE1F91 /* BeautifulSoup.pyc */,
-				5CA10FFE131C2A7600DE1F91 /* html2text.py */,
-				5CA10FFF131C2A7600DE1F91 /* page_parser.py */,
-				5CA11000131C2A7600DE1F91 /* page_parser.pyc */,
-				5CA11001131C2A7600DE1F91 /* readability.py */,
-				5CA11002131C2A7600DE1F91 /* url_helpers.py */,
-				5CA11003131C2A7600DE1F91 /* url_helpers.pyc */,
-			);
-			path = readability;
-			sourceTree = "<group>";
 		};
 		93B90E7D138601C100BEC5FB /* ODBEditor */ = {
 			isa = PBXGroup;

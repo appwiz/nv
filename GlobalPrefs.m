@@ -76,8 +76,6 @@ static NSString	*ShowDockIcon = @"ShowDockIcon";
 static NSString	*KeepsMaxTextWidth = @"KeepsMaxTextWidth";
 static NSString	*NoteBodyMaxWidth = @"NoteBodyMaxWidth";
 static NSString	*ColorScheme = @"ColorScheme";
-static NSString *UseMarkdownImportKey = @"UseMarkdownImport";
-static NSString *UseReadabilityKey = @"UseReadability";
 static NSString *ShowGridKey = @"ShowGrid";
 static NSString *AlternatingRowsKey = @"AlternatingRows";
 static NSString *RTLKey = @"rtl";
@@ -154,8 +152,6 @@ static void sendCallbacksForGlobalPrefs(GlobalPrefs* self, SEL selector, id orig
 			[NSNumber numberWithBool:NO], RTLKey,
             [NSNumber numberWithBool:YES], ShowWordCount,
             [NSNumber numberWithInt:MultiMarkdownPreview], markupPreviewMode,
-			[NSNumber numberWithBool:NO], UseMarkdownImportKey,
-			[NSNumber numberWithBool:NO], UseReadabilityKey,
             [NSNumber numberWithBool:YES], ShowGridKey,
             [NSNumber numberWithBool:NO], AlternatingRowsKey,
             [NSNumber numberWithBool:YES], UseAutoPairing,
@@ -435,23 +431,6 @@ static void sendCallbacksForGlobalPrefs(GlobalPrefs* self, SEL selector, id orig
 
 - (void)setShowWordCount:(BOOL)value{
 	[defaults setBool:value forKey:ShowWordCount];
-}
-
-- (void)setUseMarkdownImport:(BOOL)value sender:(id)sender {
-	[defaults setBool:value forKey:UseMarkdownImportKey];
-	
-	SEND_CALLBACKS();
-}
-- (BOOL)useMarkdownImport {
-	return [defaults boolForKey:UseMarkdownImportKey];
-}
-- (void)setUseReadability:(BOOL)value sender:(id)sender {
-	[defaults setBool:value forKey:UseReadabilityKey];
-	
-	SEND_CALLBACKS();
-}
-- (BOOL)useReadability {
-	return [defaults boolForKey:UseReadabilityKey];
 }
 
 - (void)setShowGrid:(BOOL)value sender:(id)sender {
