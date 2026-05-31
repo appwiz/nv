@@ -34,7 +34,7 @@
 #import "LinkingEditor.h"
 #import "EmptyView.h"
 #import "DualField.h"
-#import "TitlebarButton.h"
+#import "NVTitlebarSyncAccessory.h"
 #import "NVSplitView.h"
 #import "BookmarksController.h"
 #import "SyncSessionController.h"
@@ -579,7 +579,7 @@ terminateApp:
 			[self _forceRegeneratePreviewsForTitleColumn];
 			[notesTableView setNeedsDisplay:YES];
 		}
-		[titleBarButton setMenu:[[notationController syncSessionController] syncStatusMenu]];
+		[titleBarAccessory setNv_menu:[[notationController syncSessionController] syncStatusMenu]];
 		[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(syncSessionsChangedVisibleStatus:)
 													 name:SyncSessionsChangedVisibleStatusNotification
 												   object:[notationController syncSessionController]];
@@ -2082,11 +2082,12 @@ terminateApp:
 - (void)syncSessionsChangedVisibleStatus:(NSNotification*)aNotification {
 	SyncSessionController *syncSessionController = [aNotification object];
 	if ([syncSessionController hasErrors]) {
-		[titleBarButton setStatusIconType:AlertIcon];
+		[titleBarAccessory setIconType:NVTitlebarSyncIconAlert];
 	} else if ([syncSessionController hasRunningSessions]) {
-		[titleBarButton setStatusIconType:SynchronizingIcon];
+		[titleBarAccessory setIconType:NVTitlebarSyncIconSynchronizing];
 	} else {
-		[titleBarButton setStatusIconType: [[NSUserDefaults standardUserDefaults] boolForKey:@"ShowSyncMenu"] ? DownArrowIcon : NoIcon ];
+		BOOL show = [[NSUserDefaults standardUserDefaults] boolForKey:@"ShowSyncMenu"];
+		[titleBarAccessory setIconType: show ? NVTitlebarSyncIconChevron : NVTitlebarSyncIconNone];
 	}
 }
 
@@ -2474,8 +2475,8 @@ terminateApp:
 	[window setToolbar:toolbar];
 	
 	[window setShowsToolbarButton:NO];
-	titleBarButton = [[TitlebarButton alloc] initWithFrame:NSMakeRect(0, 0, 19.0, 19.0) pullsDown:YES];
-	[titleBarButton addToWindow:window];
+	titleBarAccessory = [[NVTitlebarSyncAccessory alloc] init];
+	[window addTitlebarAccessoryViewController:titleBarAccessory];
 	
 	[field setDelegate:self];
     [self setDualFieldIsVisible:[self dualFieldIsVisible]];
@@ -2510,7 +2511,7 @@ terminateApp:
     [textView setNextKeyView:field];
     [self setDualFieldIsVisible:[self dualFieldIsVisible]];
     [toolbar release];
-    [titleBarButton release];
+    [titleBarAccessory release];
 }
 
 - (void)setDualFieldIsVisible:(BOOL)isVis{

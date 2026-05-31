@@ -22,7 +22,6 @@
 		212089B10B0C24F500A15A69 /* AlienNoteImporter.m in Sources */ = {isa = PBXBuildFile; fileRef = 212089B00B0C24F500A15A69 /* AlienNoteImporter.m */; };
 		212089D80B0C2CA500A15A69 /* StickiesDocument.m in Sources */ = {isa = PBXBuildFile; fileRef = 212089D70B0C2CA500A15A69 /* StickiesDocument.m */; };
 		212B84620978422300F3597F /* NSString_NV.m in Sources */ = {isa = PBXBuildFile; fileRef = 212B84610978422300F3597F /* NSString_NV.m */; };
-		212C6952110E1940004DD82C /* TitlebarButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 212C6951110E1940004DD82C /* TitlebarButton.m */; };
 		212C6A2A110E371B004DD82C /* TBSynchronizingWhite.png in Resources */ = {isa = PBXBuildFile; fileRef = 212C6A23110E371B004DD82C /* TBSynchronizingWhite.png */; };
 		212C6A2C110E371B004DD82C /* TBDownArrowWhite.png in Resources */ = {isa = PBXBuildFile; fileRef = 212C6A25110E371B004DD82C /* TBDownArrowWhite.png */; };
 		212C6A2E110E371B004DD82C /* TBMousedownBG.png in Resources */ = {isa = PBXBuildFile; fileRef = 212C6A27110E371B004DD82C /* TBMousedownBG.png */; };
@@ -215,6 +214,7 @@
 		DA17DA17DA17DA17DA170001 /* NVAppearance.m in Sources */ = {isa = PBXBuildFile; fileRef = DA17DA17DA17DA17DA170003 /* NVAppearance.m */; };
 		DA17DA17DA17DA17DA170011 /* NVJSON.m in Sources */ = {isa = PBXBuildFile; fileRef = DA17DA17DA17DA17DA170013 /* NVJSON.m */; };
 		DA17DA17DA17DA17DA170021 /* NVSplitView.m in Sources */ = {isa = PBXBuildFile; fileRef = DA17DA17DA17DA17DA170023 /* NVSplitView.m */; };
+		DA17DA17DA17DA17DA170031 /* NVTitlebarSyncAccessory.m in Sources */ = {isa = PBXBuildFile; fileRef = DA17DA17DA17DA17DA170033 /* NVTitlebarSyncAccessory.m */; };
 		93099628138BD61000368C45 /* tp2md.rb in Resources */ = {isa = PBXBuildFile; fileRef = 93099627138BD61000368C45 /* tp2md.rb */; };
 		93365DDF1D9AD651005A230B /* AutoHyperlinks.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 93365DDE1D9AD651005A230B /* AutoHyperlinks.framework */; };
 		93365DE01D9AD6AA005A230B /* AutoHyperlinks.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 93365DDE1D9AD651005A230B /* AutoHyperlinks.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
@@ -317,8 +317,6 @@
 		212089D70B0C2CA500A15A69 /* StickiesDocument.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StickiesDocument.m; sourceTree = "<group>"; };
 		212B84600978422300F3597F /* NSString_NV.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NSString_NV.h; sourceTree = "<group>"; };
 		212B84610978422300F3597F /* NSString_NV.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = NSString_NV.m; sourceTree = "<group>"; };
-		212C6950110E1940004DD82C /* TitlebarButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TitlebarButton.h; sourceTree = "<group>"; };
-		212C6951110E1940004DD82C /* TitlebarButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TitlebarButton.m; sourceTree = "<group>"; };
 		212C6A22110E371B004DD82C /* TBAlertWhite.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = TBAlertWhite.png; path = Images/TBAlertWhite.png; sourceTree = "<group>"; };
 		212C6A23110E371B004DD82C /* TBSynchronizingWhite.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = TBSynchronizingWhite.png; path = Images/TBSynchronizingWhite.png; sourceTree = "<group>"; };
 		212C6A24110E371B004DD82C /* TBSynchronizing.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = TBSynchronizing.png; path = Images/TBSynchronizing.png; sourceTree = "<group>"; };
@@ -692,6 +690,8 @@
 		DA17DA17DA17DA17DA170013 /* NVJSON.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NVJSON.m; sourceTree = "<group>"; };
 		DA17DA17DA17DA17DA170022 /* NVSplitView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NVSplitView.h; sourceTree = "<group>"; };
 		DA17DA17DA17DA17DA170023 /* NVSplitView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NVSplitView.m; sourceTree = "<group>"; };
+		DA17DA17DA17DA17DA170032 /* NVTitlebarSyncAccessory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NVTitlebarSyncAccessory.h; sourceTree = "<group>"; };
+		DA17DA17DA17DA17DA170033 /* NVTitlebarSyncAccessory.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NVTitlebarSyncAccessory.m; sourceTree = "<group>"; };
 		5CCEEF1B130B599B00E15B77 /* DFView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DFView.h; sourceTree = "<group>"; };
 		5CCEEF1C130B599B00E15B77 /* DFView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DFView.m; sourceTree = "<group>"; };
 		5CD58D771D9DA3C70004E1B8 /* SimperiumConfig.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SimperiumConfig.h; sourceTree = "<group>"; };
@@ -836,6 +836,8 @@
 				DA17DA17DA17DA17DA170013 /* NVJSON.m */,
 				DA17DA17DA17DA17DA170022 /* NVSplitView.h */,
 				DA17DA17DA17DA17DA170023 /* NVSplitView.m */,
+				DA17DA17DA17DA17DA170032 /* NVTitlebarSyncAccessory.h */,
+				DA17DA17DA17DA17DA170033 /* NVTitlebarSyncAccessory.m */,
 				21B1BC341104D20E0004A7D0 /* InvocationRecorder.h */,
 				21B1BC351104D20E0004A7D0 /* InvocationRecorder.m */,
 				217D4280096545A000E84749 /* LabelObject.h */,
@@ -1032,8 +1034,6 @@
 				210A10670B66720F005BE981 /* BookmarksTable.m */,
 				21C737930B50C73E0048C08A /* MultiplePageView.h */,
 				21C737940B50C73E0048C08A /* MultiplePageView.m */,
-				212C6950110E1940004DD82C /* TitlebarButton.h */,
-				212C6951110E1940004DD82C /* TitlebarButton.m */,
 			);
 			name = "View Classes";
 			sourceTree = "<group>";
@@ -1608,7 +1608,6 @@
 				21B1BC361104D20E0004A7D0 /* InvocationRecorder.m in Sources */,
 				21AD2550110A8BA600B7A985 /* SimplenoteEntryCollector.m in Sources */,
 				21AD2850110BE99B00B7A985 /* SyncSessionController.m in Sources */,
-				212C6952110E1940004DD82C /* TitlebarButton.m in Sources */,
 				21B548FA112F307E00E163A1 /* NotationDirectoryManager.m in Sources */,
 				57F27FB91197407400C63ACF /* SearchCommand.m in Sources */,
 				216D987F12CE68AD0004B9CE /* NSFileManager_NV.m in Sources */,
@@ -1638,6 +1637,7 @@
 				DA17DA17DA17DA17DA170001 /* NVAppearance.m in Sources */,
 				DA17DA17DA17DA17DA170011 /* NVJSON.m in Sources */,
 				DA17DA17DA17DA17DA170021 /* NVSplitView.m in Sources */,
+				DA17DA17DA17DA17DA170031 /* NVTitlebarSyncAccessory.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

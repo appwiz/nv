@@ -25,7 +25,7 @@
 @class PrefsWindowController;
 @class DualField;
 @class NVSplitView;
-@class TitlebarButton;
+@class NVTitlebarSyncAccessory;
 @class TagEditingManager;
 @class DFView;
 @class PreviewController;
@@ -85,7 +85,7 @@
 	IBOutlet NSProgressIndicator *syncWaitSpinner;
 	NSToolbar *toolbar;
 	NSToolbarItem *dualFieldItem;
-	TitlebarButton *titleBarButton;
+	NVTitlebarSyncAccessory *titleBarAccessory;
 	
 	BOOL waitedForUncommittedChanges;
 	
