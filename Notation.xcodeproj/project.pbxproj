@@ -110,8 +110,6 @@
 		5C1830CD132EA687005E2210 /* SaveHTMLPreview.nib in Resources */ = {isa = PBXBuildFile; fileRef = 5C1830CF132EA687005E2210 /* SaveHTMLPreview.nib */; };
 		5C2CC18A134989D7006FFE56 /* nvMenuDark.png in Resources */ = {isa = PBXBuildFile; fileRef = 5C2CC189134989D7006FFE56 /* nvMenuDark.png */; };
 		5C2FAD2B1333970200FBFD34 /* ETScrollView.m in Sources */ = {isa = PBXBuildFile; fileRef = 5C2CD036132ED47900CA0D7C /* ETScrollView.m */; };
-		5C367EE91DA2C06F0043C8EC /* libcrypto.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 5C367EE81DA2C06F0043C8EC /* libcrypto.a */; };
-		5C367F3D1DA2C2B20043C8EC /* libssl.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 5C367F3C1DA2C2B20043C8EC /* libssl.a */; };
 		5C43669B1DA268500086FF84 /* Excruciatingly Useful Shortcuts.nvhelp in Resources */ = {isa = PBXBuildFile; fileRef = 5C4366951DA268500086FF84 /* Excruciatingly Useful Shortcuts.nvhelp */; };
 		5C43669C1DA268500086FF84 /* How does this thing work?.nvhelp in Resources */ = {isa = PBXBuildFile; fileRef = 5C4366971DA268500086FF84 /* How does this thing work?.nvhelp */; };
 		5C43669D1DA268500086FF84 /* This is the title of a note.nvhelp in Resources */ = {isa = PBXBuildFile; fileRef = 5C4366991DA268500086FF84 /* This is the title of a note.nvhelp */; };
@@ -482,8 +480,6 @@
 		5C2CC189134989D7006FFE56 /* nvMenuDark.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = nvMenuDark.png; path = Images/nvMenuDark.png; sourceTree = "<group>"; };
 		5C2CD035132ED47900CA0D7C /* ETScrollView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ETScrollView.h; sourceTree = "<group>"; };
 		5C2CD036132ED47900CA0D7C /* ETScrollView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ETScrollView.m; sourceTree = "<group>"; };
-		5C367EE81DA2C06F0043C8EC /* libcrypto.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libcrypto.a; sourceTree = "<group>"; };
-		5C367F3C1DA2C2B20043C8EC /* libssl.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libssl.a; sourceTree = "<group>"; };
 		5C43665C1DA267130086FF84 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/MainMenu.xib; sourceTree = "<group>"; };
 		5C43665D1DA267290086FF84 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/MarkupPreview.xib; sourceTree = "<group>"; };
 		5C43665E1DA2672F0086FF84 /* en */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = en; path = en.lproj/SaveHTMLPreview.nib; sourceTree = "<group>"; };
@@ -766,8 +762,6 @@
 				21D583620B78F0CC00245E29 /* ApplicationServices.framework in Frameworks */,
 				219D254A1113FE34005E7DF5 /* SystemConfiguration.framework in Frameworks */,
 				21B54C021134F2E800E163A1 /* IOKit.framework in Frameworks */,
-				5C367EE91DA2C06F0043C8EC /* libcrypto.a in Frameworks */,
-				5C367F3D1DA2C2B20043C8EC /* libssl.a in Frameworks */,
 				2191926709C52AA600586B15 /* libz.dylib in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -888,8 +882,6 @@
 		1058C7A2FEA54F0111CA2CBB /* Other Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				5C367F3C1DA2C2B20043C8EC /* libssl.a */,
-				5C367EE81DA2C06F0043C8EC /* libcrypto.a */,
 				21B54C011134F2E800E163A1 /* IOKit.framework */,
 				210C07230B6BF0A1005D23A8 /* WebKit.framework */,
 				21973FBC0B0060C80046683E /* Security.framework */,
@@ -2073,11 +2065,7 @@
 				GCC_WARN_UNUSED_VALUE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				GENERATE_PROFILING_CODE = YES;
-				HEADER_SEARCH_PATHS = (
-					"/opt/homebrew/opt/openssl@3/include",
-					ICU/icu,
-					"$(PROJECT_DIR)/library/**",
-				);
+				HEADER_SEARCH_PATHS = "";
 				IBC_STRIP_NIBS = NO;
 				INFOPLIST_FILE = Info.plist;
 				LD_GENERATE_MAP_FILE = YES;
@@ -2161,11 +2149,7 @@
 				GCC_WARN_UNUSED_PARAMETER = NO;
 				GCC_WARN_UNUSED_VALUE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				HEADER_SEARCH_PATHS = (
-					"/opt/homebrew/opt/openssl@3/include",
-					ICU/icu,
-					"$(PROJECT_DIR)/library/**",
-				);
+				HEADER_SEARCH_PATHS = "";
 				INFOPLIST_FILE = Info.plist;
 				LIBRARY_SEARCH_PATHS = "$(PROJECT_DIR)";
 				MACOSX_DEPLOYMENT_TARGET = 10.14;
