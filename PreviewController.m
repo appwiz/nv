@@ -12,8 +12,6 @@
 #import "NSString_Markdown.h"
 #import "NSString_Textile.h"
 #import "NoteObject.h"
-#import "ETTransparentButtonCell.h"
-#import "ETTransparentButton.h"
 #import "NSFileManager_NV.h"
 #import "NSFileManager+DirectoryLocations.h"
 
@@ -121,20 +119,27 @@
         //        [[[self window] contentView] addSubview:printPreviewButton];
         [tabView selectTabViewItem:[tabView tabViewItemAtIndex:0]];
 
+        // Standard push buttons inside the share confirmation popover.
         shCon = [shareConfirmation visibleRect];
         shCon.origin.x = shCon.size.width - 106;
         shCon.origin.y = 1;
         shCon.size.width = 81;
         shCon.size.height = 28;
-        shareConfirm = [[[ETTransparentButton alloc]initWithFrame:shCon] retain];
-        shCon.origin.x = [shareConfirmation visibleRect].origin.x + 25;
-        shareCancel = [[[ETTransparentButton alloc]initWithFrame:shCon] retain];
+        shareConfirm = [[NSButton alloc] initWithFrame:shCon];
+        [shareConfirm setBezelStyle:NSBezelStylePush];
         [shareConfirm setTitle:@"Yes"];
         [shareConfirm setTarget:self];
         [shareConfirm setAction:@selector(shareNote:)];
+        [shareConfirm setKeyEquivalent:@"\r"]; // default button (Return)
+
+        shCon.origin.x = [shareConfirmation visibleRect].origin.x + 25;
+        shareCancel = [[NSButton alloc] initWithFrame:shCon];
+        [shareCancel setBezelStyle:NSBezelStylePush];
         [shareCancel setTitle:@"No, thanks"];
         [shareCancel setTarget:self];
         [shareCancel setAction:@selector(cancelShare:)];
+        [shareCancel setKeyEquivalent:@"\e"]; // Escape
+
         [shareConfirmation addSubview:shareCancel];
         [shareConfirmation addSubview:shareConfirm];
 
@@ -142,7 +147,8 @@
         shCon.size.width = 116;
         shCon.size.height = 28;
         shCon.origin.x = 70;
-        viewOnWebButton = [[[ETTransparentButton alloc]initWithFrame:shCon] retain];
+        viewOnWebButton = [[NSButton alloc] initWithFrame:shCon];
+        [viewOnWebButton setBezelStyle:NSBezelStylePush];
         [viewOnWebButton setTitle:@"View in Browser"];
         [viewOnWebButton setTarget:self];
         [viewOnWebButton setAction:@selector(openShareURL:)];
