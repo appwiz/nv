@@ -51,18 +51,12 @@
 //#import "ETScrollView.h"
 #import "NSFileManager+DirectoryLocations.h"
 #import "nvaDevConfig.h"
-// Sparkle.framework removed for arm64 build; auto-update is disabled.
-// #import <Sparkle/SUUpdater.h>
 
 #define NSApplicationPresentationAutoHideMenuBar (1 <<  2)
 #define NSApplicationPresentationHideMenuBar (1 <<  3)
 //#define NSApplicationPresentationAutoHideDock (1 <<  0)
 #define NSApplicationPresentationHideDock (1 <<  1)
 //#define NSApplicationActivationPolicyAccessory
-
-#define kSparkleUpdateFeedForLions @"https://updates.designheresy.com/nvalt/updates.xml"
-#define kSparkleUpdateFeedForSnowLeopard @"http://abyss.designheresy.com/nvalt2/nvalt2snowleopardfeed.xml"
-//http://abyss.designheresy.com/nvalt/betaupdates.xml
 
 //#define NSTextViewChangedNotification @"TextViewHasChangedContents"
 //#define kDefaultMarkupPreviewMode @"markupPreviewMode"
@@ -360,9 +354,6 @@ void outletObjectAwoke(id sender) {
     [notationController checkIfNotationIsTrashed];
     [[SecureTextEntryManager sharedInstance] checkForIncompatibleApps];
 
-    // Sparkle auto-update disabled in the native arm64 build (framework not yet replaced).
-    [sparkleUpdateItem setEnabled:NO];
-    [sparkleUpdateItem setHidden:YES];
     // add elasticthreads' menuitems
     if(IsLeopardOrLater){
         [fsMenuItem setEnabled:YES];
