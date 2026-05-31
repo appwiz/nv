@@ -11,92 +11,22 @@
 
 
 #import "HeaderViewWIthMenu.h"
-#import "NoteAttributeColumn.h"
-
-
-@interface HeaderViewWithMenu (Private)
-- (void)_resizeColumn:(NSInteger)resizedColIdx withEvent:(id)event;
-@end
 
 @implementation HeaderViewWithMenu
 
-
-- (id)initWithFrame:(NSRect)frameRect{
-    if ((self=[super initWithFrame:frameRect])) {
-        isReloading=NO;
-    }
-    return self;
-}
-
-- (void)setIsReloading:(BOOL)reloading {
-	isReloading = reloading;
-}
-
-- (void)resetCursorRects {
-	if (!isReloading) {
-		[super resetCursorRects];
-	}
-}
-
 - (NSMenu *)menuForEvent:(NSEvent *)theEvent {
-    
-    if ([[self tableView] respondsToSelector:@selector(menuForColumnConfiguration:)]) {
-        NSPoint theClickPoint = [self convertPoint:[theEvent locationInWindow] fromView:NULL];
-        NSInteger theColumn = [self columnAtPoint:theClickPoint];
-        NSTableColumn *theTableColumn = nil;
-        if (theColumn > -1)
-            theTableColumn = [[[self tableView] tableColumns] objectAtIndex:theColumn];
-        
-        NSMenu *theMenu = [[self tableView] performSelector:@selector(menuForColumnConfiguration:) withObject:theTableColumn];
-        return theMenu;
+    if (![[self tableView] respondsToSelector:@selector(menuForColumnConfiguration:)]) {
+        return nil;
     }
-    
-    return nil;
-}
 
+    NSPoint clickPoint = [self convertPoint:[theEvent locationInWindow] fromView:nil];
+    NSInteger columnIdx = [self columnAtPoint:clickPoint];
+    NSTableColumn *clickedColumn = (columnIdx > -1)
+        ? [[[self tableView] tableColumns] objectAtIndex:columnIdx]
+        : nil;
 
-
-/*
- doesn't use private API but is less efficent i think
- - (NSInteger)resizedColumn{
- NSUInteger originalResizingMask = 0;
- NSInteger i;
- //change all user-resizable-only columns
- for (i=0; i<[[self tableView] numberOfColumns]; i++) {
- NoteAttributeColumn *col = [[[self tableView] tableColumns] objectAtIndex:i];
- if ((originalResizingMask = [col resizingMask]) == NSTableColumnUserResizingMask) {
- [col setResizingMask: NSTableColumnAutoresizingMask | NSTableColumnUserResizingMask];
- [col performSelector:@selector(setResizingMaskNumber:) withObject:[NSNumber numberWithUnsignedInt:originalResizingMask] afterDelay:0.0f];
- }
- }
- 
- 
- return [super resizedColumn];
- 
- }
- */
-
-@end
-
-@implementation HeaderViewWithMenu (Private)
-
-- (void)_resizeColumn:(NSInteger)resizedColIdx withEvent:(id)event {
-    
-	//use a more understandable column resizing by changing the resizing mask immediately before calling through to the private method,
-	//and reverting it back to the original at the next runloop iteration
-	NSUInteger originalResizingMask = 0;
-	NSInteger i;
-	//change all user-resizable-only columns
-	for (i=0; i<[[self tableView] numberOfColumns]; i++) {
-		NoteAttributeColumn *col = [[[self tableView] tableColumns] objectAtIndex:i];
-		if ((originalResizingMask = [col resizingMask]) == NSTableColumnUserResizingMask) {
-			[col setResizingMask: NSTableColumnAutoresizingMask | NSTableColumnUserResizingMask];
-			[col performSelector:@selector(setResizingMaskNumber:) withObject:[NSNumber numberWithUnsignedInteger:originalResizingMask] afterDelay:0];
-		}
-	}
-    
-	[super _resizeColumn:resizedColIdx withEvent:event];
+    return [[self tableView] performSelector:@selector(menuForColumnConfiguration:)
+                                  withObject:clickedColumn];
 }
 
 @end
-

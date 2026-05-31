@@ -252,9 +252,7 @@ static void _CopyItemWithSelectorFromMenu(NSMenu *destMenu, NSMenu *sourceMenu, 
 }
 
 - (void)reloadData {
-	[headerView setIsReloading:YES];
 	[super reloadData];
-	[headerView setIsReloading:NO];
 }
 
 - (void)menuNeedsUpdate:(NSMenu *)menu {
