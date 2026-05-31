@@ -43,7 +43,6 @@
 #import "LinearDividerShader.h"
 #import "SecureTextEntryManager.h"
 #import "TagEditingManager.h"
-#import "NotesTableHeaderCell.h"
 #import "DFView.h"
 #import "ETContentView.h"
 #import "PreviewController.h"
@@ -2827,8 +2826,6 @@ terminateApp:
 
 - (void)updateColorScheme {
     [mainView setBackgroundColor:backgrndColor];
-    [NotesTableHeaderCell setTxtColor:[NVAppearance tableHeaderTextColor]];
-
     [notesTableView setGridColor:[NVAppearance tableGridColor]];
     [notesTableView setBackgroundColor:[NVAppearance tableBackgroundColor]];
     [notationController setForegroundTextColor:foregrndColor];
