@@ -38,7 +38,7 @@
 #import "NVSplitView.h"
 #import "BookmarksController.h"
 #import "SyncSessionController.h"
-#import "MultiplePageView.h"
+#import "NVPrintRouter.h"
 #import "InvocationRecorder.h"
 #import "SecureTextEntryManager.h"
 #import "TagEditingManager.h"
@@ -955,7 +955,7 @@ terminateApp:
 - (IBAction)printNote:(id)sender {
 	NSIndexSet *indexes = [notesTableView selectedRowIndexes];
 	
-	[MultiplePageView printNotes:[notationController notesAtIndexes:indexes] forWindow:window];
+	[NVPrintRouter printNotes:[notationController notesAtIndexes:indexes] forWindow:window];
 }
 
 - (IBAction)tagNote:(id)sender {
