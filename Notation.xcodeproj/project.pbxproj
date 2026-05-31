@@ -139,8 +139,6 @@
 		5C96F56E131C35AB00A2E4AC /* url_helpers.pyc in CopyFiles */ = {isa = PBXBuildFile; fileRef = 5CA11003131C2A7600DE1F91 /* url_helpers.pyc */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
 		5C96F5AF131C37DF00A2E4AC /* NSString_MultiMarkdown.m in Sources */ = {isa = PBXBuildFile; fileRef = 5C96F5AA131C37DF00A2E4AC /* NSString_MultiMarkdown.m */; };
 		5C96F5B0131C37DF00A2E4AC /* NSString_Markdown.m in Sources */ = {isa = PBXBuildFile; fileRef = 5C96F5AC131C37DF00A2E4AC /* NSString_Markdown.m */; };
-		5C96F5B1131C37DF00A2E4AC /* NSString_Textile.m in Sources */ = {isa = PBXBuildFile; fileRef = 5C96F5AE131C37DF00A2E4AC /* NSString_Textile.m */; };
-		5C96F616131C380100A2E4AC /* Textile_2.12 in Resources */ = {isa = PBXBuildFile; fileRef = 5C96F610131C380100A2E4AC /* Textile_2.12 */; };
 		5C96F61C131C380C00A2E4AC /* Markdown_1.0.1 in Resources */ = {isa = PBXBuildFile; fileRef = 5C96F617131C380C00A2E4AC /* Markdown_1.0.1 */; };
 		5C96F709131C49D400A2E4AC /* TransparentButtonFillN.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 5C96F703131C49D400A2E4AC /* TransparentButtonFillN.tiff */; };
 		5C96F70B131C49D400A2E4AC /* TransparentButtonLeftN.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 5C96F705131C49D400A2E4AC /* TransparentButtonLeftN.tiff */; };
@@ -623,9 +621,6 @@
 		5C96F5AA131C37DF00A2E4AC /* NSString_MultiMarkdown.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NSString_MultiMarkdown.m; sourceTree = "<group>"; };
 		5C96F5AB131C37DF00A2E4AC /* NSString_Markdown.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NSString_Markdown.h; sourceTree = "<group>"; };
 		5C96F5AC131C37DF00A2E4AC /* NSString_Markdown.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NSString_Markdown.m; sourceTree = "<group>"; };
-		5C96F5AD131C37DF00A2E4AC /* NSString_Textile.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NSString_Textile.h; sourceTree = "<group>"; };
-		5C96F5AE131C37DF00A2E4AC /* NSString_Textile.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NSString_Textile.m; sourceTree = "<group>"; };
-		5C96F610131C380100A2E4AC /* Textile_2.12 */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Textile_2.12; sourceTree = "<group>"; };
 		5C96F617131C380C00A2E4AC /* Markdown_1.0.1 */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Markdown_1.0.1; sourceTree = "<group>"; };
 		5C96F703131C49D400A2E4AC /* TransparentButtonFillN.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = TransparentButtonFillN.tiff; sourceTree = "<group>"; };
 		5C96F704131C49D400A2E4AC /* TransparentButtonFillP.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = TransparentButtonFillP.tiff; sourceTree = "<group>"; };
@@ -1279,13 +1274,10 @@
 				9335C40C148EC7AC009CE623 /* multimarkdown */,
 				93099627138BD61000368C45 /* tp2md.rb */,
 				5C96F617131C380C00A2E4AC /* Markdown_1.0.1 */,
-				5C96F610131C380100A2E4AC /* Textile_2.12 */,
 				5C96F5A9131C37DF00A2E4AC /* NSString_MultiMarkdown.h */,
 				5C96F5AA131C37DF00A2E4AC /* NSString_MultiMarkdown.m */,
 				5C96F5AB131C37DF00A2E4AC /* NSString_Markdown.h */,
 				5C96F5AC131C37DF00A2E4AC /* NSString_Markdown.m */,
-				5C96F5AD131C37DF00A2E4AC /* NSString_Textile.h */,
-				5C96F5AE131C37DF00A2E4AC /* NSString_Textile.m */,
 			);
 			name = Markup;
 			sourceTree = "<group>";
@@ -1487,7 +1479,6 @@
 				5C43669C1DA268500086FF84 /* How does this thing work?.nvhelp in Resources */,
 				5C96F4FF131C2F9500A2E4AC /* TabClose_Front_Pressed.tif in Resources */,
 				5C96F501131C2F9500A2E4AC /* TabClose_Front.tif in Resources */,
-				5C96F616131C380100A2E4AC /* Textile_2.12 in Resources */,
 				5C96F61C131C380C00A2E4AC /* Markdown_1.0.1 in Resources */,
 				5C96F709131C49D400A2E4AC /* TransparentButtonFillN.tiff in Resources */,
 				5C96F70B131C49D400A2E4AC /* TransparentButtonLeftN.tiff in Resources */,
@@ -1676,7 +1667,6 @@
 				5CA10F32131C29E900DE1F91 /* AppController_Preview.m in Sources */,
 				5C96F5AF131C37DF00A2E4AC /* NSString_MultiMarkdown.m in Sources */,
 				5C96F5B0131C37DF00A2E4AC /* NSString_Markdown.m in Sources */,
-				5C96F5B1131C37DF00A2E4AC /* NSString_Textile.m in Sources */,
 				5C9C7734131DA04300FB2652 /* WordCountToken.m in Sources */,
 				5CA08C2013301D5E004E3250 /* ETContentView.m in Sources */,
 				5C2FAD2B1333970200FBFD34 /* ETScrollView.m in Sources */,

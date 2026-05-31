@@ -262,12 +262,8 @@ static void NVExpandNotesPane(NSSplitView *sv) {
 	}
 	
 	currentPreviewMode = [[NSUserDefaults standardUserDefaults] integerForKey:@"markupPreviewMode"];
-    if (currentPreviewMode == MarkdownPreview) {
+    if (currentPreviewMode == MarkdownPreview || currentPreviewMode == MultiMarkdownPreview) {
         [multiMarkdownPreview setState:NSOnState];
-    } else if (currentPreviewMode == MultiMarkdownPreview) {
-        [multiMarkdownPreview setState:NSOnState];
-    } else if (currentPreviewMode == TextilePreview) {
-        [textilePreview setState:NSOnState];
     }
 	
 	outletObjectAwoke(self);
@@ -620,7 +616,7 @@ terminateApp:
 	NSInteger numberSelected = [notesTableView numberOfSelectedRows];
 	NSInteger tag = [menuItem tag];
     
-    if ((tag == TextilePreview) || (tag == MarkdownPreview) || (tag == MultiMarkdownPreview)) {
+    if ((tag == MarkdownPreview) || (tag == MultiMarkdownPreview)) {
         // Allow only one Preview mode to be selected at every one time
         [menuItem setState:((tag == currentPreviewMode) ? NSOnState : NSOffState)];
         return YES;
