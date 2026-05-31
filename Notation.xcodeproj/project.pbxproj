@@ -709,8 +709,6 @@
 		5CAB2F901DC799EE000AFED9 /* zh */ = {isa = PBXFileReference; lastKnownFileType = text; name = zh; path = "zh.lproj/How does this thing work?.nvhelp"; sourceTree = "<group>"; };
 		5CBA7A961305E38C004ADEBB /* TagEditingManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TagEditingManager.h; sourceTree = "<group>"; };
 		5CBA7A971305E38C004ADEBB /* TagEditingManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TagEditingManager.m; sourceTree = "<group>"; };
-		5CC2DF0913083BCF006772D9 /* StatusItemView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StatusItemView.h; sourceTree = "<group>"; };
-		5CC2DF0A13083BCF006772D9 /* StatusItemView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StatusItemView.m; sourceTree = "<group>"; };
 		DA17DA17DA17DA17DA170002 /* NVAppearance.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NVAppearance.h; sourceTree = "<group>"; };
 		DA17DA17DA17DA17DA170003 /* NVAppearance.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NVAppearance.m; sourceTree = "<group>"; };
 		5CCEEF1B130B599B00E15B77 /* DFView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DFView.h; sourceTree = "<group>"; };
@@ -1316,8 +1314,6 @@
 			children = (
 				5C2CC183134989A8006FFE56 /* nvMenuC.png */,
 				5C91A1851723079B006BF757 /* nvMenuW.png */,
-				5CC2DF0913083BCF006772D9 /* StatusItemView.h */,
-				5CC2DF0A13083BCF006772D9 /* StatusItemView.m */,
 			);
 			name = "disabled/old classes";
 			sourceTree = "<group>";
