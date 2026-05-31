@@ -3304,6 +3304,7 @@ terminateApp:
     statusBarView = [[StatusBarView alloc] initWithFrame:sbFrame];
     [statusBarView setAutoresizingMask:NSViewWidthSizable | NSViewMaxYMargin];
     [statusBarView setBodyFontTarget:self action:@selector(pickBodyFont:)];
+    [statusBarView setGearTarget:self action:@selector(showGearMenu:)];
     [statusBarView setGearMenu:[self buildEncryptionGearMenu]];
     [content addSubview:statusBarView];
 
@@ -3336,10 +3337,11 @@ terminateApp:
     NSFont *current = [prefsController noteBodyFont];
     if (current) [fm setSelectedFont:current isMultiple:NO];
 
-    // AppController is the main window's delegate. Because it
-    // inherits from NSResponder, -changeFont: below will reach us
-    // via the responder chain when the user picks a font in the
-    // shared NSFontPanel.
+    // LinkingEditor (NSTextView) inherits -changeFont:, which would
+    // apply the new font to the selected text instead of letting the
+    // chain reach us. Pop first responder off the text view so the
+    // font-panel callback walks up to us via NSApp.delegate.
+    [window makeFirstResponder:window];
     [fm orderFrontFontPanel:self];
 }
 
@@ -3353,14 +3355,24 @@ terminateApp:
     NSFontTraitMask traits = [fm traitsOfFont:newFont];
     if ((traits & NSItalicFontMask) == NSItalicFontMask ||
         (traits & NSBoldFontMask) == NSBoldFontMask) {
-        // Bold/italic variants as the default would silently
-        // restyle existing notes — beep and ignore.
+        // Bold/italic variants as the default would silently restyle
+        // existing notes — beep and ignore.
         NSBeep();
         return;
     }
-    [prefsController setNoteBodyFont:newFont sender:self];
-    // The settingChangedForSelectorString: callback path will
-    // refresh the status bar's font label.
+    // Sender must NOT be self: GlobalPrefs's callback fan-out
+    // excludes the sender, so passing self here would skip our own
+    // settingChangedForSelectorString: handler that refreshes the
+    // status bar label and restyles the notes.
+    [prefsController setNoteBodyFont:newFont sender:nil];
+
+    // Per-database NotationPrefs carries its own `baseBodyFont`. If
+    // we only updated the global font, the next launch would call
+    // -resolveNoteBodyFontFromNotationPrefsFromSender: and reset
+    // the global back to whatever the database had. Push the new
+    // font into the database too so the two stay in sync.
+    NotationPrefs *np = [prefsController notationPrefs];
+    if (np) [np setBaseBodyFont:newFont];
 }
 
 - (NSUInteger)validModesForFontPanel:(NSFontPanel *)fontPanel {
@@ -3403,6 +3415,14 @@ terminateApp:
     [forgetItem setEnabled:doesEncryption && storesInKeychain];
 
     return menu;
+}
+
+- (IBAction)showGearMenu:(id)sender {
+    NSButton *btn = (NSButton *)sender;
+    NSMenu *menu = [self buildEncryptionGearMenu];
+    [statusBarView setGearMenu:menu]; // keep button's menu in sync
+    NSPoint origin = NSMakePoint(0, NSMaxY([btn bounds]) + 2);
+    [menu popUpMenuPositioningItem:nil atLocation:origin inView:btn];
 }
 
 - (IBAction)toggleNoteEncryption:(id)sender {

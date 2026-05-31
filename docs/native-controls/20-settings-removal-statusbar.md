@@ -9,14 +9,16 @@ Supersedes commit-19's layout redesign of the same window — that
 window is now gone entirely. The spec for this rework is
 `docs/superpowers/specs/2026-05-31-settings-removal-statusbar-design.md`.
 
-Shipped as three sequential commits so each step is independently
+Shipped as five sequential commits so each step is independently
 revertable:
 
 | Hash      | Commit | What it does |
 |-----------|--------|--------------|
 | `55f2ee5` | 20a    | Add `StatusBarView` + wire it into `AppController`. Preferences window still around. |
 | `dc7fa50` | 20b    | Update `GlobalPrefs` / `NotationFileManager` defaults to match the spec. |
-| (this)    | 20c    | Delete `PrefsWindowController`, `NotationPrefsViewController`, all `Preferences.xib` / `NotationPrefsView.nib` locales, and the Cmd+, menu item. |
+| `d155d80` | 20c    | Delete `PrefsWindowController`, `NotationPrefsViewController`, all `Preferences.xib` / `NotationPrefsView.nib` locales, and the Cmd+, menu item. |
+| `d339df9` | 20d    | First wiring fix — drop the misaligned lock icon and switch `AppController` to inherit from `NSResponder`. |
+| (this)    | 20e    | Final wiring fixes — gear menu pops on click, body-font picker actually applies + persists. |
 
 ## Status bar (commit-20a)
 
@@ -33,8 +35,11 @@ the bottom of the main window's content view in
   the font through `GlobalPrefs setNoteBodyFont:sender:`. Bold /
   italic variants are rejected with a beep (preserves the prior
   behavior from `PrefsWindowController`).
-- **Encryption gear button** (right group, rightmost) — popup attached
-  via `setMenu:`. Menu rebuilt on every state change. Items:
+- **Encryption gear button** (right group, rightmost) — wired to
+  `-showGearMenu:` which calls `popUpMenuPositioningItem:atLocation:
+  inView:` (a plain `setMenu:` doesn't make a non-popup-style button
+  show its menu on click). Menu rebuilt on every show so item
+  titles/enablement track current state. Items:
   - **Turn On / Off Note Encryption…** (single toggle). On Plain
     Text Files storage, the "On" form is disabled with a tooltip
     explaining the restriction.
@@ -57,14 +62,41 @@ The bar is 28pt tall, pinned at y=0 with
 content subviews are shifted up by 28pt and shrunk so the editor
 split occupies the remaining space.
 
-The body-font picker plumbing has one quirk worth knowing: NSFontPanel
-delivers `-changeFont:` through the key window's first responder
-chain. To avoid forcing `AppController` to inherit `NSResponder`, the
-font button's action makes `StatusBarView` (already an `NSView`) the
-first responder before showing the panel, then `StatusBarView
--changeFont:` forwards via a tiny `StatusBarViewFontDelegate`
-protocol to `AppController`. Previous first responder is saved (but
-not yet restored — pending a future cleanup).
+The body-font picker plumbing went through three iterations across
+commits 20a → 20d → 20e before it landed:
+
+1. **20a** parked `StatusBarView` as first responder, made it
+   implement `-changeFont:`, and forwarded to `AppController` via a
+   `StatusBarViewFontDelegate` protocol. This didn't work because
+   `NSFontPanel` briefly becomes key while interacted with, and the
+   responder chain walks the panel's chain rather than the main
+   window's.
+2. **20d** changed `AppController` to inherit from `NSResponder`
+   directly so the panel-key responder chain eventually reaches it
+   via `NSApp.delegate`. The chain did fire, but the new font
+   silently never applied.
+3. **20e** finally found the real bug: the chain reached
+   `AppController`, but the `setNoteBodyFont:sender:` call was
+   passing `self` as sender, and `GlobalPrefs`'s callback fan-out
+   in `-notifyCallbacksForSelector:excludingSender:` explicitly
+   *excludes the sender*. So `AppController`'s own
+   `-settingChangedForSelectorString:` handler (which runs
+   `restyleAllNotes` + `refreshStatusBarBodyFont`) never fired.
+   Pass `sender:nil`.
+
+20e also added two more fixes the user surfaced:
+
+- `NSTextView` (`LinkingEditor`) inherits `-changeFont:` and
+  applies the font to selected text. While the editor was first
+  responder, it consumed the message before the chain reached us.
+  `pickBodyFont:` now calls `[window makeFirstResponder:window]`
+  before showing the panel.
+- `NotationPrefs` stores its own per-database `baseBodyFont`, and
+  at startup `-resolveNoteBodyFontFromNotationPrefsFromSender:`
+  compares it to the global default and resets the global back if
+  they mismatch. Without keeping them in sync, the next launch
+  reverts the user's choice. `changeFont:` now also calls
+  `[notationPrefs setBaseBodyFont:newFont]` so they track.
 
 ## Hardcoded defaults (commit-20b)
 
